@@ -1,0 +1,1 @@
+const adimn = {senha: "123456789"};
