@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', vetControle.loginVet);
 router.get('/todos', vetControle.getTodosVets);
-router.get('buscar/id', vetControle.getVetPorId);
+router.get('/buscar/id', vetControle.getVetPorId);
 /* só para admins 
 router.post('/criar', vetControle.criarVet);
 router.put('/editar', vetControle.editarVet);
