@@ -19,9 +19,31 @@ const criarvet = (nome, prontuario, nome, formacao) =>  {
  return null;
 };
 
+const mudarVet = (id, prontuario, nome, formacao) => {
+    const vet = getvetsId(id);
+    if (vet) {
+        vet.prontuario = prontuario ?? vet.prontuario;
+        vet.nome = nome ?? vet.nome;
+        vet.formacao = formacao ?? vet.formacao;
+        return vet;
+    }
+    return null;
+};
+
+const deleteVet = (id) => {
+    const index = vets.findIndex(v => v.id === id);
+    if (index !== -1) {
+        vets.splice(index, 1);
+        return true;
+    }
+    return false;
+};
+
 module.exports = {
  vets,
  getTodosvets,
  getvetsId,
- criarvet
+ criarvet,
+ mudarVet,
+ deleteVet
 };
