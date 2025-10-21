@@ -8,7 +8,7 @@ const getTodosvets = () => vets;
 const getvetsId = (id) => vets.find(a => a.id === id);
 
 
-const criarvet = (nome, prontuario, nome, formacao) =>  {
+const criarvet = (prontuario, nome, formacao) =>  {
  const newvets = {
     id: vets.length > 0 ? Math.max(...vets.map(a => a.id)) + 1 : 1, 
     prontuario: prontuario,
