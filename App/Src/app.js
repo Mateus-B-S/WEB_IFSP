@@ -19,6 +19,9 @@ app.set("view engine", "ejs");
 app.set("views", __dirname + "/Front_End");
 
 
+const rotaInicial = require('./Rotas/rota_inicial');
+app.use('/', rotaInicial);
+
 const vetRotas = require('./Rotas/vet_rotas');
 app.use('/veterinario', vetRotas);
 
@@ -28,7 +31,6 @@ app.use('/responsavel', responsavelRotas);
 const animalRotas = require('./Rotas/animal_rotas');
 app.use('/animais', animalRotas);
 
-const rotaInicial = require('./Rotas/rota_inicial');
-app.use('/', rotaInicial);
+
 
 module.exports = app;

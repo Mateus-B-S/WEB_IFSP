@@ -10,6 +10,6 @@ router.get('buscar/id', responsavelControle.getResponsavelPorId);
 */
 router.post('/criar', responsavelControle.criarResponsavel);
 router.put('/editar', responsavelControle.editarResponsavel);
-router.delete('/deletar/id', responsavelControle.deletarResponsavel);
+
 
 module.exports = router;

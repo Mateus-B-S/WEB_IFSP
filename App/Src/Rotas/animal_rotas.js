@@ -1,4 +1,4 @@
-const animalControle = require('../Controle/animal_controle');
+const animalControle = require('../Controles/animal_controle');
 
 const express = require('express');
 const router = express.Router();
@@ -9,3 +9,5 @@ router.get('/buscar/id', animalControle.getAnimalPorId);
 router.post('/criar', animalControle.criarAnimal);
 router.put('/editar', animalControle.editarAnimal);
 */
+
+module.exports = router;
