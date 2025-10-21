@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Mateus-B-S/WEB_IFSP#readme",
   "dependencies": {
     "express": "^5.1.0",
+    "lodash": "^4.17.21",
     "method-override": "^3.0.0",
     "mysql2": "^3.15.2",
     "path": "^0.12.7",
