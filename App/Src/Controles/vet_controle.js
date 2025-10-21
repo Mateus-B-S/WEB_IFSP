@@ -1,4 +1,4 @@
-const modeloAutor = require('../Modelos/autor_modelo');
+const modeloAutor = require('../Modelos/vet_modelo');
 
 
 const getTodosAutores = (req, res) => {
@@ -7,7 +7,7 @@ const getTodosAutores = (req, res) => {
 };
 
 const getAutorId = (req, res) => {
-    const id = Number(req.params.id);
+    const id = Number(req.query.id);
     const autor = modeloAutor.getAutorId(id);
     if (autor) {
         res.json(autor);

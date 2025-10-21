@@ -1,4 +1,4 @@
-const controleAutor = require('../Controles/autor_controle');
+const controleAutor = require('../Controles/vet_controle');
 
 const express = require('express');
 const router = express.Router();
