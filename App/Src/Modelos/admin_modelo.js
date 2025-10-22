@@ -1,1 +1,3 @@
-const adimn = {senha: "123456789"};
+const admin = {senha: "123456789"};
+
+module.exports = admin;

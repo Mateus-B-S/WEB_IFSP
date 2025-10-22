@@ -2,7 +2,7 @@ const animal = require('./animal_modelo');
 const responsavel = require('./responsavel_modelo');
 
 let adocao = [
-    { animal_id: 1, responsavel_nome: "Mateus Buchalla Santos", data_adocao: "2023-10-01" }
+    { animal_id: 1, responsavel_nome: "Mateus Buchalla Santos", data_adocao: "2023-10-01", adotado: 1}
 ];
 
 const getTodasAdocoes = () => adocao;
@@ -19,7 +19,8 @@ const criarAdocao = (animal_id, responsavel_nome, data_adocao) => {
         const newAdocao = {
         animal_id: animal_id,
         responsavel_nome: responsavel_nome,
-        data_adocao: data_adocao
+        data_adocao: data_adocao,
+        adotado: 1 //sempre que uma adoção é criada, o animal é marcado como adotado
         };
         adocao.push(newAdocao);
         return newAdocao;
@@ -34,6 +35,7 @@ const todasAdocoesdeumResponsavel = (responsavel_nome) => {
 };
 
 module.exports = {
+    animal,
     adocao,
     getTodasAdocoes,
     criarAdocao,
