@@ -6,6 +6,7 @@ let animais = [
 
 //funções 
 const getTodosAnimais = () => animais;
+const animaisdisponiveis = () => animais.filter(a => a.adotado === 0);
 const getAnimalId = (id) => animais.find(a => a.id === id);
 const criarAnimal = (nome, raça, tipo) =>  {
  const newAnimal = {
@@ -32,6 +33,7 @@ const mudarAnimal = (id, nome, raça, tipo, adotado) => {
 
 module.exports = {
     animais,
+    animaisdisponiveis,
     getTodosAnimais,
     getAnimalId,
     criarAnimal,

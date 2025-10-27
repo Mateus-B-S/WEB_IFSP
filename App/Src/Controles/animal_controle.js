@@ -5,6 +5,11 @@ const getTodosAnimais = (req, res) => {
     res.json(animais);
 };
 
+const animaisdisponiveis = (req, res) => {
+    const animais = animalModelo.animaisdisponiveis();
+    res.json(animais);
+}
+
 
 //depois mudar para busca por tipo do animal
 const getAnimalPorId = (req, res) => {
@@ -50,5 +55,6 @@ module.exports = {
     getTodosAnimais,
     getAnimalPorId,
     criarAnimal,
-    editarAnimal
+    editarAnimal,
+    animaisdisponiveis
 }

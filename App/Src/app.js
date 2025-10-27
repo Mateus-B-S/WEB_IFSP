@@ -28,9 +28,8 @@ app.use('/veterinario', vetRotas);
 const responsavelRotas = require('./Rotas/responsavel_rotas');
 app.use('/responsavel', responsavelRotas);
 
-const animalRotas = require('./Rotas/animal_rotas');
-app.use('/animais', animalRotas);
-
+const adminRotas = require('./Rotas/admin_rotas');
+app.use('/admin', adminRotas);
 
 
 module.exports = app;
