@@ -16,7 +16,7 @@ const criarvet = (prontuario, nome, formacao) =>  {
     formacao: formacao
  };
  vets.push(newvets);
- return null;
+    return newvets;
 };
 
 const mudarVet = (id, prontuario, nome, formacao) => {

@@ -3,10 +3,10 @@ const exameModelo = require('../Modelos/exame_medico');
 //funções que só admins e veterinarios podem acessar 
 
 const criarExame = (req, res) => {
-    const { id_animal, tipo_exame, data_exame, resultados, tipo_conta } = req.body;
+    const { id_animal, vet_prontuario, data_exame, resultados, tipo_conta } = req.body;
     if (tipo_conta && (tipo_conta === "Admin" || tipo_conta === "Veterinario")) {
-        const novoExame = exameModelo.criarExameMedico(id_animal, tipo_exame, data_exame, resultados);
-        if (novoExame !== null) {
+        const novoExame = exameModelo.criarExameMedico(id_animal, vet_prontuario, data_exame, resultados);
+        if (novoExame) {
             res.status(201).json(novoExame);
         }
         else {

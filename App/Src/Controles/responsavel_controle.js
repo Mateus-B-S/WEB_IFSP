@@ -1,10 +1,11 @@
 const respModelo = require('../Modelos/responsavel_modelo');
+const path = require('path');
 
 const loginResponsavel = (req, res) => {
     const { email, senha } = req.body;
     const responsavel = respModelo.responsaveis.find(r => r.email === email && r.senha === senha);
     if (responsavel) {
-        res.json({ mensagem: "Login bem-sucedido.", responsavel: responsavel });
+        res.render(path.join(__dirname, "../Front_End/logins/responsavel"));
         //mandar para ejs do perfil do responsavel
     } else {
         res.status(401).json({ mensagem: "email ou senha inválidos." });
@@ -43,10 +44,9 @@ const getTodosResponsaveis = (req, res) => {
 };
 
 const getResponsavelPorId = (req, res) => {
-    const { tipo_conta } = req.body;
-    const id = parseInt(req.params.id);
+    const { tipo_conta, id_responsavel } = req.body;
     if (tipo_conta && tipo_conta === "Admin"){
-        const responsavel = respModelo.getResponsavelId(id);
+        const responsavel = respModelo.getResponsavelId(parseInt(id_responsavel));
         if (responsavel) {
             res.json(responsavel);
         } else {

@@ -6,7 +6,7 @@ const methodOverride = require('method-override');
 app.use(methodOverride('_method'));
 
 const path = require('path');
-app.use(express.static(path.join(__dirname, './Front_End/Publico')));
+app.use(express.static(path.join(__dirname, 'Front_End/Publico')));
 
 
 // Configurando middlewares

@@ -13,7 +13,8 @@ const criarAnimal = (nome, raça, tipo) =>  {
  id: animais.length > 0 ? Math.max(...animais.map(a => a.id)) + 1 : 1,
     nome: nome,
     raça: raça,
-    tipo: tipo
+    tipo: tipo,
+    adotado: 0
  };
  animais.push(newAnimal);
  return newAnimal;

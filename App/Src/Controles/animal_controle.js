@@ -13,8 +13,8 @@ const animaisdisponiveis = (req, res) => {
 
 //depois mudar para busca por tipo do animal
 const getAnimalPorId = (req, res) => {
-    const id = parseInt(req.query.id);
-    const animal = animalModelo.getAnimalId(id);
+    const  id  = req.query.id;
+    const animal = animalModelo.getAnimalId(parseInt(id));
     if (animal) {
         res.json(animal);
     } else {
@@ -25,9 +25,9 @@ const getAnimalPorId = (req, res) => {
 //funções só para admins ou veterinarios
 
 const criarAnimal = (req, res) => {
-    const { nome, raça, tipo, tipo_conta } = req.body;
+    const { nome, raca, tipo, tipo_conta } = req.body;
     if (tipo_conta && tipo_conta === "Admin" || tipo_conta === "Veterinario") {
-        const novoAnimal = animalModelo.criarAnimal(nome, raça, tipo);
+        const novoAnimal = animalModelo.criarAnimal(nome, raca, tipo);
         res.status(201).json(novoAnimal)
     }
     else {

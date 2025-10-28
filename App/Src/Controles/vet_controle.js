@@ -35,7 +35,7 @@ const getVetPorId = (req, res) => {
 const criarVet = (req, res) => {
     const { nome, prontuario, formacao, tipo_conta } = req.body;
     if (tipo_conta && tipo_conta === "Admin") {
-        const novoVet = modeloAutor.criarvet(nome, prontuario, formacao);
+        const novoVet = modeloAutor.criarvet(prontuario, nome, formacao);
         res.status(201).json(novoVet)
     }
     else {
