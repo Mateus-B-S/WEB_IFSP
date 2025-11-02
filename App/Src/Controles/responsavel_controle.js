@@ -30,32 +30,26 @@ const editarResponsavel = (req, res) => {
     }
 };
 
-//funções que só o admin pode acessar
+
 
 const getTodosResponsaveis = (req, res) => {
     const { tipo_conta } = req.body;
-    if (tipo_conta && tipo_conta === "Admin"){
+   
         const responsaveis = respModelo.getTodosResponsaveis();
         res.json(responsaveis);
-    }
-    else {
-        res.status(403).json({ mensagem: "Acesso negado. Apenas administradores podem acessar esta rota." });
-    }
+    
 };
 
 const getResponsavelPorId = (req, res) => {
     const { tipo_conta, id_responsavel } = req.body;
-    if (tipo_conta && tipo_conta === "Admin"){
+   
         const responsavel = respModelo.getResponsavelId(parseInt(id_responsavel));
         if (responsavel) {
             res.json(responsavel);
         } else {
             res.status(404).json({ mensagem: "Responsável não encontrado." });
-        }
-    }
-    else {
-        res.status(403).json({ mensagem: "Acesso negado. Apenas administradores podem acessar esta rota." });
-    }
+        }  
+
 };
 
 

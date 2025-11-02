@@ -11,7 +11,7 @@
     <h2>Animais: </h2>
 
         <form action="/admin/animal/listarTodosAnimais" method="GET">
-            <input type="hidden" name="tipo_conta" value="admin">
+            
             <button type="submit">Listar todos</button> 
         </form><br>
 
@@ -19,13 +19,13 @@
             Nome: <input type="text" name="nome"><br>
             Raça: <input type="text" name="raca"><br>
             Tipo: <input type="text" name="tipo"><br>
-            <input type="hidden" name="tipo_conta" value="Admin">
+            
             <button type="submit">Cadastrar novo</button>
         </form><br>
 
         <form action="/admin/animal/editarAnimal" method="PUT">
             <input type="text" id="id_animal" name="id_animal" required>
-            <input type="hidden" name="tipo_conta" value="Admin">
+            
             <button type="submit">Editar (não mexer ainda) </button>
         </form><br>
 
@@ -37,26 +37,26 @@
 
     <h2>Responsáveis: </h2>
             <form action="/admin/resp/listarResponsaveis" method="POST">
-                <input type="hidden" name="tipo_conta" value="Admin">
+                
                 <button type="submit">Listar todos</button>
             </form><br>
 
             <form action="/admin/resp/responsavelPorId" method="POST">
                 Id do responsável: <input type="text" id="id_responsavel" name="id_responsavel" required>
-                <input type="hidden" name="tipo_conta" value="Admin">
+                
                 <button type="submit">Buscar por ID</button>
             </form><br>
 
     <h2>    Adoções:</h2>
             <form action="/admin/adocao/listarPorResponsavel" method="POST">
                 Id do responsável: <input type="text" name="responsavel_nome" required>
-                <input type="hidden" name="tipo_conta" value="Admin">
+                
                 <button type="submit">Listar adoções por responsável</button>
             </form><br>
 
     <h2>Veterinários: </h2>
             <form action="/admin/vet/listarVets" method="GET">
-                <input type="hidden" name="tipo_conta" value="Admin">
+                
                 <button type="submit">Listar todos</button>
             </form><br>
 
@@ -64,7 +64,7 @@
                 Nome: <input type="text" name="nome" required><br>
                 Prontuário: <input type="text" name="prontuario" required><br>
                 Formação: <input type="text" name="formacao" required><br>
-                <input type="hidden" name="tipo_conta" value="Admin">
+                
                 <button type="submit">Cadastrar novo</button>
             </form><br>
 
@@ -73,7 +73,7 @@
     <h2>    Exames:</h2>
 
             <form action="/admin/exame/listarExames" method="POST">
-                <input type="hidden" name="tipo_conta" value="Admin">
+                
                 <button type="submit">Listar todos</button>
             </form><br>
 
@@ -82,13 +82,13 @@
                 Prontuário do Veterinário: <input type="text" name="vet_prontuario" required><br>
                 Data do exame: <input type="text" name="data_exame" required><br>
                 Resultados: <input type="text" name="resultados" required><br>
-                <input type="hidden" name="tipo_conta" value="Admin"><br>
+                <br>
                 <button type="submit">Cadastrar exame</button>
             </form><br>
             
             <form action="/admin/exame/listarPorVet" method="POST">
                 Id do veterinário: <input type="text" name="vet_prontuario" required>
-                <input type="hidden" name="tipo_conta" value="Admin">
+                
                 <button type="submit">Listar exames por veterinário</button>
             </form><br>
 

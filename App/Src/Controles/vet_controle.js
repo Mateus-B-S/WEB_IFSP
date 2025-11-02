@@ -34,18 +34,15 @@ const getVetPorId = (req, res) => {
 
 const criarVet = (req, res) => {
     const { nome, prontuario, formacao, tipo_conta } = req.body;
-    if (tipo_conta && tipo_conta === "Admin") {
+    
         const novoVet = modeloAutor.criarvet(prontuario, nome, formacao);
         res.status(201).json(novoVet)
-    }
-    else {
-        res.status(403).json({ mensagem: "Acesso negado. Apenas administradores podem acessar esta rota." });
-    }
+    
 };
 
 const editarVet = (req, res) => {
     const { id, prontuario, nome, formacao, tipo_conta } = req.body;
-    if (tipo_conta && tipo_conta === "Admin") {
+    
         const vetAtualizado = modeloAutor.mudarVet(id, prontuario, nome, formacao);
         if (vetAtualizado) {
             res.json(vetAtualizado);
@@ -53,26 +50,19 @@ const editarVet = (req, res) => {
         else {
             res.status(404).json({ mensagem: "Veterinário não encontrado." });
         }
-    }
-    else {
-        res.status(403).json({ mensagem: "Acesso negado. Apenas administradores podem acessar esta rota." });
-    }
+    
 };
 
 const deletarVet = (req, res) => {
     const { tipo_conta } = req.body;
     const id = parseInt(req.query.id);
-    if (tipo_conta && tipo_conta === "Admin") {
+    
         const sucesso = modeloAutor.deleteVet(id);
         if (sucesso) {
             res.json({ mensagem: "Veterinário deletado com sucesso." });
         } else {
             res.status(404).json({ mensagem: "Veterinário não encontrado." });
         }
-    }
-    else {
-        res.status(403).json({ mensagem: "Acesso negado. Apenas administradores podem acessar esta rota." });
-    }
 };
 
 module.exports = {

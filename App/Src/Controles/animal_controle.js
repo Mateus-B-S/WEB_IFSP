@@ -22,22 +22,19 @@ const getAnimalPorId = (req, res) => {
     }
 };
 
-//funções só para admins ou veterinarios
+
 
 const criarAnimal = (req, res) => {
     const { nome, raca, tipo, tipo_conta } = req.body;
-    if (tipo_conta && tipo_conta === "Admin" || tipo_conta === "Veterinario") {
+    
         const novoAnimal = animalModelo.criarAnimal(nome, raca, tipo);
         res.status(201).json(novoAnimal)
-    }
-    else {
-        res.status(403).json({ mensagem: "Acesso negado. Apenas administradores podem acessar esta rota." });
-    }
+    
 };
 
 const editarAnimal = (req, res) => {
     const { id, nome, raça, tipo, adotado, tipo_conta } = req.body;
-    if (tipo_conta && tipo_conta === "Admin" || tipo_conta === "Veterinario") {
+    
         const animalAtualizado = animalModelo.mudarAnimal(id, nome, raça, tipo, adotado);
         if (animalAtualizado) {
             res.json(animalAtualizado);
@@ -45,10 +42,6 @@ const editarAnimal = (req, res) => {
         else {
             res.status(404).json({ mensagem: "Animal não encontrado." });
         }
-    }
-    else {
-        res.status(403).json({ mensagem: "Acesso negado. Apenas administradores podem acessar esta rota." });
-    }
 };
 
 module.exports = {

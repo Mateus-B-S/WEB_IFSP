@@ -16,17 +16,12 @@ const criarAdocao = (req, res) => {
     }
 };
 
-//função só para admins
 
 const listarAdocoesPorResponsavel = (req, res) => {
-    const { responsavel_nome, tipo_conta } = req.body;
-    if (tipo_conta && tipo_conta === "Admin") {
+    const { responsavel_nome } = req.body;
         const adocoes = adocaoModelo.todasAdocoesdeumResponsavel(responsavel_nome);
         res.status(200).json(adocoes);
-    }
-    else {
-        res.status(403).json({ mensagem: "Acesso negado. Apenas administradores podem acessar esta rota." });
-    }
+   
 };
 
 module.exports = {
