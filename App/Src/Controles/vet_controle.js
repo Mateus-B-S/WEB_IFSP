@@ -5,8 +5,9 @@ const loginVet = (req, res) => {
     const { prontuario, senha } = req.body;
     const vet = modeloAutor.vets.find(v => v.prontuario === prontuario && v.senha === senha);
     if (vet) {
-        res.json({ mensagem: "Login bem-sucedido.", vet: vet });
-        //mandar para ejs do perfil do vet
+        req.session.user = { tipo_conta: 'veterinario', id_vet: vet.id }; // grava sessão
+        res.render("Perfil/veterinario", { nome: vet.nome });
+        //mandar para ejs do perfil do veterinario
     }
     else {
         res.status(401).json({ mensagem: "Prontuário ou senha inválidos." });
@@ -33,17 +34,17 @@ const getVetPorId = (req, res) => {
 //funções só para admins
 
 const criarVet = (req, res) => {
-    const { nome, prontuario, formacao, tipo_conta } = req.body;
+    const { nome, prontuario, formacao, senha} = req.body;
     
-        const novoVet = modeloAutor.criarvet(prontuario, nome, formacao);
+        const novoVet = modeloAutor.criarvet(prontuario, nome, formacao, senha);
         res.status(201).json(novoVet)
     
 };
 
 const editarVet = (req, res) => {
-    const { id, prontuario, nome, formacao, tipo_conta } = req.body;
+    const { id, prontuario, nome, formacao, senha } = req.body;
     
-        const vetAtualizado = modeloAutor.mudarVet(id, prontuario, nome, formacao);
+        const vetAtualizado = modeloAutor.mudarVet(id, prontuario, nome, formacao, senha);
         if (vetAtualizado) {
             res.json(vetAtualizado);
         }
@@ -65,11 +66,18 @@ const deletarVet = (req, res) => {
         }
 };
 
+const logoutVet = (req, res) => {
+    req.session.destroy (err => {
+        res.redirect('/inicial.html')
+    }   );
+};
+
 module.exports = {
     loginVet,
     getTodosVets,
     getVetPorId,
     criarVet,
     editarVet,
-    deletarVet
+    deletarVet,
+    logoutVet
 }

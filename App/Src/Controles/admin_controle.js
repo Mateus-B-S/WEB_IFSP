@@ -4,7 +4,8 @@ const admin = require('../Modelos/admin_modelo');
 const loginAdmin = (req, res) => {
     const { senha } = req.body;
     if (senha && senha === admin.senha) {
-        res.render("Perfil/admin", { senha: "admin"}); 
+        req.session.user = { tipo_conta: 'admin' }; // grava sessão
+        res.render("Perfil/admin"); 
         // Renderiza a página de perfil do administrador
     }
     else {
@@ -12,6 +13,13 @@ const loginAdmin = (req, res) => {
     }
 };
 
+const logoutAdmin = (req, res) => {
+    req.session.destroy (err => {
+        res.redirect('/inicial.html')
+    }   );
+};
+
 module.exports = {
+    logoutAdmin,
     loginAdmin
 };

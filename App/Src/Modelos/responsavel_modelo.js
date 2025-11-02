@@ -7,11 +7,12 @@ const getResponsavelId = (id) => responsaveis.find(r => r.id === id);
 
 const getTodosResponsaveis = () => responsaveis;
 
-const criarResponsavel = (nome, email) =>  {
+const criarResponsavel = (nome, email, senha) =>  {
     const newResponsavel = {
         id: responsaveis.length > 0 ? Math.max(...responsaveis.map(r => r.id)) + 1 : 1,
         nome: nome,
-        email: email
+        email: email,
+        senha: senha
     };
     responsaveis.push(newResponsavel);
     return newResponsavel;

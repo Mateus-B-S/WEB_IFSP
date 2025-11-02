@@ -5,7 +5,8 @@ const loginResponsavel = (req, res) => {
     const { email, senha } = req.body;
     const responsavel = respModelo.responsaveis.find(r => r.email === email && r.senha === senha);
     if (responsavel) {
-        res.render(path.join(__dirname, "../Front_End/logins/responsavel"));
+        req.session.user = { tipo_conta: 'responsavel', id_responsavel: responsavel.id }; // grava sessão
+        res.render("Perfil/responsavel", { nome: responsavel.nome });
         //mandar para ejs do perfil do responsavel
     } else {
         res.status(401).json({ mensagem: "email ou senha inválidos." });
@@ -13,9 +14,9 @@ const loginResponsavel = (req, res) => {
 };
 
 const criarResponsavel = (req, res) => {
-    const { nome, email } = req.body;
-    const novoResponsavel = respModelo.criarResponsavel(nome, email);
-    res.status(201).json(novoResponsavel);
+    const { nome, email, senha } = req.body;
+    respModelo.criarResponsavel(nome, email, senha);
+    res.status(201).json({ mensagem: "Responsável criado com sucesso." });
 };
 
 
@@ -41,7 +42,7 @@ const getTodosResponsaveis = (req, res) => {
 };
 
 const getResponsavelPorId = (req, res) => {
-    const { tipo_conta, id_responsavel } = req.body;
+    const { id_responsavel } = req.body;
    
         const responsavel = respModelo.getResponsavelId(parseInt(id_responsavel));
         if (responsavel) {
@@ -52,11 +53,18 @@ const getResponsavelPorId = (req, res) => {
 
 };
 
+const logoutResp = (req, res) => {
+    req.session.destroy (err => {
+        res.redirect('/inicial.html')
+    }   );
+};
+
 
 module.exports = {
     loginResponsavel,
     criarResponsavel,
     editarResponsavel,
     getTodosResponsaveis,
-    getResponsavelPorId
+    getResponsavelPorId,
+    logoutResp
 }

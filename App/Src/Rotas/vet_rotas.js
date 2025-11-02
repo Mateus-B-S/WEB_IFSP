@@ -5,20 +5,22 @@ const examecontrole = require('../Controles/exame_controle');
 
 const express = require('express');
 const router = express.Router();
+const path = require('path');
+const permitidos = require(path.join(__dirname, '../Segurança/autorizacao'));
 
-router.get('/', vetControle.loginVet);
+router.post('/', vetControle.loginVet);
 router.get('/todos', vetControle.getTodosVets);
 router.get('/buscar/id', vetControle.getVetPorId);
 
 
-//rotas para animais (editar e criar)
-router.post('/animal/criar', animalControle.criarAnimal);
-router.put('/animal/editar', animalControle.editarAnimal);
 
+// Rotas para administração de veterinários
+router.post('/criarVet', permitidos('admin'), vetControle.criarVet);
+router.put('/editarVet', permitidos('admin'), vetControle.editarVet);
+router.delete('/deletarVet', permitidos('admin'), vetControle.deletarVet);
+router.get('/listarVets', permitidos('admin'), vetControle.getTodosVets);
 
-//rota para exames  (criar, listar e listar por vet)
-router.post('/exame/criar', examecontrole.criarExame);
-router.get('/exame/listar', examecontrole.listarExames);
-router.get('/exame/listarporvet', examecontrole.listarExamesPorVet);
+//logout
+router.get('/logout', vetControle.logoutVet);
 
 module.exports = router;

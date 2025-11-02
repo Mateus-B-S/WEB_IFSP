@@ -1,5 +1,5 @@
 let vets = [
-    { id:1 , prontuario: "JC0001" ,nome: "Mateus BUchalla Santos", formacao: "Animais de grande porte" }
+    { id:1 , prontuario: "JC0001" ,nome: "Dora Aventureira", formacao: "Animais de grande porte", senha: "MAPA"}
 ];
 
 const getTodosvets = () => vets;
@@ -8,23 +8,25 @@ const getTodosvets = () => vets;
 const getvetsId = (id) => vets.find(a => a.id === id);
 
 
-const criarvet = (prontuario, nome, formacao) =>  {
+const criarvet = (prontuario, nome, formacao, senha) =>  {
  const newvets = {
     id: vets.length > 0 ? Math.max(...vets.map(a => a.id)) + 1 : 1, 
     prontuario: prontuario,
     nome: nome,
-    formacao: formacao
+    formacao: formacao,
+    senha: senha
  };
  vets.push(newvets);
     return newvets;
 };
 
-const mudarVet = (id, prontuario, nome, formacao) => {
+const mudarVet = (id, prontuario, nome, formacao, senha) => {
     const vet = getvetsId(id);
     if (vet) {
         vet.prontuario = prontuario ?? vet.prontuario;
         vet.nome = nome ?? vet.nome;
         vet.formacao = formacao ?? vet.formacao;
+        vet.senha = senha ?? vet.senha;
         return vet;
     }
     return null;

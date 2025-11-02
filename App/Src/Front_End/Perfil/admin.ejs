@@ -10,12 +10,12 @@
 
     <h2>Animais: </h2>
 
-        <form action="/admin/animal/listarTodosAnimais" method="GET">
+        <form action="/animal/listarTodosAnimais" method="GET">
             
             <button type="submit">Listar todos</button> 
         </form><br>
 
-        <form action="/admin/animal/adicionarAnimal" method="POST">
+        <form action="/animal/adicionarAnimal" method="POST">
             Nome: <input type="text" name="nome"><br>
             Raça: <input type="text" name="raca"><br>
             Tipo: <input type="text" name="tipo"><br>
@@ -23,44 +23,44 @@
             <button type="submit">Cadastrar novo</button>
         </form><br>
 
-        <form action="/admin/animal/editarAnimal" method="PUT">
+        <form action="/animal/editarAnimal" method="PUT">
             <input type="text" id="id_animal" name="id_animal" required>
             
             <button type="submit">Editar (não mexer ainda) </button>
         </form><br>
 
-        <form action="/admin/animal/buscarPorId" method="GET">
+        <form action="/animal/buscarPorId" method="GET">
             Id do animal: <input type="number" id="id_animal" name="id" required>
             
             <button type="submit">Buscar por ID</button>
         </form><br>
 
     <h2>Responsáveis: </h2>
-            <form action="/admin/resp/listarResponsaveis" method="POST">
+            <form action="/responsavel/listarResponsaveis" method="POST">
                 
                 <button type="submit">Listar todos</button>
             </form><br>
 
-            <form action="/admin/resp/responsavelPorId" method="POST">
+            <form action="/responsavel/responsavelPorId" method="POST">
                 Id do responsável: <input type="text" id="id_responsavel" name="id_responsavel" required>
                 
                 <button type="submit">Buscar por ID</button>
             </form><br>
 
     <h2>    Adoções:</h2>
-            <form action="/admin/adocao/listarPorResponsavel" method="POST">
+            <form action="/adocao/listarPorResponsavel" method="POST">
                 Id do responsável: <input type="text" name="responsavel_nome" required>
                 
                 <button type="submit">Listar adoções por responsável</button>
             </form><br>
 
     <h2>Veterinários: </h2>
-            <form action="/admin/vet/listarVets" method="GET">
+            <form action="/veterinario/listarVets" method="GET">
                 
                 <button type="submit">Listar todos</button>
             </form><br>
 
-            <form action="/admin/vet/criarVet" method="POST">
+            <form action="/veterinario/criarVet" method="POST">
                 Nome: <input type="text" name="nome" required><br>
                 Prontuário: <input type="text" name="prontuario" required><br>
                 Formação: <input type="text" name="formacao" required><br>
@@ -72,12 +72,12 @@
 
     <h2>    Exames:</h2>
 
-            <form action="/admin/exame/listarExames" method="POST">
+            <form action="/exame/listarExames" method="POST">
                 
                 <button type="submit">Listar todos</button>
             </form><br>
 
-            <form action="/admin/exame/criarExame" method="POST">
+            <form action="/exame/criarExame" method="POST">
                 Id do animal: <input type="text" name="id_animal" required> <br>
                 Prontuário do Veterinário: <input type="text" name="vet_prontuario" required><br>
                 Data do exame: <input type="text" name="data_exame" required><br>
@@ -86,11 +86,15 @@
                 <button type="submit">Cadastrar exame</button>
             </form><br>
             
-            <form action="/admin/exame/listarPorVet" method="POST">
+            <form action="/exame/listarPorVet" method="POST">
                 Id do veterinário: <input type="text" name="vet_prontuario" required>
                 
                 <button type="submit">Listar exames por veterinário</button>
             </form><br>
+
+            <form action="/admin/logout" method="GET">
+                <button type="submit">Logout</button>
+            </form>
 
     </body>
 </html>

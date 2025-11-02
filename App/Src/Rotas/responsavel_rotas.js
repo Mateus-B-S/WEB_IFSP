@@ -5,12 +5,19 @@ const animalControle = require('../Controles/animal_controle');
 
 const express = require('express');
 const router = express.Router();
+const path = require('path');
+const permitidos = require(path.join(__dirname, '../Segurança/autorizacao'));
 
-router.get('/', responsavelControle.loginResponsavel);
+router.post('/', responsavelControle.loginResponsavel);
 router.post('/criar', responsavelControle.criarResponsavel);
 router.put('/editar', responsavelControle.editarResponsavel);
-router.get('/animais_disponiveis', animalControle.animaisdisponiveis);
-router.get('/buscar_animal_por_id', animalControle.getAnimalPorId);
 
+
+// Rotas para administração de responsáveis
+router.post('/listarResponsaveis', permitidos('admin'), responsavelControle.getTodosResponsaveis);
+router.post('/responsavelPorId', permitidos('admin'), responsavelControle.getResponsavelPorId);
+
+//logout
+router.get('/logout', responsavelControle.logoutResp);
 
 module.exports = router;
