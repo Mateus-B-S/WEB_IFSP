@@ -1,7 +1,6 @@
 const responsavelControle = require('../Controles/responsavel_controle');
 
-//pode ver animais disponíveis e criar conta
-const animalControle = require('../Controles/animal_controle');
+
 
 const express = require('express');
 const router = express.Router();
@@ -14,7 +13,7 @@ router.put('/editar', responsavelControle.editarResponsavel);
 
 
 // Rotas para administração de responsáveis
-router.post('/listarResponsaveis', permitidos('admin'), responsavelControle.getTodosResponsaveis);
+
 router.post('/responsavelPorId', permitidos('admin'), responsavelControle.getResponsavelPorId);
 
 //logout

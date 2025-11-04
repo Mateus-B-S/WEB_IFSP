@@ -10,10 +10,15 @@
 
     <h2>Animais: </h2>
 
-        <form action="/animal/listarTodosAnimais" method="GET">
-            
-            <button type="submit">Listar todos</button> 
-        </form><br>
+        <h3>Lista de animais cadastrados:</h3>
+        <ul>
+            <% animais.forEach(function(animal) { %>
+                <li>ID: <%= animal.id %>,
+                    Nome: <%= animal.nome %>, 
+                    Raça: <%= animal.raca %>, 
+                    Tipo: <%= animal.tipo %></li>
+            <% }); %>   
+        </ul>
 
         <form action="/animal/adicionarAnimal" method="POST">
             Nome: <input type="text" name="nome"><br>
@@ -36,10 +41,14 @@
         </form><br>
 
     <h2>Responsáveis: </h2>
-            <form action="/responsavel/listarResponsaveis" method="POST">
-                
-                <button type="submit">Listar todos</button>
-            </form><br>
+            <h3>listar todos reponsaveis</h3>
+            <ul>
+            <% responsaveis.forEach(function(responsavel) { %>
+                <li>ID: <%= responsavel.id %>, 
+                    Nome: <%= responsavel.nome %>, 
+                    Email: <%= responsavel.email %>,
+            <% }); %>
+            </ul>
 
             <form action="/responsavel/responsavelPorId" method="POST">
                 Id do responsável: <input type="text" id="id_responsavel" name="id_responsavel" required>
@@ -48,6 +57,16 @@
             </form><br>
 
     <h2>    Adoções:</h2>
+            <h3>listar todas as adoções</h3>
+            <ul>
+            <% adocoes.forEach(function(adocao) { %>
+                <li>Nome do responsável: <%= adocao.responsavel_nome %>,
+                    ID do Animal: <%= adocao.animal_id %>, 
+                    Data da Adoção: <%= adocao.data_adocao %>
+                </li>
+            <% }); %>
+            </ul>
+
             <form action="/adocao/listarPorResponsavel" method="POST">
                 Id do responsável: <input type="text" name="responsavel_nome" required>
                 
@@ -55,10 +74,16 @@
             </form><br>
 
     <h2>Veterinários: </h2>
-            <form action="/veterinario/listarVets" method="GET">
-                
-                <button type="submit">Listar todos</button>
-            </form><br>
+            <h3>listar todos os veterinários</h3>
+            <ul>
+            <% veterinarios.forEach(function(vet) { %>
+                <li>Nome: <%= vet.nome %>,
+                    Prontuário: <%= vet.prontuario %>, 
+                    Formação: <%= vet.formacao %>
+                </li>
+            <% }); %>
+            </ul>
+            
 
             <form action="/veterinario/criarVet" method="POST">
                 Nome: <input type="text" name="nome" required><br>
@@ -71,11 +96,18 @@
             <h3>não vou fazer put e delete ainda, mas tá pronto</h3>
 
     <h2>    Exames:</h2>
-
-            <form action="/exame/listarExames" method="POST">
+            <h3>listar todos os exames</h3>
+            <ul>
                 
-                <button type="submit">Listar todos</button>
-            </form><br>
+            <% exames.forEach(function(exame) { %>
+                <li>ID do Animal: <%= exame.id_animal %>,
+                    Prontuário do Veterinário: <%= exame.vet_prontuario %>, 
+                    Data do Exame: <%= exame.data_exame %>,
+                    Resultados: <%= exame.observacoes %>
+                </li>
+            <% }); %>
+            </ul>
+            
 
             <form action="/exame/criarExame" method="POST">
                 Id do animal: <input type="text" name="id_animal" required> <br>

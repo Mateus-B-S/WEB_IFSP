@@ -16,7 +16,7 @@ router.put('/editar', permitidos('veterinario'), animalControle.editarAnimal);
 // Rotas para administração de animais
 router.post('/adicionarAnimal', permitidos('admin'), animalControle.criarAnimal);
 router.put('/atualizarAnimal', permitidos('admin'), animalControle.editarAnimal);
-router.get('/listarTodosAnimais',permitidos('admin'), animalControle.getTodosAnimais);
+
 router.get('/buscarPorId', permitidos('admin'), animalControle.getAnimalPorId);
 
 module.exports = router;

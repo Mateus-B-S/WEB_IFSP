@@ -18,7 +18,6 @@ router.get('/buscar/id', vetControle.getVetPorId);
 router.post('/criarVet', permitidos('admin'), vetControle.criarVet);
 router.put('/editarVet', permitidos('admin'), vetControle.editarVet);
 router.delete('/deletarVet', permitidos('admin'), vetControle.deletarVet);
-router.get('/listarVets', permitidos('admin'), vetControle.getTodosVets);
 
 //logout
 router.get('/logout', vetControle.logoutVet);
