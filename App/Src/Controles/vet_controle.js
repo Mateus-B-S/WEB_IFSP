@@ -35,35 +35,32 @@ const getVetPorId = (req, res) => {
 
 const criarVet = (req, res) => {
     const { nome, prontuario, formacao, senha} = req.body;
-    
         const novoVet = modeloAutor.criarvet(prontuario, nome, formacao, senha);
-        res.status(201).json(novoVet)
-    
+        res.status(201).json(novoVet);
 };
 
 const editarVet = (req, res) => {
     const { id, prontuario, nome, formacao, senha } = req.body;
-    
-        const vetAtualizado = modeloAutor.mudarVet(id, prontuario, nome, formacao, senha);
-        if (vetAtualizado) {
-            res.json(vetAtualizado);
-        }
-        else {
-            res.status(404).json({ mensagem: "Veterinário não encontrado." });
-        }
+
+    const vetAtualizado = modeloAutor.mudarVet(id, prontuario, nome, formacao, senha);
+    if (vetAtualizado) {
+        res.json(vetAtualizado);
+    }
+    else {
+        res.status(404).json({ mensagem: "Veterinário não encontrado." });
+    }
     
 };
 
 const deletarVet = (req, res) => {
-    const { tipo_conta } = req.body;
     const id = parseInt(req.query.id);
-    
-        const sucesso = modeloAutor.deleteVet(id);
-        if (sucesso) {
-            res.json({ mensagem: "Veterinário deletado com sucesso." });
-        } else {
-            res.status(404).json({ mensagem: "Veterinário não encontrado." });
-        }
+
+    const sucesso = modeloAutor.deleteVet(id);
+    if (sucesso) {
+        res.json({ mensagem: "Veterinário deletado com sucesso." });
+    } else {
+        res.status(404).json({ mensagem: "Veterinário não encontrado." });
+    }
 };
 
 const logoutVet = (req, res) => {

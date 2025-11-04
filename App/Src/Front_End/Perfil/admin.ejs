@@ -15,7 +15,7 @@
             <% animais.forEach(function(animal) { %>
                 <li>ID: <%= animal.id %>,
                     Nome: <%= animal.nome %>, 
-                    Raça: <%= animal.raca %>, 
+                    Raça: <%= animal.raça %>, 
                     Tipo: <%= animal.tipo %></li>
             <% }); %>   
         </ul>
@@ -68,8 +68,7 @@
             </ul>
 
             <form action="/adocao/listarPorResponsavel" method="POST">
-                Id do responsável: <input type="text" name="responsavel_nome" required>
-                
+                Nome do responsável: <input type="text" name="responsavel_nome" required>
                 <button type="submit">Listar adoções por responsável</button>
             </form><br>
 

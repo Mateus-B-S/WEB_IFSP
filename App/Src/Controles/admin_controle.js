@@ -3,7 +3,7 @@ const animalModelo = require('../Modelos/animal_modelo');
 const respModelo = require('../Modelos/responsavel_modelo');
 const exameModelo = require('../Modelos/exame_medico');
 const vetModelo = require('../Modelos/vet_modelo');
-const adocaoModelo = require('../Modelos/adocao');
+const adocaoModelo = require('../Modelos/adocao_modelo');
 //const path = require('path');
 
 const loginAdmin = (req, res) => {

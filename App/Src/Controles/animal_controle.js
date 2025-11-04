@@ -25,15 +25,15 @@ const getAnimalPorId = (req, res) => {
 
 
 const criarAnimal = (req, res) => {
-    const { nome, raca, tipo, tipo_conta } = req.body;
-    
-        const novoAnimal = animalModelo.criarAnimal(nome, raca, tipo);
-        res.status(201).json(novoAnimal)
-    
+    const { nome, raca, tipo } = req.body;
+
+    const novoAnimal = animalModelo.criarAnimal(nome, raca, tipo);
+    res.status(201).json(novoAnimal)
+
 };
 
 const editarAnimal = (req, res) => {
-    const { id, nome, raça, tipo, adotado, tipo_conta } = req.body;
+    const { id, nome, raça, tipo, adotado } = req.body;
     
         const animalAtualizado = animalModelo.mudarAnimal(id, nome, raça, tipo, adotado);
         if (animalAtualizado) {

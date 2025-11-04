@@ -2,7 +2,7 @@ const animal = require('./animal_modelo');
 const responsavel = require('./responsavel_modelo');
 
 let adocao = [
-    { animal_id: 1, responsavel_nome: "Mateus Buchalla Santos", data_adocao: "2023-10-01", adotado: 1}
+    { animal_id: 1, responsavel_nome: "Aninha", data_adocao: "2023-10-01", adotado: 1}
 ];
 
 const getTodasAdocoes = () => adocao;

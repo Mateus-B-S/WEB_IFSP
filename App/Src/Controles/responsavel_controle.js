@@ -16,7 +16,7 @@ const loginResponsavel = (req, res) => {
 const criarResponsavel = (req, res) => {
     const { nome, email, senha } = req.body;
     respModelo.criarResponsavel(nome, email, senha);
-    res.status(201).json({ mensagem: "Responsável criado com sucesso." });
+    return res.redirect('/Logins/responsavel.html?created=1');
 };
 
 
@@ -34,22 +34,20 @@ const editarResponsavel = (req, res) => {
 
 
 const getTodosResponsaveis = (req, res) => {
-    const { tipo_conta } = req.body;
-   
-        const responsaveis = respModelo.getTodosResponsaveis();
-        res.json(responsaveis);
+    const responsaveis = respModelo.getTodosResponsaveis();
+    res.json(responsaveis);
     
 };
 
 const getResponsavelPorId = (req, res) => {
     const { id_responsavel } = req.body;
-   
-        const responsavel = respModelo.getResponsavelId(parseInt(id_responsavel));
-        if (responsavel) {
-            res.json(responsavel);
-        } else {
-            res.status(404).json({ mensagem: "Responsável não encontrado." });
-        }  
+
+    const responsavel = respModelo.getResponsavelId(parseInt(id_responsavel));
+    if (responsavel) {
+        res.json(responsavel);
+    } else {
+        res.status(404).json({ mensagem: "Responsável não encontrado." });
+    }  
 
 };
 
