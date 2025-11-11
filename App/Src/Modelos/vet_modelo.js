@@ -50,3 +50,34 @@ module.exports = {
  mudarVet,
  deleteVet
 };
+
+//const { DataTypes } = require('sequelize');
+//const sequelize = require('../config/db');
+
+//const veterinario = sequelize.define('veterinario', {
+  //id: {
+    //type: DataTypes.INTEGER,
+    //primaryKey: true,
+    //autoIncrement: true
+  //},
+  //nome: {
+    //type: DataTypes.STRING,
+   // allowNull: false
+
+  //}
+  //formacao: {
+   // type: DataTypes.STRING,
+   // allowNull: false
+  //}
+  //prontuario: {
+    //type: DataTypes.STRING
+    //defaultValue: false
+  //}
+
+
+//}, {
+ // tableName: 'veterinarios',
+  //timestamps: false
+//});
+
+//module.exports = veterinario;
