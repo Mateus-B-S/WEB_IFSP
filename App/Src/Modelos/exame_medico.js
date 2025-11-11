@@ -7,14 +7,14 @@ let exame_medico = [
 
 const getTodosExames = () => exame_medico;
 
-const criarExameMedico = (animal_id, vet_prontuario, data_exame, observacoes) =>  {
-    const ver1 = animal_id == animal.animais.find(a => a.id === animal_id);
-    const ver2 = vet_prontuario == vet.vets.find(v => v.prontuario === vet_prontuario);
+const criarExameMedico = (animal_id, vet_prontuario, observacoes) =>  {
+    const ver1 = animal_id == animal.getAnimalId(Number(animal_id)).id;
+    const ver2 = vet_prontuario == vet.getProntuarioVet(String(vet_prontuario)).prontuario;
     if (ver1 && ver2) { 
         const newExame = {
             animal_id: animal_id,
             vet_prontuario: vet_prontuario,
-            data_exame: data_exame,
+            data_exame: new Date().toISOString().split('T')[0],
             observacoes: observacoes
         };
         exame_medico.push(newExame);

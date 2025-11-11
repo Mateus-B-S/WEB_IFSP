@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil_Vet</title>
+</head>
+<body>
+    <h1>Perfil de <%= nome %></h1>
+    <h2>Exames Médicos Realizados:</h2>
+    <ul>
+        <% exames.forEach(function(exame) { %>
+            <li>ID do Animal: <%= exame.animal_id %>,
+                Data: <%= exame.data_exame %>,
+                Observações: <%= exame.observacoes %></li>
+        <% }); %>
+    </ul>
+
+    <h2>Cadastrar novo Exame: </h2>
+    <form action="/exame/criarExame" method="POST">
+                Id do animal: <input type="text" name="id_animal" required> <br>
+                Prontuário do Veterinário: <input type="text" name="vet_prontuario" required><br>
+                Observações: <input type="text" name="observacoes" required><br>
+                <br>
+                <button type="submit">Cadastrar exame</button>
+    </form><br>
+
+    <form action="/veterinario/logout" method="POST">
+        <button type="submit">Logout</button>
+    </form>
+</body>
+</html>

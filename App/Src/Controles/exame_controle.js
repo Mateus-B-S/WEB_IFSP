@@ -3,8 +3,8 @@ const exameModelo = require('../Modelos/exame_medico');
 //funções que só admins e veterinarios podem acessar 
 
 const criarExame = (req, res) => {
-    const { id_animal, vet_prontuario, data_exame, observacoes} = req.body;
-    const novoExame = exameModelo.criarExameMedico(id_animal, vet_prontuario, data_exame, observacoes);
+    const { id_animal, vet_prontuario, observacoes} = req.body;
+    const novoExame = exameModelo.criarExameMedico(id_animal, vet_prontuario, observacoes);
     if (novoExame) {
         res.status(201).json(novoExame);
     }

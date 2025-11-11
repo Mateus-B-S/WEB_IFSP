@@ -9,7 +9,7 @@ router.get('/listar', permitidos('admin', 'veterinario'), exameControle.listarEx
 router.get('/listarporvet', permitidos('admin', 'veterinario'), exameControle.listarExamesPorVet);
 
 // Rotas para administração de exames médicos
-router.post('/criarExame', permitidos('admin'), exameControle.criarExame);
+router.post('/criarExame', permitidos('admin', 'veterinario'), exameControle.criarExame);
 router.post('/listarPorVet', permitidos('admin'), exameControle.listarExamesPorVet);
 
 module.exports = router;

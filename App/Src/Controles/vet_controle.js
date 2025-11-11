@@ -1,12 +1,14 @@
 const modeloAutor = require('../Modelos/vet_modelo');
+const exameModelo = require('../Modelos/exame_medico');
 
 
 const loginVet = (req, res) => {
     const { prontuario, senha } = req.body;
     const vet = modeloAutor.vets.find(v => v.prontuario === prontuario && v.senha === senha);
+    const examesVet = exameModelo.getExamesporVet(prontuario);
     if (vet) {
         req.session.user = { tipo_conta: 'veterinario', id_vet: vet.id }; // grava sessão
-        res.render("Perfil/veterinario", { nome: vet.nome });
+        res.render("Perfil/veterinario", { nome: vet.nome, exames: examesVet });
         //mandar para ejs do perfil do veterinario
     }
     else {

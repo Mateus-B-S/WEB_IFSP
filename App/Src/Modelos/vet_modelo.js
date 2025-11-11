@@ -1,10 +1,11 @@
+const { get } = require("../app");
+
 let vets = [
     { id:1 , prontuario: "JC0001" ,nome: "Dora Aventureira", formacao: "Animais de grande porte", senha: "MAPA"}
 ];
 
 const getTodosvets = () => vets;
-
-
+const getProntuarioVet = (prontuario) => vets.find(a => a.prontuario === prontuario);
 const getvetsId = (id) => vets.find(a => a.id === id);
 
 
@@ -43,6 +44,7 @@ const deleteVet = (id) => {
 
 module.exports = {
  vets,
+ getProntuarioVet,
  getTodosvets,
  getvetsId,
  criarvet,
