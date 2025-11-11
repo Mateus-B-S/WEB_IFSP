@@ -1,3 +1,4 @@
+
 let vets = [
     { id:1 , prontuario: "JC0001" ,nome: "Dora Aventureira", formacao: "Animais de grande porte", senha: "MAPA"}
 ];
@@ -49,3 +50,34 @@ module.exports = {
  mudarVet,
  deleteVet
 };
+
+//const { DataTypes } = require('sequelize');
+//const sequelize = require('../config/db');
+
+//const veterinario = sequelize.define('veterinario', {
+  //id: {
+    //type: DataTypes.INTEGER,
+    //primaryKey: true,
+    //autoIncrement: true
+  //},
+  //nome: {
+    //type: DataTypes.STRING,
+   // allowNull: false
+
+  //}
+  //formacao: {
+   // type: DataTypes.STRING,
+   // allowNull: false
+  //}
+  //prontuario: {
+    //type: DataTypes.STRING
+    //defaultValue: false
+  //}
+
+
+//}, {
+ // tableName: 'veterinarios',
+  //timestamps: false
+//});
+
+//module.exports = veterinario;
