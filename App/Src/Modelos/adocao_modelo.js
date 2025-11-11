@@ -54,3 +54,38 @@ module.exports = {
     criarAdocao,
     todasAdocoesdeumResponsavel
 };
+
+
+
+//const { DataTypes } = require('sequelize');
+//const sequelize = require('../config/db');
+//const animal = require('./animal');
+//const responsavel = require('./responsavel')
+
+
+//const adocao = sequelize.define('adocoes', {
+  //id: {
+    //type: DataTypes.INTEGER,
+    //primaryKey: true,
+    //autoIncrement: true
+ // },
+  //data_adocao: {
+    //type: DataTypes.DATEONLY,
+    //allowNull: false
+ // }
+
+
+//}, {
+  //tableName: 'adocoes',
+  //timestamps: false
+//});
+
+//module.exports = adocao;
+
+//Animal.hasOne(Adocao, { foreignKey: 'animal_id' });
+//Adocao.belongsTo(Animal, { foreignKey: 'animal_id' });
+
+//Responsavel.hasMany(Adocao, { foreignKey: 'responsavel_id' });
+//Adocao.belongsTo(Responsavel, { foreignKey: 'responsavel_id' });
+
+//a função é essa, mas não sei bem o que fazer com o resto vei
