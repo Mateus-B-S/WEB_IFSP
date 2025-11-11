@@ -20,6 +20,6 @@ router.put('/editarVet', permitidos('admin'), vetControle.editarVet);
 router.delete('/deletarVet', permitidos('admin'), vetControle.deletarVet);
 
 //logout
-router.get('/logout', vetControle.logoutVet);
+router.post('/logout', vetControle.logoutVet);
 
 module.exports = router;

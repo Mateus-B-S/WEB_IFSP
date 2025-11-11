@@ -6,12 +6,14 @@ const listarAdocoes = (req, res) => {
 };
 
 const criarAdocao = (req, res) => {
-    const { animal_id, responsavel_nome, data_adocao } = req.body;
-    const novaAdocao = adocaoModelo.criarAdocao(animal_id, responsavel_nome, data_adocao);
-    if (!novaAdocao) {
+    const { animal_id, responsavel_nome } = req.body;
+    const novaAdocao = adocaoModelo.criarAdocao(Number(animal_id), String(responsavel_nome));
+    if (novaAdocao === null) {
         res.status(400).json({ mensagem: "Erro ao criar adoção. Responsável ou animal não registrados" });
     }
-    res.status(201).json(novaAdocao);   
+    else {
+        return res.render('Confirmacao/adocao', { adocao: novaAdocao, emailResponsavel: req.session.user.email , senhaResponsavel: req.session.user.senha } );
+    }    
 };
 
 

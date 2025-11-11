@@ -5,7 +5,8 @@ const permitidos = require(path.join(__dirname, '../Segurança/autorizacao'));
 const adocaoControle = require('../Controles/adocao_controle');
 
 
-router.post('/listarPorResponsavel', adocaoControle.listarAdocoesPorResponsavel);
+router.post('/listarPorResponsavel',permitidos('admin', 'veterinario'),adocaoControle.listarAdocoesPorResponsavel);
+router.post('/adotarAnimal', adocaoControle.criarAdocao);
 
 
 

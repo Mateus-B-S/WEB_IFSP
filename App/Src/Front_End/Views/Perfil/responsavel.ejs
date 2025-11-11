@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head><title>Exemplo Sessão</title></head>
+<body>
+ <h1>Olá, <%= nome %>!</h1>
+    <h2>Seus Animais:</h2>
+    <ul>
+        <% animaisResponsavel.forEach(function(animal) { %>
+            <li><%= animal.animal_nome %> 
+                - <%= animal.animal_raça %> 
+                - <%= animal.data_adocao %> </li>
+        <% }); %>
+    </ul> <br>
+    <h2>Animais para adoção: </h2> <br>
+    <ul>
+        <% animaisAdocao.forEach(function(animal) { %>
+            <li>ID: <%= animal.id %>,
+                Nome: <%= animal.nome %>, 
+                Raça: <%= animal.raça %>, 
+                Tipo: <%= animal.tipo %>, <br>
+                Adotar: <form action="/adocao/adotarAnimal" method="POST" style="display:inline;">
+                            <input type="hidden" name="animal_id" value= "<%= animal.id %>">
+                            <input type="hidden" name="responsavel_nome" value= "<%= nome %>">
+                            <button type="submit">Adotar</button>
+                        </form>
+            </li>
+        <% }); %>
+    </ul> <br>
+    <form action="/responsavel/logout" method="POST">
+        <button type="submit">Logout</button>
+    </form>
+    <script src="/Scripts/adocoes.js"></script>
+</body>
+</html>

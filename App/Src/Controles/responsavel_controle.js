@@ -1,12 +1,19 @@
 const respModelo = require('../Modelos/responsavel_modelo');
+const animalModelo = require('../Modelos/animal_modelo');
+const adocaoModelo = require('../Modelos/adocao_modelo');
 const path = require('path');
 
 const loginResponsavel = (req, res) => {
     const { email, senha } = req.body;
     const responsavel = respModelo.responsaveis.find(r => r.email === email && r.senha === senha);
+    const animaisDisponiveis = animalModelo.animaisdisponiveis();
+    const adocoesResponsavel = adocaoModelo.todasAdocoesdeumResponsavel(responsavel.nome);
     if (responsavel) {
-        req.session.user = { tipo_conta: 'responsavel', id_responsavel: responsavel.id }; // grava sessão
-        res.render("Perfil/responsavel", { nome: responsavel.nome });
+        req.session.user = { tipo_conta: 'responsavel', id_responsavel: responsavel.id, email: email, senha: senha}; // grava sessão
+        res.render('Perfil/responsavel', { nome: responsavel.nome ,
+            animaisAdocao: animaisDisponiveis,
+            animaisResponsavel: adocoesResponsavel
+        }) ;
         //mandar para ejs do perfil do responsavel
     } else {
         res.status(401).json({ mensagem: "email ou senha inválidos." });

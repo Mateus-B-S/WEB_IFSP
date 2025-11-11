@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Configurando EJS como motor de visualização
 app.set("view engine", "ejs");
-app.set("views", __dirname + "/Front_End");
+app.set("views", __dirname + "/Front_End/Views");
 
 app.use('Scripts', express.static(path.join(__dirname, 'Front_End/Publico/Scripts')));
 const rotaInicial = require('./Rotas/rota_inicial');

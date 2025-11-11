@@ -1,6 +1,6 @@
 let animais = [
-    { id:1 , nome: "Rex", raça: "Cachorro", tipo: "doméstico", adotado: 0},
-    { id:2 , nome: "miau", raça: "Gato", tipo: "doméstico", adotado: 1},
+    { id:1 , nome: "Rex", raça: "Cachorro", tipo: "doméstico", adotado: 1},
+    { id:2 , nome: "miau", raça: "Gato", tipo: "doméstico", adotado: 0},
     { id:3 , nome: "Nemo", raça: "Peixe", tipo: "aquático", adotado: 0}
 ];
 

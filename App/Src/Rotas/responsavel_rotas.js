@@ -17,6 +17,6 @@ router.put('/editar', responsavelControle.editarResponsavel);
 router.post('/responsavelPorId', permitidos('admin'), responsavelControle.getResponsavelPorId);
 
 //logout
-router.get('/logout', responsavelControle.logoutResp);
+router.post('/logout', responsavelControle.logoutResp);
 
 module.exports = router;

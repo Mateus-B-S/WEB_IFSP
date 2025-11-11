@@ -46,7 +46,7 @@
             <% responsaveis.forEach(function(responsavel) { %>
                 <li>ID: <%= responsavel.id %>, 
                     Nome: <%= responsavel.nome %>, 
-                    Email: <%= responsavel.email %>,
+                    Email: <%= responsavel.email %>
             <% }); %>
             </ul>
 
@@ -61,7 +61,8 @@
             <ul>
             <% adocoes.forEach(function(adocao) { %>
                 <li>Nome do responsável: <%= adocao.responsavel_nome %>,
-                    ID do Animal: <%= adocao.animal_id %>, 
+                    ID do Animal: <%= adocao.animal_id %>,
+                    Nome do Animal: <%= adocao.animal_nome %>, 
                     Data da Adoção: <%= adocao.data_adocao %>
                 </li>
             <% }); %>
