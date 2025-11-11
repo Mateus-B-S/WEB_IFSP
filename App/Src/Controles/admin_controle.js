@@ -6,7 +6,7 @@ const vetModelo = require('../Modelos/vet_modelo');
 const adocaoModelo = require('../Modelos/adocao_modelo');
 //const path = require('path');
 
-const loginAdmin = (req, res) => {
+const loginAdmin =  async (req, res) => {
     const { senha } = req.body;
     const listaAnimais = animalModelo.getTodosAnimais();
     const listaResponsaveis = respModelo.getTodosResponsaveis();
@@ -14,7 +14,8 @@ const loginAdmin = (req, res) => {
     const listaExames = exameModelo.getTodosExames();
     const listaAdocoes = adocaoModelo.getTodasAdocoes();
     if (senha && senha === admin.senha) {
-        req.session.user = { tipo_conta: 'admin' }; // grava sessão
+        req.session.user = { tipo_conta: 'admin' }; 
+        // grava sessão
         res.render("Perfil/admin", { animais: listaAnimais, 
             responsaveis: listaResponsaveis, 
             veterinarios: listaVeterinarios, 

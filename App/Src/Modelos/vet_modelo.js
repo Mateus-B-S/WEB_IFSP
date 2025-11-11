@@ -1,5 +1,3 @@
-const { get } = require("../app");
-
 let vets = [
     { id:1 , prontuario: "JC0001" ,nome: "Dora Aventureira", formacao: "Animais de grande porte", senha: "MAPA"}
 ];

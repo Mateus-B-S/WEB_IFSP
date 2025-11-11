@@ -23,7 +23,7 @@ const criarAdocao = (animal_id, responsavel_nome) => {
             animal_nome: animal.getAnimalId(id).nome,
             animal_raça: animal.getAnimalId(id).raça,
             responsavel_nome: nomeResp,
-            data_adocao: new Date().toISOString().split('T')[0],
+            data_adocao: new Date().toISOString().split('T')[0], // "["2025-11-11", "15:01:30"]"
             adotado: 1 // sempre que uma adoção é criada, o animal é marcado como adotado
         };
 

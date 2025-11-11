@@ -9,11 +9,13 @@ Trabalho de Web do 2 Semestre de 2025 - IFSP, campus Jacareí - 2 ano INFO
                    - Estrutura MVC completa: Mateus B. 
                    - Integração com Banco de Dados: Isabelle N.
                    - Sistema de segurança e 'sessions': Luis Felipe D.
-                   - Estilização das views por Frameworks (Bootstrap): Luis G. Moraes
-                   
+                   - Estilização das views por Frameworks (Bootstrap): Luis G. Moraes            
        4. Para usar o banco de dados: 
                    - Tenha o MySQL instalado no seu computador 
                    - Crie o Banco de dados com o nome no documento "/Banco_dados/integer.js"
                    - coloque sua senha dentro desse arquivo ou use a senha padrão
                    - Está tudo pronto!
+       5. Para confirmar a criação de uma nova entidade (Seja Animal, Responsável, Veterinário etc.)
+                   - Saia da área de edição do bloco de formulário
+                   - Caso necessário, atualize a página (Estamos tentando arrumar isso)
 -----------------------------------------------------------------------------------------------

@@ -1,7 +1,4 @@
 const vetControle = require('../Controles/vet_controle');
-//veterinario pode mexer nos exames e ver os animais
-const animalControle = require('../Controles/animal_controle');
-const examecontrole = require('../Controles/exame_controle');
 
 const express = require('express');
 const router = express.Router();
