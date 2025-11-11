@@ -1,0 +1,76 @@
+Criptografia:
+
+const bcrypt = require('bcrypt');
+// Quando o usuário se cadastra
+app.post('/cadastro', async (req, res) => {
+ const { email, senha } = req.body;
+
+ // Criptografa a senha antes de salvar
+ const senhaCriptografada = await bcrypt.hash(senha, 10);
+
+ // Salva no banco de dados
+ await usuariosmodel.inserir({
+ email: email,
+ senha: senhaCriptografada
+ });
+
+ res.send('Usuário cadastrado com sucesso!');
+});
+
+// Quando o usuário faz login
+app.post('/login', async (req, res) => {
+ const { email, senha } = req.body;
+ // Busca o usuário no banco
+ const usuario = await db.usuarios.buscarPorEmail(email);
+ if (!usuario) {
+ return res.status(401).send('Usuário não encontrado');
+ }
+ // Compara a senha digitada com o hash do banco
+ const senhaValida = await bcrypt.compare(senha, usuario.senha);
+ if (senhaValida) {
+ req.session.userId = usuario.id;
+ res.send('Login realizado com sucesso!');
+ } else {
+ res.status(401).send('Senha incorreta');
+ }
+});
+
+Sessions: 
+
+<!DOCTYPE html>
+<html>
+<head><title>Exemplo Sessão</title></head>
+<body>
+ <% if (nome) { %>
+ <h1>Olá, <%= nome %>!</h1>
+ <a href="/logout">Sair</a>
+ <% } else { %>
+ <h1>Você não está logado.</h1>
+ <a href="/login">Entrar</a>
+ <% } %>
+</body>
+</html>
+
+const session = require('express-session');
+const express = require('express');
+const session = require('express-session');
+const app = express();
+app.set('view engine', 'ejs');
+// Configurando o uso de sessões
+app.use(session({
+ secret: 'chave-secreta-bem-dificil', // usada para assinar o ID da sessão
+ resave: false,
+ saveUninitialized: true,
+ cookie: { maxAge: 60000 } // duração da sessão (1 min)
+}));
+// Login (simples)
+app.get('/login', (req, res) => {
+ req.session.nome = 'Luís'; // simulando login
+ res.redirect('/');
+});
+// Logout
+app.get('/logout', (req, res) => {
+ req.session.destroy((err) => {
+ res.redirect('/');
+ });
+});
