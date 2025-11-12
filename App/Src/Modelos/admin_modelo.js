@@ -1,11 +1,9 @@
-//const Admin = {senha: "123456789"};
-
-
+const Admin = {senha: "123456789"};
 
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const sequelize = require('../Banco_dados/connection');
 
-const Admin = sequelize.define('admin', {
+/*const Admin = sequelize.define('admin', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -19,6 +17,6 @@ const Admin = sequelize.define('admin', {
 }, {
   tableName: 'admins',
   timestamps: false
-});
+});*/
 
-module.exports = admin;
+module.exports = Admin;

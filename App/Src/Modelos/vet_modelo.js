@@ -52,7 +52,7 @@ module.exports = {
 };
 
 //const { DataTypes } = require('sequelize');
-//const sequelize = require('../config/db');
+//const sequelize = require('../Banco_dados/connection');
 
 //const veterinario = sequelize.define('veterinario', {
   //id: {
