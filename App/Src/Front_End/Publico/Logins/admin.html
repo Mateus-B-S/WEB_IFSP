@@ -18,8 +18,10 @@
             <h3 class="mb-5">Login de Administrador</h3>
 
             <div data-mdb-input-init class="form-outline mb-4">
-              <input type="email" id="typeEmailX-2" class="form-control form-control-lg" />
+              <form action="/admin/" method="POST">
               <label class="form-label" for="typeEmailX-2">Senha</label>
+              <input type="password" id="typeEmailX-2" class="form-control form-control-lg" name="senha" />
+              <button class="btn btn-primary btn-sm btn-block" type="submit">Login</button>
             </div>
             
 
