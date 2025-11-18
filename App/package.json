@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Mateus-B-S/WEB_IFSP#readme",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "bootstrap": "^5.3.8",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "express-session": "^1.18.2",
