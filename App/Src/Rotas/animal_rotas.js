@@ -5,7 +5,6 @@ const permitidos = require(path.join(__dirname, '../Segurança/autorizacao'));
 const animalControle = require('../Controles/animal_controle');
 
 router.get('/animais_disponiveis', animalControle.animaisdisponiveis);
-router.get('/buscar_animal_por_id', animalControle.getAnimalPorId);
 
 //rotas para animais (editar e criar) veterinario
 router.post('/criar',permitidos('veterinario'),  animalControle.criarAnimal);

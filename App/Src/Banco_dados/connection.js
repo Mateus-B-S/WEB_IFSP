@@ -1,10 +1,12 @@
-const { Sequelize } = require('sequelize');
-const sequelize = new Sequelize('projetolegal', 'root', 'aluno123', 
+const  Sequelize  = require('sequelize');
+const sequelize = new Sequelize('projetolegal', 'root', 'Aluno123', 
 {
  host: 'localhost',
  dialect: 'mysql'
-});
+})
+
 sequelize.authenticate()
  .then(() => console.log('Conectado ao MySQL com Sequelize!'))
  .catch(err => console.error('Erro ao conectar:', err));
+
 module.exports = sequelize;

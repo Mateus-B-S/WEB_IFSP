@@ -28,17 +28,21 @@
             <button type="submit">Cadastrar novo</button>
         </form><br>
 
+        <h4>Editar animal</h4>
         <form action="/animal/editarAnimal" method="PUT">
-            <input type="text" id="id_animal" name="id_animal" required>
-            
-            <button type="submit">Editar (não mexer ainda) </button>
+            id do animal:<input type="text" id="id_animal" name="animal_id" required>
+            <button type="submit">Editar</button>
         </form><br>
 
+
+       <% const INITIAL_ANIMAIS = JSON.stringify(animais) %>
         <form action="/animal/buscarPorId" method="GET">
             Id do animal: <input type="number" id="id_animal" name="id" required>
             
             <button type="submit">Buscar por ID</button>
         </form><br>
+        <input id="search-name" placeholder="Pesquisar nome...">
+        <div id="animais-list"></div>
 
     <h2>Responsáveis: </h2>
             <h3>listar todos reponsaveis</h3>

@@ -3,7 +3,12 @@ const Admin = {senha: "123456789"};
 const { DataTypes } = require('sequelize');
 const sequelize = require('../Banco_dados/connection');
 
-/*const Admin = sequelize.define('admin', {
+/*
+const Sequelize = require("sequelize")
+const db = require("../config/bd_SEQUELIZE")
+const cripto = require("bcrypt")
+
+const Admin = Sequelize.define('admin', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,

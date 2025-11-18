@@ -1,91 +1,79 @@
-const animal = require('./animal_modelo');
-const responsavel = require('./responsavel_modelo');
-
-let adocao = [
-    { animal_id: 1, animal_nome: animal.getAnimalId(1).nome, animal_raça: animal.getAnimalId(1).raça , responsavel_nome: "Aninha", data_adocao: "2023-10-01", adotado: 1}
-];
-
-const getTodasAdocoes = () => adocao;
-
-
-const criarAdocao = (animal_id, responsavel_nome) => {
-
-    // verifica se o animal e o responsavel existem e se o animal ainda está disponível
-    const id = Number(animal_id);
-    const nomeResp = String(responsavel_nome);
-
-    const animalObj = animal.animais.find(a => a.id === id && a.adotado === 0);
-    const responsavelObj = responsavel.responsaveis.find(r => r.nome === nomeResp);
-
-    if (animalObj && responsavelObj) {
-        const newAdocao = {
-            animal_id: id,
-            animal_nome: animal.getAnimalId(id).nome,
-            animal_raça: animal.getAnimalId(id).raça,
-            responsavel_nome: nomeResp,
-            data_adocao: new Date().toISOString().split('T')[0], // "["2025-11-11", "15:01:30"]"
-            adotado: 1 // sempre que uma adoção é criada, o animal é marcado como adotado
-        };
-
-        adocao.push(newAdocao);
-        // atualizar o animal no modelo para refletir que foi adotado
-        if (typeof animal.mudarAnimal === 'function') {
-            animal.mudarAnimal(id, undefined, undefined, undefined, 1);
-        } else {
-            // fallback: alterar diretamente
-            const a = animal.getAnimalId(id);
-            if (a) a.adotado = 1;
+const  DataTypes  = require('sequelize');
+const sequelize = require('../Banco_dados/connection');
+const animais = require('./animal_modelo');
+const responsaveis = require('./responsavel_modelo')
+const adocao = sequelize.define('adocoes', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+     },
+    data_adocao: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
+    animal_id: {
+        type: DataTypes.INTEGER,
+        references: { 
+            model: animais,
+            key: 'id'
         }
+    },
+    animal_nome: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        references: {
+            model: animais,
+            key: 'nome'
+        }
+    },
+    animal_raça: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        references: {
+            model: animais,
+            key: 'raça'
+        }
+    },
+    responsavel_id: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: responsaveis,
+            key: 'id'
+        }
+    }, 
+    
+});
 
-        return newAdocao;
-    }
+/*
+animal.hasOne(adocao, { foreignKey: 'animal_id' });
+adocao.belongsTo(animal, { foreignKey: 'animal_id' });
 
-    return null;
-};
+responsavel.hasMany(adocao, { foreignKey: 'responsavel_id' });
+adocao.belongsTo(responsavel, { foreignKey: 'responsavel_id' });
+*/
+
+//sequelize.
+adocao.sync();
+const getTodasAdocoes = () => adocao.findAll();
+
+const criarAdocao = (dados) => adocao.create(dados);
 
 const todasAdocoesdeumResponsavel = (responsavel_nome) => {
-    return adocao.filter(a => a.responsavel_nome === responsavel_nome);
+    return adocao.findAll({ where: { responsavel_nome: responsavel_nome } });
 };
 
+const atualizarAdocao = async(id, dados) => {
+    await adocao.update(dados, { where: { id: id } });
+};
+const deleteAdocao = async(id) => {
+  await adocao.destroy({ where: { id: id } });
+};
 module.exports = {
-    animal,
     adocao,
     getTodasAdocoes,
     criarAdocao,
-    todasAdocoesdeumResponsavel
+    todasAdocoesdeumResponsavel,
+    atualizarAdocao,
+    deleteAdocao
 };
-
-
-
-//const { DataTypes } = require('sequelize');
-//const sequelize = require('../Banco_dados/connection');
-//const animal = require('./animal');
-//const responsavel = require('./responsavel')
-
-
-//const adocao = sequelize.define('adocoes', {
-  //id: {
-    //type: DataTypes.INTEGER,
-    //primaryKey: true,
-    //autoIncrement: true
- // },
-  //data_adocao: {
-    //type: DataTypes.DATEONLY,
-    //allowNull: false
- // }
-
-
-//}, {
-  //tableName: 'adocoes',
-  //timestamps: false
-//});
-
-//module.exports = adocao;
-
-//Animal.hasOne(Adocao, { foreignKey: 'animal_id' });
-//Adocao.belongsTo(Animal, { foreignKey: 'animal_id' });
-
-//Responsavel.hasMany(Adocao, { foreignKey: 'responsavel_id' });
-//Adocao.belongsTo(Responsavel, { foreignKey: 'responsavel_id' });
-
-//a função é essa, mas não sei bem o que fazer com o resto vei
