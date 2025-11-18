@@ -45,7 +45,4 @@ CREATE TABLE IF NOT EXISTS adocoes (
     FOREIGN KEY (responsavel_id) REFERENCES responsaveis(id)
 );
 
-insert into responsaveis (nome, email)
-values ('luis xuxu', 'luisfofinho@gmail.com');
-
 select * from responsaveis;
