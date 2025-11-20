@@ -4,128 +4,224 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin_perfil</title>
+    <style>
+        .accordion {
+            background-color: #eee;
+            color: #444;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 18px;
+            transition: 0.4s;
+            margin-top: 10px;
+        }
+        .active, .accordion:hover {
+            background-color: #ccc;
+        }
+        .panel {
+            padding: 0 18px;
+            display: none;
+            background-color: white;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body>
     <h1>Perfil do admin!!!</h1>
 
-    <h2>Animais: </h2>
 
+    <button class="accordion">Animais</button>
+    <div class="panel">
+        <form action="/animal/buscarPorId" method="GET">
+            Id do animal: <input type="number" id="id_animal" name="id" required>
+            <button type="submit">Buscar por ID</button>
+        </form><br>
         <h3>Lista de animais cadastrados:</h3>
-        <ul>
-            <% animais.forEach(function(animal) { %>
-                <li>ID: <%= animal.id %>,
-                    Nome: <%= animal.nome %>, 
-                    Raça: <%= animal.raça %>, 
-                    Tipo: <%= animal.tipo %></li>
-            <% }); %>   
-        </ul>
+        <table border="1" style="border-collapse:collapse;width:100%;text-align:left;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Raça</th>
+                    <th>Tipo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% animais.forEach(function(animal) { %>
+                <tr>
+                    <td><%= animal.id %></td>
+                    <td><%= animal.nome %></td>
+                    <td><%= animal.raça %></td>
+                    <td><%= animal.tipo %></td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
 
         <form action="/animal/adicionarAnimal" method="POST">
             Nome: <input type="text" name="nome"><br>
             Raça: <input type="text" name="raca"><br>
             Tipo: <input type="text" name="tipo"><br>
-            
             <button type="submit">Cadastrar novo</button>
         </form><br>
 
         <form action="/animal/editarAnimal" method="PUT">
             <input type="text" id="id_animal" name="id_animal" required>
-            
             <button type="submit">Editar (não mexer ainda) </button>
         </form><br>
+    </div>
 
-        <form action="/animal/buscarPorId" method="GET">
-            Id do animal: <input type="number" id="id_animal" name="id" required>
-            
+
+    <button class="accordion">Responsáveis</button>
+    <div class="panel">
+        <h3>Listar todos responsáveis</h3>
+        <form action="/responsavel/responsavelPorId" method="POST">
+            Id do responsável: <input type="text" id="id_responsavel" name="id_responsavel" required>
             <button type="submit">Buscar por ID</button>
         </form><br>
+        <table border="1" style="border-collapse:collapse;width:100%;text-align:left;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% responsaveis.forEach(function(responsavel) { %>
+                <tr>
+                    <td><%= responsavel.id %></td>
+                    <td><%= responsavel.nome %></td>
+                    <td><%= responsavel.email %></td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
 
-    <h2>Responsáveis: </h2>
-            <h3>listar todos reponsaveis</h3>
-            <ul>
-            <% responsaveis.forEach(function(responsavel) { %>
-                <li>ID: <%= responsavel.id %>, 
-                    Nome: <%= responsavel.nome %>, 
-                    Email: <%= responsavel.email %>
-            <% }); %>
-            </ul>
 
-            <form action="/responsavel/responsavelPorId" method="POST">
-                Id do responsável: <input type="text" id="id_responsavel" name="id_responsavel" required>
-                
-                <button type="submit">Buscar por ID</button>
-            </form><br>
+    <button class="accordion">Adoções</button>
+    <div class="panel">
+        <h3>Listar todas as adoções</h3>
+        <form action="/adocao/listarPorResponsavel" method="POST">
+            Nome do responsável: <input type="text" name="responsavel_nome" required>
+            <button type="submit">Listar adoções por responsável</button>
+        </form><br>
+        <table border="1" style="border-collapse:collapse;width:100%;text-align:left;">
+            <thead>
+                <tr>
+                    <th>Responsável</th>
+                    <th>ID do Animal</th>
+                    <th>Nome do Animal</th>
+                    <th>Data da Adoção</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% adocoes.forEach(function(adocao) { %>
+                <tr>
+                    <td><%= adocao.responsavel_nome %></td>
+                    <td><%= adocao.animal_id %></td>
+                    <td><%= adocao.animal_nome %></td>
+                    <td><%= adocao.data_adocao %></td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
 
-    <h2>    Adoções:</h2>
-            <h3>listar todas as adoções</h3>
-            <ul>
-            <% adocoes.forEach(function(adocao) { %>
-                <li>Nome do responsável: <%= adocao.responsavel_nome %>,
-                    ID do Animal: <%= adocao.animal_id %>,
-                    Nome do Animal: <%= adocao.animal_nome %>, 
-                    Data da Adoção: <%= adocao.data_adocao %>
-                </li>
-            <% }); %>
-            </ul>
 
-            <form action="/adocao/listarPorResponsavel" method="POST">
-                Nome do responsável: <input type="text" name="responsavel_nome" required>
-                <button type="submit">Listar adoções por responsável</button>
-            </form><br>
+    <button class="accordion">Veterinários</button>
+    <div class="panel">
+        <h3>Listar todos os veterinários</h3>
+        <table border="1" style="border-collapse:collapse;width:100%;text-align:left;">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Prontuário</th>
+                    <th>Formação</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% veterinarios.forEach(function(vet) { %>
+                <tr>
+                    <td><%= vet.nome %></td>
+                    <td><%= vet.prontuario %></td>
+                    <td><%= vet.formacao %></td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
 
-    <h2>Veterinários: </h2>
-            <h3>listar todos os veterinários</h3>
-            <ul>
-            <% veterinarios.forEach(function(vet) { %>
-                <li>Nome: <%= vet.nome %>,
-                    Prontuário: <%= vet.prontuario %>, 
-                    Formação: <%= vet.formacao %>
-                </li>
-            <% }); %>
-            </ul>
-            
+        <form action="/veterinario/criarVet" method="POST">
+            Nome: <input type="text" name="nome" required><br>
+            Prontuário: <input type="text" name="prontuario" required><br>
+            Formação: <input type="text" name="formacao" required><br>
+            <button type="submit">Cadastrar novo</button>
+        </form><br>
 
-            <form action="/veterinario/criarVet" method="POST">
-                Nome: <input type="text" name="nome" required><br>
-                Prontuário: <input type="text" name="prontuario" required><br>
-                Formação: <input type="text" name="formacao" required><br>
-                
-                <button type="submit">Cadastrar novo</button>
-            </form><br>
+        <h3>não vou fazer put e delete ainda, mas tá pronto</h3>
+    </div>
 
-            <h3>não vou fazer put e delete ainda, mas tá pronto</h3>
 
-    <h2>    Exames:</h2>
-            <h3>listar todos os exames</h3>
-            <ul>
-                
-            <% exames.forEach(function(exame) { %>
-                <li>ID do Animal: <%= exame.id_animal %>,
-                    Prontuário do Veterinário: <%= exame.vet_prontuario %>, 
-                    Data do Exame: <%= exame.data_exame %>,
-                    Resultados: <%= exame.observacoes %>
-                </li>
-            <% }); %>
-            </ul>
-            
+    <button class="accordion">Exames</button>
+    <div class="panel">
+        <h3>Listar todos os exames</h3>
+        <table border="1" style="border-collapse:collapse;width:100%;text-align:left;">
+            <thead>
+                <tr>
+                    <th>ID do Animal</th>
+                    <th>Prontuário do Veterinário</th>
+                    <th>Data do Exame</th>
+                    <th>Resultados</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% exames.forEach(function(exame) { %>
+                <tr>
+                    <td><%= exame.id_animal %></td>
+                    <td><%= exame.vet_prontuario %></td>
+                    <td><%= exame.data_exame %></td>
+                    <td><%= exame.observacoes %></td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
 
-            <form action="/exame/criarExame" method="POST">
-                Id do animal: <input type="text" name="id_animal" required> <br>
-                Prontuário do Veterinário: <input type="text" name="vet_prontuario" required><br>
-                Resultados: <input type="text" name="resultados" required><br>
-                <br>
-                <button type="submit">Cadastrar exame</button>
-            </form><br>
-            
-            <form action="/exame/listarPorVet" method="POST">
-                Id do veterinário: <input type="text" name="vet_prontuario" required>
-                
-                <button type="submit">Listar exames por veterinário</button>
-            </form><br>
+        <form action="/exame/criarExame" method="POST">
+            Id do animal: <input type="text" name="id_animal" required> <br>
+            Prontuário do Veterinário: <input type="text" name="vet_prontuario" required><br>
+            Resultados: <input type="text" name="resultados" required><br>
+            <br>
+            <button type="submit">Cadastrar exame</button>
+        </form><br>
+
+        <form action="/exame/listarPorVet" method="POST">
+            Id do veterinário: <input type="text" name="vet_prontuario" required>
+            <button type="submit">Listar exames por veterinário</button>
+        </form><br>
+    </div>
 
             <form action="/admin/logout" method="GET">
                 <button type="submit">Logout</button>
             </form>
 
-    </body>
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+        for (var i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                }
+            });
+        }
+    </script>
+
+</body>
 </html>
