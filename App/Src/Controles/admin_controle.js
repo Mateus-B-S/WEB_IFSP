@@ -7,9 +7,6 @@ const adocaoModelo = require('../Modelos/adocao_modelo');
 //const path = require('path');
 
 const loginAdmin =  async (req, res) => {
-    // debug: ver o que está chegando
-    console.log('DEBUG loginAdmin - req.body:', req.body);
-    console.log('DEBUG loginAdmin - admin.senha:', admin && admin.senha);
     const { senha } = req.body || {};
     const listaAnimais = animalModelo.getTodosAnimais();
     const listaResponsaveis = respModelo.getTodosResponsaveis();
@@ -17,7 +14,7 @@ const loginAdmin =  async (req, res) => {
     const listaExames = exameModelo.getTodosExames();
     const listaAdocoes = adocaoModelo.getTodasAdocoes();
     if (senha && senha === admin.senha) {
-        req.session.user = { tipo_conta: 'admin' }; 
+        req.session.user = { tipo_conta: 'admin', adminSenha: admin.senha }; 
         // grava sessão
         res.render("Perfil/admin", { animais: listaAnimais, 
             responsaveis: listaResponsaveis, 

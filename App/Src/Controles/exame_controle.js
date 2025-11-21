@@ -1,6 +1,5 @@
 const exameModelo = require('../Modelos/exame_medico');
-
-//funções que só admins e veterinarios podem acessar 
+const vetModelo = require('../Modelos/vet_modelo');
 
 const criarExame = (req, res) => {
     const { id_animal, vet_prontuario, observacoes} = req.body;
@@ -21,7 +20,8 @@ const listarExames = (req, res) => {
 const listarExamesPorVet = (req, res) => {
     const { vet_prontuario } = req.body;
     const exames = exameModelo.getExamesporVet(vet_prontuario);
-    res.status(200).json(exames);
+    const nomeVet = vetModelo.getProntuarioVet(vet_prontuario).nome;
+    res.render('Avisos/examesPorVet', { exames: exames, prontuarioVet: vet_prontuario, nomeVet: nomeVet, adminSenha: req.session.user.adminSenha });
 };
 
 module.exports = {

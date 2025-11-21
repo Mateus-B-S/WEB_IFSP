@@ -14,9 +14,10 @@ const animaisdisponiveis = (req, res) => {
 //depois mudar para busca por tipo do animal
 const getAnimalPorId = (req, res) => {
     const  id  = req.query.id;
+    const adminSenha = req.session.user ? req.session.user.adminSenha : null;
     const animal = animalModelo.getAnimalId(parseInt(id));
     if (animal) {
-        res.json(animal);
+        res.render('Avisos/animalId', { animal: animal, adminSenha: adminSenha});
     } else {
         res.status(404).json({ mensagem: "Animal não encontrado." });
     }

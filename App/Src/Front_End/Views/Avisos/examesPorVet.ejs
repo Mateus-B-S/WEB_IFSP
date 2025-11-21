@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <h1>Todos os exames do(a) Doutor(a): <strong><%= nomeVet%></strong></h1>
+    <table border="1" style="border-collapse:collapse;width:50%;text-align:center;">
+            <thead>
+                <tr>
+                    <th>Prontuario</th>
+                    <th>ID do animal</th>
+                    <th>Data do Exame</th>
+                    <th>Observações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% exames.forEach(function(exame) { %>
+                <tr>
+                    <td><%= exame.vet_prontuario %></td>
+                    <td><%= exame.animal_id %></td>
+                    <td><%= exame.data_exame %></td>
+                    <td><%= exame.Observações %></td>
+                </tr>
+            </tbody>
+        </table>
+    <form action="/admin/" method="POST">
+        <input type="hidden" name="senha" value="<%= adminSenha %>">
+        <button type="submit">Voltar ao perfil</button>
+    </form>
+</body>
+</html>

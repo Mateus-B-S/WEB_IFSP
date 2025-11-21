@@ -47,6 +47,7 @@
                     <th>Nome</th>
                     <th>Raça</th>
                     <th>Tipo</th>
+                    <th>Adotado</th>
                 </tr>
             </thead>
             <tbody>
@@ -56,6 +57,7 @@
                     <td><%= animal.nome %></td>
                     <td><%= animal.raça %></td>
                     <td><%= animal.tipo %></td>
+                    <td><%= animal.adotado ? 'Sim' : 'Não' %></td>
                 </tr>
                 <% }); %>
             </tbody>

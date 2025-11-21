@@ -4,9 +4,6 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 
-// garantir que o corpo das requisições POST seja parseado (form HTML e JSON)
-router.use(express.urlencoded({ extended: true }));
-router.use(express.json());
 
 const adminControle = require('../Controles/admin_controle');
 

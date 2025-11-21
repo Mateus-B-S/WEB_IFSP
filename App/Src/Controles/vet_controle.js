@@ -1,10 +1,10 @@
-const modeloAutor = require('../Modelos/vet_modelo');
+const modeloVet = require('../Modelos/vet_modelo');
 const exameModelo = require('../Modelos/exame_medico');
 
 
 const loginVet = (req, res) => {
     const { prontuario, senha } = req.body;
-    const vet = modeloAutor.vets.find(v => v.prontuario === prontuario && v.senha === senha);
+    const vet = modeloVet.vets.find(v => v.prontuario === prontuario && v.senha === senha);
     const examesVet = exameModelo.getExamesporVet(prontuario);
     if (vet) {
         req.session.user = { tipo_conta: 'veterinario', id_vet: vet.id }; // grava sessão
@@ -18,13 +18,13 @@ const loginVet = (req, res) => {
 
 
 const getTodosVets = (req, res) => {
-    const vets = modeloAutor.getTodosvets();
+    const vets = modeloVet.getTodosvets();
     res.json(vets);
 }
 
 const getVetPorId = (req, res) => {
     const id = parseInt(req.query.id);
-    const vet = modeloAutor.getvetsId(id);
+    const vet = modeloVet.getvetsId(id);
     if (vet) {
         res.json(vet);
     }
@@ -37,14 +37,13 @@ const getVetPorId = (req, res) => {
 
 const criarVet = (req, res) => {
     const { nome, prontuario, formacao, senha} = req.body;
-        const novoVet = modeloAutor.criarvet(prontuario, nome, formacao, senha);
-        res.status(201).json(novoVet);
+        const novoVet = modeloVet.criarvet(prontuario, nome, formacao, senha);
+        res.render('Avisos/veterinarios', { veterinario: novoVet , adminSenha: req.session.user.adminSenha});
 };
 
 const editarVet = (req, res) => {
     const { id, prontuario, nome, formacao, senha } = req.body;
-
-    const vetAtualizado = modeloAutor.mudarVet(id, prontuario, nome, formacao, senha);
+    const vetAtualizado = modeloVet.mudarVet(id, prontuario, nome, formacao, senha);
     if (vetAtualizado) {
         res.json(vetAtualizado);
     }
@@ -57,7 +56,7 @@ const editarVet = (req, res) => {
 const deletarVet = (req, res) => {
     const id = parseInt(req.query.id);
 
-    const sucesso = modeloAutor.deleteVet(id);
+    const sucesso = modeloVet.deleteVet(id);
     if (sucesso) {
         res.json({ mensagem: "Veterinário deletado com sucesso." });
     } else {

@@ -51,7 +51,7 @@ const getResponsavelPorId = (req, res) => {
 
     const responsavel = respModelo.getResponsavelId(parseInt(id_responsavel));
     if (responsavel) {
-        res.json(responsavel);
+        res.render('Avisos/responsavelId', { responsavel: responsavel, adminSenha: req.session.user.adminSenha });
     } else {
         res.status(404).json({ mensagem: "Responsável não encontrado." });
     }  

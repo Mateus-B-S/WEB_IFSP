@@ -12,7 +12,7 @@ const criarAdocao = (req, res) => {
         res.status(400).json({ mensagem: "Erro ao criar adoção. Responsável ou animal não registrados" });
     }
     else {
-        return res.render('Confirmacao/adocao', { adocao: novaAdocao, emailResponsavel: req.session.user.email , senhaResponsavel: req.session.user.senha } );
+        return res.render('Avisos/adocao', { adocao: novaAdocao, emailResponsavel: req.session.user.email , senhaResponsavel: req.session.user.senha } );
     }    
 };
 
@@ -23,7 +23,7 @@ const listarAdocoesPorResponsavel = (req, res) => {
     if (!adocoes || adocoes.length === 0) {
         return res.status(404).json({ mensagem: "Nenhuma adoção encontrada para o responsável fornecido." });
     }
-    res.status(200).json(adocoes);
+    res.render('Avisos/adocaoPorResp', { adocoes: adocoes, nomeResponsavel: responsavel_nome, adminSenha: req.session.user.adminSenha });
 };
 
 module.exports = {
