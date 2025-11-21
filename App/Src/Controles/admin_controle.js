@@ -7,7 +7,7 @@ const adocaoModelo = require('../Modelos/adocao_modelo');
 //const path = require('path');
 
 const loginAdmin =  async (req, res) => {
-    // debug: ver o que está chegando
+    // debug pra ver se a senha chega
     console.log('DEBUG loginAdmin - req.body:', req.body);
     console.log('DEBUG loginAdmin - admin.senha:', admin && admin.senha);
     const { senha } = req.body || {};
