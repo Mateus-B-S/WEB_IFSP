@@ -7,7 +7,10 @@ const adocaoModelo = require('../Modelos/adocao_modelo');
 //const path = require('path');
 
 const loginAdmin =  async (req, res) => {
-    const { senha } = req.body;
+    // debug: ver o que está chegando
+    console.log('DEBUG loginAdmin - req.body:', req.body);
+    console.log('DEBUG loginAdmin - admin.senha:', admin && admin.senha);
+    const { senha } = req.body || {};
     const listaAnimais = animalModelo.getTodosAnimais();
     const listaResponsaveis = respModelo.getTodosResponsaveis();
     const listaVeterinarios = vetModelo.getTodosvets();

@@ -35,3 +35,37 @@ module.exports = {
 }
 
 
+//const { DataTypes } = require('sequelize');
+//const sequelize = require('../config/db');
+//const prontuario_vet = require('./vet');
+//const id_animal  = require('./animal')
+
+
+//const exames = sequelize.define('Exames', {
+  //id: {
+    //type: DataTypes.INTEGER,
+    //primaryKey: true,
+    //autoIncrement: true
+ // },
+  //data_exame: {
+    //type: DataTypes.DATEONLY,
+    //allowNull: false
+ // }
+
+  //observacoes: {
+    //type: DataTypes.STRING,
+    //allowNull: false
+ // }
+
+//}, {
+  //tableName: 'exame',
+  //timestamps: false
+//});
+
+//module.exports = exame;
+
+//Animal.hasOne(Adocao, { foreignKey: 'id_animal' });
+//Adocao.belongsTo(Animal, { foreignKey: 'id_animal' });
+
+//Veterinario.hasMany(Exames, { foreignKey: 'prontuario_vet' });
+//Exames.belongsTo(Veterinario, { foreignKey: 'prontuario_vet' });

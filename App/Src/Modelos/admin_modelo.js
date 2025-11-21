@@ -1,4 +1,4 @@
-const Admin = {senha: "123456789"};
+const Admin = {senha: "1234"};
 
 
 
@@ -21,4 +21,7 @@ const Admin = {senha: "123456789"};
 //  timestamps: false
 //});
 
+// exportar para uso em controllers
 module.exports = Admin;
+
+

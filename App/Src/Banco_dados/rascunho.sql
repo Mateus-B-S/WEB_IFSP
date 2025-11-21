@@ -7,6 +7,11 @@ CREATE TABLE IF NOT EXISTS veterinarios (
     formacao ENUM("Animais de grande porte", "Animais domésticos", "Animais aquáticos", "Aves", "Caminhoneiro") not null
 );
 
+CREATE TABLE IF NOT EXISTS admins (
+    id INT auto_increment primary key,
+    senha INT not null 
+);
+
 CREATE TABLE IF NOT EXISTS responsaveis (
 	id INT auto_increment primary key,
 	nome varchar(100) not null,
@@ -39,8 +44,5 @@ CREATE TABLE IF NOT EXISTS adocoes (
     FOREIGN KEY (animal_id) REFERENCES animais(id),
     FOREIGN KEY (responsavel_id) REFERENCES responsaveis(id)
 );
-
-insert into responsaveis (nome, email)
-values ('luis xuxu', 'luisfofinho@gmail.com');
 
 select * from responsaveis;
