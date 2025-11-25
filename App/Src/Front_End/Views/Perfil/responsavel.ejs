@@ -4,122 +4,86 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Responsavel_perfil</title>
-    <style>
-        body{font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;line-height:1.4;padding:18px;color:#222}
-        h1{font-size:22px;margin-bottom:6px;text-align:left}
-        h2{margin-top:18px;color:#333}
-
-        /* Existing animals list (kept simple) */
-        .my-animals{margin:8px 0 18px 0}
-        .my-animals li{margin-bottom:6px}
-
-        /* Cards grid for adoption - Kitchen Sink Bootstrap style */
-        .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px;margin-bottom:24px}
-        .card{background:#fff;border:1px solid #dee2e6;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.08);overflow:hidden;display:flex;flex-direction:column;transition:all .28s ease;cursor:pointer}
-        .card:hover{box-shadow:0 12px 24px rgba(0,0,0,0.12);transform:translateY(-4px)}
-        .card-body{padding:14px;flex:1;display:flex;flex-direction:column;justify-content:space-between}
-        .card-header{display:flex;align-items:center;gap:12px}
-        .card-header-adopted{display:flex;align-items:center;gap:12px;padding:12px;background:#f8f9fa;border-bottom:1px solid #dee2e6}
-        .avatar{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,#6dd5ed,#2193b0);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:22px;flex-shrink:0}
-        .card-name{margin:0;font-size:18px;color:#212529;font-weight:700}
-        .card-meta{margin:4px 0;font-size:13px;color:#6c757d}
-        .card-actions{display:flex;justify-content:flex-end;margin-top:10px;padding-top:10px;border-top:1px solid #dee2e6}
-        .adopt-btn{background:linear-gradient(90deg,#0d6efd,#0b5ed7);border:none;color:#fff;padding:8px 14px;border-radius:6px;cursor:pointer;font-weight:600;font-size:13px;transition:all .2s ease}
-        .adopt-btn:hover{background:linear-gradient(90deg,#0b5ed7,#0a58ca)}
-        .adopt-btn:disabled{opacity:0.6;cursor:not-allowed}
-        .card-adopted{background:#f8f9fa;border:1px solid #dee2e6;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:all .28s ease;box-shadow:0 2px 6px rgba(0,0,0,0.06)}
-
-        /* Zoom modal */
-        .modal-backdrop{position:fixed;inset:0;background:rgba(10,20,30,0.55);display:none;align-items:center;justify-content:center;padding:24px;z-index:999}
-        .modal{background:#fff;border-radius:12px;max-width:860px;width:100%;box-shadow:0 20px 60px rgba(2,10,30,0.4);overflow:hidden;transform:scale(.98);transition:none;visibility:hidden;opacity:0}
-        .modal.open{transform:scale(1);visibility:visible;opacity:1}
-        .modal-inner{display:flex;gap:18px;padding:18px}
-        .modal-avatar{flex:0 0 160px;height:160px;border-radius:10px;background:linear-gradient(135deg,#ffd194,#d1913c);display:flex;align-items:center;justify-content:center;font-size:48px;color:#fff;font-weight:800}
-        .modal-content h3{margin:0 0 8px 0}
-        .modal-content p{margin:6px 0;color:#333}
-        .modal-actions{display:flex;gap:8px;margin-top:12px}
-        .close-btn{background:#f0f0f0;border:none;padding:8px 10px;border-radius:8px;cursor:pointer}
-
-        @media (max-width:600px){
-            .modal-inner{flex-direction:column;align-items:center}
-            .modal-avatar{width:120px;height:120px}
-        }
-        /* flying clone used for smooth card->modal transition */
-        .fly-clone{position:fixed;z-index:10000;border-radius:12px;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.08);overflow:hidden;transition:all .42s cubic-bezier(0.25,0.46,0.45,0.94);will-change:top,left,width,height}
-        .fly-clone.to-modal{box-shadow:0 20px 60px rgba(2,10,30,0.25)}
-        .fly-clone.from-modal{box-shadow:0 4px 12px rgba(0,0,0,0.08)}
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="/css/style.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Olá, <%= nome %>!</h1>
-    <h2>Seus Animais Adotados</h2>
-    <div class="cards-grid" id="adoptedAnimalsGrid">
-        <% animaisResponsavel.forEach(function(animal) { %>
-        <div class="card-adopted">
-            <div class="card-header-adopted">
-                <div class="avatar"><%= (animal.animal_nome && animal.animal_nome.charAt(0)) ? animal.animal_nome.charAt(0).toUpperCase() : 'A' %></div>
-                <div>
-                    <h3 class="card-name"><%= animal.animal_nome %></h3>
-                    <div class="card-meta"><strong>Raça:</strong> <%= animal.animal_raça %></div>
+    <div class="container-fluid">
+        <h1>Olá, <%= nome %>!</h1>
+        <h2>Seus Animais Adotados</h2>
+        <div class="cards-grid" id="adoptedAnimalsGrid">
+            <% animaisResponsavel.forEach(function(animal) { %>
+            <div class="card">
+                <div class="card-header bg-light">
+                    <div class="card-header-custom">
+                        <div class="avatar"><%= (animal.animal_nome && animal.animal_nome.charAt(0)) ? animal.animal_nome.charAt(0).toUpperCase() : 'A' %></div>
+                        <div>
+                            <h5 class="card-title mb-1"><%= animal.animal_nome %></h5>
+                            <p class="card-text text-muted mb-0" style="font-size:13px"><strong>Raça:</strong> <%= animal.animal_raça %></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-text" style="font-size:13px;color:#6c757d"><strong>Data de Adoção:</strong> <%= animal.data_adocao %></p>
                 </div>
             </div>
-            <div class="card-body">
-                <p style="font-size:13px;color:#6c757d;margin:0"><strong>Data de Adoção:</strong> <%= animal.data_adocao %></p>
-            </div>
+            <% }); %>
         </div>
-        <% }); %>
-    </div>
 
-    <h2>Animais para adoção</h2>
-    <div class="cards-grid">
-        <% animaisAdocao.forEach(function(animal) { %>
-        <div class="card" data-id="<%= animal.id %>" tabindex="0">
-            <div>
-                <div class="card-header">
-                    <div class="avatar"><%= (animal.nome && animal.nome.charAt(0)) ? animal.nome.charAt(0).toUpperCase() : 'A' %></div>
-                    <div>
-                        <h3 class="card-name"><%= animal.nome %></h3>
-                        <div class="card-meta"><strong>Raça:</strong> <%= animal.raça %></div>
-                        <div class="card-meta"><strong>Tipo:</strong> <%= animal.tipo %></div>
+        <h2>Animais para adoção</h2>
+        <div class="cards-grid">
+            <% animaisAdocao.forEach(function(animal) { %>
+            <div class="card" data-id="<%= animal.id %>" tabindex="0">
+                <div class="card-header bg-light">
+                    <div class="card-header-custom">
+                        <div class="avatar"><%= (animal.nome && animal.nome.charAt(0)) ? animal.nome.charAt(0).toUpperCase() : 'A' %></div>
+                        <div>
+                            <h5 class="card-title mb-1"><%= animal.nome %></h5>
+                            <p class="card-text text-muted mb-0" style="font-size:13px"><strong>Raça:</strong> <%= animal.raça %></p>
+                            <p class="card-text text-muted mb-0" style="font-size:13px"><strong>Tipo:</strong> <%= animal.tipo %></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body"></div>
+                <div class="card-footer bg-light">
+                    <form action="/adocao/adotarAnimal" method="POST" style="width:100%">
+                        <input type="hidden" name="animal_id" value="<%= animal.id %>">
+                        <input type="hidden" name="responsavel_nome" value="<%= nome %>">
+                        <button type="submit" class="btn btn-primary btn-sm w-100">Adotar</button>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- Modal for zoomed card -->
+        <div id="modalBackdrop" class="modal-backdrop" aria-hidden="true">
+            <div id="modal" class="modal" role="dialog" aria-modal="true">
+                <div class="modal-inner">
+                    <div class="modal-avatar" id="modalAvatar">A</div>
+                    <div class="modal-content">
+                        <h3 id="modalName">Nome</h3>
+                        <p id="modalRaca"><strong>Raça:</strong> ...</p>
+                        <p id="modalTipo"><strong>Tipo:</strong> ...</p>
+                        <div class="modal-actions">
+                            <form id="modalAdoptForm" action="/adocao/adotarAnimal" method="POST">
+                                <input type="hidden" name="animal_id" id="modalAnimalId" value="<%= animal.id %>">
+                                <input type="hidden" name="responsavel_nome" value="<%= nome %>">
+                                <button type="submit" class="btn btn-primary btn-sm">Adotar</button>
+                            </form>
+                            <button class="btn btn-secondary btn-sm" id="modalClose">Fechar</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="card-actions">
-                <form action="/adocao/adotarAnimal" method="POST" style="width:100%">
-                    <input type="hidden" name="animal_id" value="<%= animal.id %>">
-                    <input type="hidden" name="responsavel_nome" value="<%= nome %>">
-                    <button type="submit" class="adopt-btn" style="width:100%">Adotar</button>
-                </form>
-            </div>
-        </div>
-        <% }); %>
-    </div>
 
-    <!-- Modal for zoomed card -->
-    <div id="modalBackdrop" class="modal-backdrop" aria-hidden="true">
-        <div id="modal" class="modal" role="dialog" aria-modal="true">
-            <div class="modal-inner">
-                <div class="modal-avatar" id="modalAvatar">A</div>
-                <div class="modal-content">
-                    <h3 id="modalName">Nome</h3>
-                    <p id="modalRaca"><strong>Raça:</strong> ...</p>
-                    <p id="modalTipo"><strong>Tipo:</strong> ...</p>
-                    <div class="modal-actions">
-                        <form id="modalAdoptForm" action="/adocao/adotarAnimal" method="POST">
-                            <input type="hidden" name="animal_id" id="modalAnimalId">
-                            <input type="hidden" name="responsavel_nome" value="<%= nome %>">
-                            <button type="submit" class="adopt-btn">Adotar</button>
-                        </form>
-                        <button class="close-btn" id="modalClose">Fechar</button>
-                    </div>
-                </div>
-            </div>
+            <% }); %>
         </div>
-    </div>
 
-    <form action="/responsavel/logout" method="POST" style="margin-top:18px">
-        <button type="submit">Logout</button>
-    </form>
+        <form action="/responsavel/logout" method="POST" style="margin-top:18px">
+            <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
+    </div>
 
     <script>
         // modal logic: open when clicking a card, populate with card data
@@ -280,5 +244,7 @@
             }
         })();
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -6,6 +6,7 @@ const listarAdocoes = (req, res) => {
 };
 
 const criarAdocao = (req, res) => {
+    // tem alguns logs aqui para testar o erro
     const { animal_id, responsavel_nome } = req.body;
     console.log('Dados recebidos:', { animal_id, responsavel_nome, tipo_animal_id: typeof animal_id });
     

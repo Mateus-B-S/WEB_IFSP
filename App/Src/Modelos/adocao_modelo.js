@@ -14,6 +14,7 @@ const criarAdocao = (animal_id, responsavel_nome) => {
     const id = Number(animal_id);
     const nomeResp = String(responsavel_nome);
 
+    // logs para testar o erro, dps eu removo
     console.log('Procurando animal com ID:', id, 'tipo:', typeof id);
     console.log('Procurando responsável com nome:', nomeResp);
     console.log('Animais disponíveis:', animal.animais.filter(a => a.adotado === 0).map(a => ({ id: a.id, nome: a.nome, adotado: a.adotado })));
