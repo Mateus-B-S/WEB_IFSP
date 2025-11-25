@@ -1,34 +1,284 @@
 <!DOCTYPE html>
 <html>
-<head><title>Responsavel_perfil</title></head>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Responsavel_perfil</title>
+    <style>
+        body{font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;line-height:1.4;padding:18px;color:#222}
+        h1{font-size:22px;margin-bottom:6px;text-align:left}
+        h2{margin-top:18px;color:#333}
+
+        /* Existing animals list (kept simple) */
+        .my-animals{margin:8px 0 18px 0}
+        .my-animals li{margin-bottom:6px}
+
+        /* Cards grid for adoption - Kitchen Sink Bootstrap style */
+        .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px;margin-bottom:24px}
+        .card{background:#fff;border:1px solid #dee2e6;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.08);overflow:hidden;display:flex;flex-direction:column;transition:all .28s ease;cursor:pointer}
+        .card:hover{box-shadow:0 12px 24px rgba(0,0,0,0.12);transform:translateY(-4px)}
+        .card-body{padding:14px;flex:1;display:flex;flex-direction:column;justify-content:space-between}
+        .card-header{display:flex;align-items:center;gap:12px}
+        .card-header-adopted{display:flex;align-items:center;gap:12px;padding:12px;background:#f8f9fa;border-bottom:1px solid #dee2e6}
+        .avatar{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,#6dd5ed,#2193b0);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:22px;flex-shrink:0}
+        .card-name{margin:0;font-size:18px;color:#212529;font-weight:700}
+        .card-meta{margin:4px 0;font-size:13px;color:#6c757d}
+        .card-actions{display:flex;justify-content:flex-end;margin-top:10px;padding-top:10px;border-top:1px solid #dee2e6}
+        .adopt-btn{background:linear-gradient(90deg,#0d6efd,#0b5ed7);border:none;color:#fff;padding:8px 14px;border-radius:6px;cursor:pointer;font-weight:600;font-size:13px;transition:all .2s ease}
+        .adopt-btn:hover{background:linear-gradient(90deg,#0b5ed7,#0a58ca)}
+        .adopt-btn:disabled{opacity:0.6;cursor:not-allowed}
+        .card-adopted{background:#f8f9fa;border:1px solid #dee2e6;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:all .28s ease;box-shadow:0 2px 6px rgba(0,0,0,0.06)}
+
+        /* Zoom modal */
+        .modal-backdrop{position:fixed;inset:0;background:rgba(10,20,30,0.55);display:none;align-items:center;justify-content:center;padding:24px;z-index:999}
+        .modal{background:#fff;border-radius:12px;max-width:860px;width:100%;box-shadow:0 20px 60px rgba(2,10,30,0.4);overflow:hidden;transform:scale(.98);transition:none;visibility:hidden;opacity:0}
+        .modal.open{transform:scale(1);visibility:visible;opacity:1}
+        .modal-inner{display:flex;gap:18px;padding:18px}
+        .modal-avatar{flex:0 0 160px;height:160px;border-radius:10px;background:linear-gradient(135deg,#ffd194,#d1913c);display:flex;align-items:center;justify-content:center;font-size:48px;color:#fff;font-weight:800}
+        .modal-content h3{margin:0 0 8px 0}
+        .modal-content p{margin:6px 0;color:#333}
+        .modal-actions{display:flex;gap:8px;margin-top:12px}
+        .close-btn{background:#f0f0f0;border:none;padding:8px 10px;border-radius:8px;cursor:pointer}
+
+        @media (max-width:600px){
+            .modal-inner{flex-direction:column;align-items:center}
+            .modal-avatar{width:120px;height:120px}
+        }
+        /* flying clone used for smooth card->modal transition */
+        .fly-clone{position:fixed;z-index:10000;border-radius:12px;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.08);overflow:hidden;transition:all .42s cubic-bezier(0.25,0.46,0.45,0.94);will-change:top,left,width,height}
+        .fly-clone.to-modal{box-shadow:0 20px 60px rgba(2,10,30,0.25)}
+        .fly-clone.from-modal{box-shadow:0 4px 12px rgba(0,0,0,0.08)}
+    </style>
+</head>
 <body>
- <h1>Olá, <%= nome %>!</h1>
-    <h2>Seus Animais:</h2>
-    <ul>
+    <h1>Olá, <%= nome %>!</h1>
+    <h2>Seus Animais Adotados</h2>
+    <div class="cards-grid" id="adoptedAnimalsGrid">
         <% animaisResponsavel.forEach(function(animal) { %>
-            <li><%= animal.animal_nome %> 
-                - <%= animal.animal_raça %> 
-                - <%= animal.data_adocao %> </li>
+        <div class="card-adopted">
+            <div class="card-header-adopted">
+                <div class="avatar"><%= (animal.animal_nome && animal.animal_nome.charAt(0)) ? animal.animal_nome.charAt(0).toUpperCase() : 'A' %></div>
+                <div>
+                    <h3 class="card-name"><%= animal.animal_nome %></h3>
+                    <div class="card-meta"><strong>Raça:</strong> <%= animal.animal_raça %></div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p style="font-size:13px;color:#6c757d;margin:0"><strong>Data de Adoção:</strong> <%= animal.data_adocao %></p>
+            </div>
+        </div>
         <% }); %>
-    </ul> <br>
-    <h2>Animais para adoção: </h2> <br>
-    <ul>
+    </div>
+
+    <h2>Animais para adoção</h2>
+    <div class="cards-grid">
         <% animaisAdocao.forEach(function(animal) { %>
-            <li>ID: <%= animal.id %>,
-                Nome: <%= animal.nome %>, 
-                Raça: <%= animal.raça %>, 
-                Tipo: <%= animal.tipo %>, <br>
-                Adotar: <form action="/adocao/adotarAnimal" method="POST" style="display:inline;">
-                            <input type="hidden" name="animal_id" value= "<%= animal.id %>">
-                            <input type="hidden" name="responsavel_nome" value= "<%= nome %>">
-                            <button type="submit">Adotar</button>
-                        </form>
-            </li>
+        <div class="card" data-id="<%= animal.id %>" tabindex="0">
+            <div>
+                <div class="card-header">
+                    <div class="avatar"><%= (animal.nome && animal.nome.charAt(0)) ? animal.nome.charAt(0).toUpperCase() : 'A' %></div>
+                    <div>
+                        <h3 class="card-name"><%= animal.nome %></h3>
+                        <div class="card-meta"><strong>Raça:</strong> <%= animal.raça %></div>
+                        <div class="card-meta"><strong>Tipo:</strong> <%= animal.tipo %></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-actions">
+                <form action="/adocao/adotarAnimal" method="POST" style="width:100%">
+                    <input type="hidden" name="animal_id" value="<%= animal.id %>">
+                    <input type="hidden" name="responsavel_nome" value="<%= nome %>">
+                    <button type="submit" class="adopt-btn" style="width:100%">Adotar</button>
+                </form>
+            </div>
+        </div>
         <% }); %>
-    </ul> <br>
-    <form action="/responsavel/logout" method="POST">
+    </div>
+
+    <!-- Modal for zoomed card -->
+    <div id="modalBackdrop" class="modal-backdrop" aria-hidden="true">
+        <div id="modal" class="modal" role="dialog" aria-modal="true">
+            <div class="modal-inner">
+                <div class="modal-avatar" id="modalAvatar">A</div>
+                <div class="modal-content">
+                    <h3 id="modalName">Nome</h3>
+                    <p id="modalRaca"><strong>Raça:</strong> ...</p>
+                    <p id="modalTipo"><strong>Tipo:</strong> ...</p>
+                    <div class="modal-actions">
+                        <form id="modalAdoptForm" action="/adocao/adotarAnimal" method="POST">
+                            <input type="hidden" name="animal_id" id="modalAnimalId">
+                            <input type="hidden" name="responsavel_nome" value="<%= nome %>">
+                            <button type="submit" class="adopt-btn">Adotar</button>
+                        </form>
+                        <button class="close-btn" id="modalClose">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form action="/responsavel/logout" method="POST" style="margin-top:18px">
         <button type="submit">Logout</button>
     </form>
-    <script src="/Scripts/adocoes.js"></script>
+
+    <script>
+        // modal logic: open when clicking a card, populate with card data
+        (function(){
+            var cards = document.querySelectorAll('.card');
+            var backdrop = document.getElementById('modalBackdrop');
+            var modal = document.getElementById('modal');
+            var modalAvatar = document.getElementById('modalAvatar');
+            var modalName = document.getElementById('modalName');
+            var modalRaca = document.getElementById('modalRaca');
+            var modalTipo = document.getElementById('modalTipo');
+            var modalAnimalId = document.getElementById('modalAnimalId');
+            var modalClose = document.getElementById('modalClose');
+            var modalAdoptForm = document.getElementById('modalAdoptForm');
+            var currentCard = null; // track which card opened the modal
+
+            function openModal(data, card){
+                // populate modal data first
+                modalAvatar.textContent = (data.nome && data.nome.charAt(0)) ? data.nome.charAt(0).toUpperCase() : 'A';
+                modalName.textContent = data.nome || '—';
+                modalRaca.innerHTML = '<strong>Raça:</strong> ' + (data.raça || '—');
+                modalTipo.innerHTML = '<strong>Tipo:</strong> ' + (data.tipo || '—');
+                modalAnimalId.value = data.id || '';
+                currentCard = card; // remember
+
+                // create a flying clone of the card to animate into the modal position
+                var cardRect = card.getBoundingClientRect();
+                var clone = card.cloneNode(true);
+                clone.classList.add('fly-clone', 'to-modal');
+                // set initial styles to match the card exactly
+                clone.style.left = cardRect.left + 'px';
+                clone.style.top = cardRect.top + 'px';
+                clone.style.width = cardRect.width + 'px';
+                clone.style.height = cardRect.height + 'px';
+                clone.style.margin = '0';
+                clone.style.padding = '0';
+                clone.style.border = 'none';
+                document.body.appendChild(clone);
+
+                // show backdrop behind the clone with no modal content yet
+                backdrop.style.display = 'flex';
+                backdrop.style.background = 'rgba(10,20,30,0)';
+                backdrop.setAttribute('aria-hidden','false');
+
+                // compute modal target rect (centered) - more accurate calculation
+                var viewportW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+                var viewportH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+                var maxW = Math.min(860, Math.round(viewportW - 48));
+                var maxH = Math.min(560, Math.round(viewportH - 80));
+                var targetW = maxW;
+                var targetH = maxH;
+                var targetLeft = Math.round((viewportW - targetW) / 2);
+                var targetTop = Math.round((viewportH - targetH) / 2);
+
+                // force reflow then animate clone to modal position
+                clone.getBoundingClientRect();
+                requestAnimationFrame(function(){
+                    clone.style.left = targetLeft + 'px';
+                    clone.style.top = targetTop + 'px';
+                    clone.style.width = targetW + 'px';
+                    clone.style.height = targetH + 'px';
+                    backdrop.style.background = 'rgba(10,20,30,0.55)';
+                });
+
+                // when transition ends, reveal real modal and remove clone
+                clone.addEventListener('transitionend', function handler(e){
+                    // ensure we only handle once
+                    clone.removeEventListener('transitionend', handler);
+                    // show modal content (modal is inside backdrop)
+                    modal.style.visibility = 'visible';
+                    modal.classList.add('open');
+                    // remove clone
+                    if (clone && clone.parentNode) clone.parentNode.removeChild(clone);
+                });
+            }
+
+            function closeModal(){
+                // if we have a currentCard, animate modal -> card (reverse shared-element)
+                if(currentCard){
+                    // get card target rect
+                    var cardRect = currentCard.getBoundingClientRect();
+                    // create clone from current position
+                    var clone = document.createElement('div');
+                    clone.classList.add('fly-clone', 'from-modal');
+                    clone.style.left = (window.innerWidth / 2 - 430) + 'px'; // approximate modal center
+                    clone.style.top = (window.innerHeight / 2 - 280) + 'px';
+                    clone.style.width = '860px';
+                    clone.style.height = '560px';
+                    clone.style.margin = '0';
+                    clone.style.background = '#fff';
+                    clone.style.border = 'none';
+                    clone.style.borderRadius = '12px';
+                    // hide real modal immediately
+                    modal.classList.remove('open');
+                    modal.style.visibility = 'hidden';
+                    document.body.appendChild(clone);
+                    // force reflow then animate to card
+                    clone.getBoundingClientRect();
+                    requestAnimationFrame(function(){
+                        clone.style.left = cardRect.left + 'px';
+                        clone.style.top = cardRect.top + 'px';
+                        clone.style.width = cardRect.width + 'px';
+                        clone.style.height = cardRect.height + 'px';
+                        backdrop.style.background = 'rgba(10,20,30,0)';
+                    });
+                    clone.addEventListener('transitionend', function handler(){
+                        clone.removeEventListener('transitionend', handler);
+                        if(clone && clone.parentNode) clone.parentNode.removeChild(clone);
+                        backdrop.style.display = 'none';
+                        backdrop.setAttribute('aria-hidden','true');
+                        currentCard = null;
+                    });
+                } else {
+                    modal.classList.remove('open');
+                    backdrop.style.background = 'rgba(10,20,30,0)';
+                    modal.style.visibility = 'hidden';
+                    setTimeout(function(){
+                        backdrop.style.display = 'none';
+                        backdrop.setAttribute('aria-hidden','true');
+                    }, 220);
+                }
+            }
+
+            cards.forEach(function(card){
+                card.addEventListener('click', function(e){
+                    // do NOT open modal if click comes from form/button
+                    if(e.target.closest('form') || e.target.closest('button')) return;
+                    // collect data from the card
+                    var id = card.getAttribute('data-id');
+                    var nome = card.querySelector('.card-name') ? card.querySelector('.card-name').textContent.trim() : '';
+                    var raca = card.querySelector('.card-meta') ? card.querySelectorAll('.card-meta')[0].textContent.replace('Raça:','').trim() : '';
+                    var tipo = card.querySelectorAll('.card-meta')[1] ? card.querySelectorAll('.card-meta')[1].textContent.replace('Tipo:','').trim() : '';
+                    openModal({id:id,nome:nome,raça:raca,tipo:tipo}, card);
+                });
+                // allow keyboard open
+                card.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); } });
+            });
+
+            backdrop.addEventListener('click', function(e){ if(e.target === backdrop) closeModal(); });
+            modalClose.addEventListener('click', closeModal);
+            document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
+
+            // attach adopt handlers for card forms and modal form
+            cards.forEach(function(card){
+                var form = card.querySelector('form');
+                if(form){
+                    form.addEventListener('submit', function(ev){
+                        // normal form submission - allow it to POST and reload
+                        // the closeModal call will happen after page load
+                    });
+                }
+            });
+            if(modalAdoptForm){
+                // when modal submit, use currentCard as relatedCard if available
+                modalAdoptForm.addEventListener('submit', function(ev){
+                    // normal form submission - allow it to POST and reload
+                });
+            }
+        })();
+    </script>
 </body>
 </html>

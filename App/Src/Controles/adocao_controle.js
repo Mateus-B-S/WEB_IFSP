@@ -7,11 +7,20 @@ const listarAdocoes = (req, res) => {
 
 const criarAdocao = (req, res) => {
     const { animal_id, responsavel_nome } = req.body;
-    const novaAdocao = adocaoModelo.criarAdocao(Number(animal_id), String(responsavel_nome));
+    console.log('Dados recebidos:', { animal_id, responsavel_nome, tipo_animal_id: typeof animal_id });
+    
+    const numId = Number(animal_id);
+    console.log('ID convertido:', numId, 'tipo:', typeof numId);
+    
+    const novaAdocao = adocaoModelo.criarAdocao(numId, String(responsavel_nome));
+    console.log('Resultado adoção:', novaAdocao);
+    
     if (novaAdocao === null) {
+        console.log('Erro: animal não encontrado ou já adotado, ou responsável não existe');
         res.status(400).json({ mensagem: "Erro ao criar adoção. Responsável ou animal não registrados" });
     }
     else {
+        console.log('Adoção criada com sucesso');
         return res.render('Avisos/adocao', { adocao: novaAdocao, emailResponsavel: req.session.user.email , senhaResponsavel: req.session.user.senha } );
     }    
 };

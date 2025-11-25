@@ -14,8 +14,15 @@ const criarAdocao = (animal_id, responsavel_nome) => {
     const id = Number(animal_id);
     const nomeResp = String(responsavel_nome);
 
+    console.log('Procurando animal com ID:', id, 'tipo:', typeof id);
+    console.log('Procurando responsável com nome:', nomeResp);
+    console.log('Animais disponíveis:', animal.animais.filter(a => a.adotado === 0).map(a => ({ id: a.id, nome: a.nome, adotado: a.adotado })));
+
     const animalObj = animal.animais.find(a => a.id === id && a.adotado === 0);
     const responsavelObj = responsavel.responsaveis.find(r => r.nome === nomeResp);
+
+    console.log('Animal encontrado:', !!animalObj, animalObj ? `${animalObj.nome} (ID: ${animalObj.id})` : 'nulo');
+    console.log('Responsável encontrado:', !!responsavelObj, responsavelObj ? responsavelObj.nome : 'nulo');
 
     if (animalObj && responsavelObj) {
         const newAdocao = {
@@ -37,9 +44,11 @@ const criarAdocao = (animal_id, responsavel_nome) => {
             if (a) a.adotado = 1;
         }
 
+        console.log('Adoção criada com sucesso');
         return newAdocao;
     }
 
+    console.log('Erro: não foi possível criar adoção');
     return null;
 };
 
