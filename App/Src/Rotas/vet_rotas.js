@@ -5,10 +5,10 @@ const router = express.Router();
 const path = require('path');
 const permitidos = require(path.join(__dirname, '../Segurança/autorizacao'));
 
-router.post('/', vetControle.loginVet);
+router.post('/', vetControle.perfilVet);
 router.get('/todos', vetControle.getTodosVets);
 router.get('/buscar/id', vetControle.getVetPorId);
-
+router.get('/login', vetControle.loginVet);
 
 
 // Rotas para administração de veterinários

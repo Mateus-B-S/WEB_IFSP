@@ -3,12 +3,12 @@ const animalModelo = require('../Modelos/animal_modelo');
 const adocaoModelo = require('../Modelos/adocao_modelo');
 const path = require('path');
 
-const loginResponsavel = (req, res) => {
+const perfilResponsavel = (req, res) => {
     const { email, senha } = req.body;
     const responsavel = respModelo.responsaveis.find(r => r.email === email && r.senha === senha);
-    const animaisDisponiveis = animalModelo.animaisdisponiveis();
-    const adocoesResponsavel = adocaoModelo.todasAdocoesdeumResponsavel(responsavel.nome);
+    const animaisDisponiveis = animalModelo.animaisdisponiveis(); 
     if (responsavel) {
+        const adocoesResponsavel = adocaoModelo.todasAdocoesdeumResponsavel(responsavel.nome);
         req.session.user = { tipo_conta: 'responsavel', id_responsavel: responsavel.id, email: email, senha: senha}; // grava sessão
         res.render('Perfil/responsavel', { nome: responsavel.nome ,
             animaisAdocao: animaisDisponiveis,
@@ -16,14 +16,19 @@ const loginResponsavel = (req, res) => {
         }) ;
         //mandar para ejs do perfil do responsavel
     } else {
-        res.status(401).json({ mensagem: "email ou senha inválidos." });
+        req.flash('error', 'Email ou senha inválidos. Acesso negado.');
+        return loginResponsavel(req, res);
     }
+};
+
+const loginResponsavel = (req, res) => {
+    res.render('Logins/responsavel', { messages: req.flash() });
 };
 
 const criarResponsavel = (req, res) => {
     const { nome, email, senha } = req.body;
     respModelo.criarResponsavel(nome, email, senha);
-    return res.redirect('/Logins/responsavel.html?created=1');
+    return res.render('Avisos/criarResponsavel', { nome: nome });
 };
 
 
@@ -71,5 +76,6 @@ module.exports = {
     editarResponsavel,
     getTodosResponsaveis,
     getResponsavelPorId,
-    logoutResp
+    logoutResp,
+    perfilResponsavel
 }

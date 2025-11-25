@@ -6,7 +6,7 @@ const vetModelo = require('../Modelos/vet_modelo');
 const adocaoModelo = require('../Modelos/adocao_modelo');
 //const path = require('path');
 
-const loginAdmin =  async (req, res) => {
+const perfilAdmin =  async (req, res) => {
     const { senha } = req.body || {};
     const listaAnimais = animalModelo.getTodosAnimais();
     const listaResponsaveis = respModelo.getTodosResponsaveis();
@@ -24,8 +24,13 @@ const loginAdmin =  async (req, res) => {
         // Renderiza a página de perfil do administrador
     }
     else {
-        res.status(401).json({ mensagem: "Senha incorreta. Acesso negado." });
+        req.flash('error', 'Senha incorreta. Acesso negado.');
+        return loginAdmin(req, res);
     }
+};
+
+const loginAdmin = (req, res) => {
+    res.render('Logins/admin', { messages: req.flash() });
 };
 
 const logoutAdmin = (req, res) => {
@@ -36,5 +41,6 @@ const logoutAdmin = (req, res) => {
 
 module.exports = {
     logoutAdmin,
-    loginAdmin
+    loginAdmin,
+    perfilAdmin
 };

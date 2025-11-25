@@ -5,6 +5,8 @@ const app = express();
 const methodOverride = require('method-override');
 app.use(methodOverride('_method'));
 
+const flash = require('connect-flash');
+
 const path = require('path');
 app.use(express.static(path.join(__dirname, 'Front_End/Publico')));
 
@@ -15,6 +17,7 @@ app.use(session({
  cookie: { maxAge: 60000 } // duração da sessão (1 min)
 }));
 
+app.use(flash());
 
 // Configurando middlewares
 app.use(express.json());

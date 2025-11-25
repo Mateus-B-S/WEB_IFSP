@@ -29,7 +29,7 @@ const criarAnimal = (req, res) => {
     const { nome, raca, tipo } = req.body;
 
     const novoAnimal = animalModelo.criarAnimal(nome, raca, tipo);
-    res.status(201).json(novoAnimal)
+    res.render('Avisos/criarAnimal', { animal: novoAnimal, adminSenha: req.session.user.adminSenha } );
 
 };
 

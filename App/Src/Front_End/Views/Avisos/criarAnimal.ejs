@@ -4,28 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <title>Responsável Procurado</title>
+    <title>novo_animal</title>
 </head>
 <body>
-    <h1>Responsável Procurado:</h1>
-    <table border="1" style="border-collapse:collapse;width:50%;text-align:center;">
+    <table border="1" style="border-collapse:collapse;width:50%;text-align:center; justify-self: center;">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>ID do animal</th>
                     <th>Nome</th>
-                    <th>Email</th>
+                    <th>Raça</th>
+                    <th>tipo</th>
                 </tr>
             </thead>
             <tbody>
                 
                 <tr>
-                    <td><%= responsavel.id %></td>
-                    <td><%= responsavel.nome %></td>
-                    <td><%= responsavel.email %></td>
+                    <td><%= animal.id %></td>
+                    <td><%= animal.nome %></td>
+                    <td><%= animal.raça %></td>
+                    <td><%= animal.tipo %></td>
                 </tr>
+                
             </tbody>
         </table>
-    <form action="/admin/" method="POST">
+     <form action="/admin/" method="POST">
         <input type="hidden" name="senha" value="<%= adminSenha %>">
         <button type="submit" class="btn btn-primary">Voltar ao perfil</button>
     </form>

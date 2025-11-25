@@ -7,9 +7,10 @@ const router = express.Router();
 const path = require('path');
 const permitidos = require(path.join(__dirname, '../Segurança/autorizacao'));
 
-router.post('/', responsavelControle.loginResponsavel);
+router.post('/', responsavelControle.perfilResponsavel);
 router.post('/criar', responsavelControle.criarResponsavel);
 router.put('/editar', responsavelControle.editarResponsavel);
+router.get('/login', responsavelControle.loginResponsavel);
 
 
 // Rotas para administração de responsáveis

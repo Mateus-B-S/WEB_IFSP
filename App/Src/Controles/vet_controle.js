@@ -2,7 +2,7 @@ const modeloVet = require('../Modelos/vet_modelo');
 const exameModelo = require('../Modelos/exame_medico');
 
 
-const loginVet = (req, res) => {
+const perfilVet = (req, res) => {
     const { prontuario, senha } = req.body;
     const vet = modeloVet.vets.find(v => v.prontuario === prontuario && v.senha === senha);
     const examesVet = exameModelo.getExamesporVet(prontuario);
@@ -12,8 +12,13 @@ const loginVet = (req, res) => {
         //mandar para ejs do perfil do veterinario
     }
     else {
-        res.status(401).json({ mensagem: "Prontuário ou senha inválidos." });
+        req.flash('error', 'Prontuário ou senha inválidos. Acesso negado.');
+        return loginVet(req, res);
     }
+};
+
+const loginVet = (req, res) => {
+    res.render('Logins/veterinario', { messages: req.flash() });
 };
 
 
@@ -77,5 +82,6 @@ module.exports = {
     criarVet,
     editarVet,
     deletarVet,
-    logoutVet
+    logoutVet,
+    perfilVet
 }

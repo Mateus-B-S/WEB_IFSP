@@ -8,9 +8,11 @@ const path = require('path');
 const adminControle = require('../Controles/admin_controle');
 
 // Rota para login do administrador
-router.post('/', adminControle.loginAdmin);
+router.post('/', adminControle.perfilAdmin);
 
 //logout
 router.get('/logout', adminControle.logoutAdmin);
+
+router.get('/login', adminControle.loginAdmin)
 
 module.exports = router;

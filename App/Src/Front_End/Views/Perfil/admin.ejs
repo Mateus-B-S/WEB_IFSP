@@ -43,85 +43,85 @@
     </header>
 
 
-    <div class="sections">
+    <div class="sections" style="padding: 10px;">
 
-    <div class="section">
-        <button class="accordion">Animais</button>
-        <div class="panel">
-        <form action="/animal/buscarPorId" method="GET">
-            Id do animal: <input type="number" id="id_animal" name="id" required>
-            <button type="submit">Buscar por ID</button>
-        </form><br>
-        <h3>Lista de animais cadastrados:</h3>
-        <div class="table-responsive">
-        <table class="responsive-table" >
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Raça</th>
-                    <th>Tipo</th>
-                    <th>Adotado</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% animais.forEach(function(animal) { %>
-                <tr>
-                    <td data-label="ID"><%= animal.id %></td>
-                    <td data-label="Nome"><%= animal.nome %></td>
-                    <td data-label="Raça"><%= animal.raça %></td>
-                    <td data-label="Tipo"><%= animal.tipo %></td>
-                    <td data-label="Adotado"><%= animal.adotado ? 'Sim' : 'Não' %></td>
-                </tr>
-                <% }); %>
-            </tbody>
-        </table>
+        <div class="section">
+            <button class="accordion">Animais</button>
+            <div class="panel">
+            <form action="/animal/buscarPorId" method="GET">
+                Id do animal: <input type="number" id="id_animal" name="id" required>
+                <button type="submit">Buscar por ID</button>
+            </form><br>
+            <h3>Lista de animais cadastrados:</h3>
+            <div class="table-responsive">
+            <table class="responsive-table" >
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Raça</th>
+                        <th>Tipo</th>
+                        <th>Adotado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% animais.forEach(function(animal) { %>
+                    <tr>
+                        <td data-label="ID"><%= animal.id %></td>
+                        <td data-label="Nome"><%= animal.nome %></td>
+                        <td data-label="Raça"><%= animal.raça %></td>
+                        <td data-label="Tipo"><%= animal.tipo %></td>
+                        <td data-label="Adotado"><%= animal.adotado ? 'Sim' : 'Não' %></td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+            </div>
+
+            <form action="/animal/adicionarAnimal" method="POST">
+                Nome: <input type="text" name="nome"><br>
+                Raça: <input type="text" name="raca"><br>
+                Tipo: <input type="text" name="tipo"><br>
+                <button type="submit">Cadastrar novo</button>
+            </form><br>
+
+            <form action="/animal/editarAnimal" method="PUT">
+                <input type="text" id="id_animal" name="id_animal" required>
+                <button type="submit">Editar (não mexer ainda) </button>
+            </form><br>
+            </div>
         </div>
 
-        <form action="/animal/adicionarAnimal" method="POST">
-            Nome: <input type="text" name="nome"><br>
-            Raça: <input type="text" name="raca"><br>
-            Tipo: <input type="text" name="tipo"><br>
-            <button type="submit">Cadastrar novo</button>
-        </form><br>
 
-        <form action="/animal/editarAnimal" method="PUT">
-            <input type="text" id="id_animal" name="id_animal" required>
-            <button type="submit">Editar (não mexer ainda) </button>
-        </form><br>
+        <div class="section">
+            <button class="accordion">Responsáveis</button>
+            <div class="panel">
+            <h3>Listar todos responsáveis</h3>
+            <form action="/responsavel/responsavelPorId" method="POST">
+                Id do responsável: <input type="text" id="id_responsavel" name="id_responsavel" required>
+                <button type="submit">Buscar por ID</button>
+            </form><br>
+            <div class="table-responsive">
+            <table class="responsive-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% responsaveis.forEach(function(responsavel) { %>
+                    <tr>
+                        <td data-label="ID"><%= responsavel.id %></td>
+                        <td data-label="Nome"><%= responsavel.nome %></td>
+                        <td data-label="Email"><%= responsavel.email %></td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+            </div>
         </div>
-    </div>
-
-
-    <div class="section">
-        <button class="accordion">Responsáveis</button>
-        <div class="panel">
-        <h3>Listar todos responsáveis</h3>
-        <form action="/responsavel/responsavelPorId" method="POST">
-            Id do responsável: <input type="text" id="id_responsavel" name="id_responsavel" required>
-            <button type="submit">Buscar por ID</button>
-        </form><br>
-        <div class="table-responsive">
-        <table class="responsive-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Email</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% responsaveis.forEach(function(responsavel) { %>
-                <tr>
-                    <td data-label="ID"><%= responsavel.id %></td>
-                    <td data-label="Nome"><%= responsavel.nome %></td>
-                    <td data-label="Email"><%= responsavel.email %></td>
-                </tr>
-                <% }); %>
-            </tbody>
-        </table>
-        </div>
-    </div>
     </div>
 
 
@@ -241,7 +241,7 @@
     </div> <!-- .sections -->
 
             <form action="/admin/logout" method="GET">
-                <button type="submit">Logout</button>
+                <button class="btn btn-danger" type="submit">Logout</button>
             </form>
 
     <script>
