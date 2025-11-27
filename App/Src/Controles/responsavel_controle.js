@@ -1,23 +1,32 @@
-const respModelo = require('../Modelos/responsavel_modelo');
-const animalModelo = require('../Modelos/animal_modelo');
-const adocaoModelo = require('../Modelos/adocao_modelo');
-const path = require('path');
+// controllers/responsavelController.js
+const Responsavel = require('../Modelos/responsavel_modelo');
 
-const perfilResponsavel = (req, res) => {
-    const { email, senha } = req.body;
-    const responsavel = respModelo.responsaveis.find(r => r.email === email && r.senha === senha);
-    const animaisDisponiveis = animalModelo.animaisdisponiveis(); 
-    if (responsavel) {
-        const adocoesResponsavel = adocaoModelo.todasAdocoesdeumResponsavel(responsavel.nome);
-        req.session.user = { tipo_conta: 'responsavel', id_responsavel: responsavel.id, email: email, senha: senha}; // grava sessão
-        res.render('Perfil/responsavel', { nome: responsavel.nome ,
-            animaisAdocao: animaisDisponiveis,
-            animaisResponsavel: adocoesResponsavel
-        }) ;
-        //mandar para ejs do perfil do responsavel
-    } else {
-        req.flash('error', 'Email ou senha inválidos. Acesso negado.');
-        return loginResponsavel(req, res);
+// LISTAR TODOS
+exports.listarResponsaveis = async (req, res) => {
+    try {
+        const responsaveis = await Responsavel.findAll();
+        res.json(responsaveis);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ erro: "Erro ao buscar responsáveis" });
+    }
+};
+
+// BUSCAR POR ID
+exports.buscarResponsavelPorId = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const responsavel = await Responsavel.findByPk(id);
+
+        if (!responsavel) {
+            return res.status(404).json({ erro: "Responsável não encontrado" });
+        }
+
+        res.json(responsavel);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ erro: "Erro ao buscar responsável" });
     }
 };
 
@@ -25,57 +34,64 @@ const loginResponsavel = (req, res) => {
     res.render('Logins/responsavel', { messages: req.flash() });
 };
 
-const criarResponsavel = (req, res) => {
-    const { nome, email, senha } = req.body;
-    respModelo.criarResponsavel(nome, email, senha);
-    return res.render('Avisos/criarResponsavel', { nome: nome });
-};
+// CRIAR
+exports.criarResponsavel = async (req, res) => {
+    try {
+        const { nome, email } = req.body;
 
+        const novo = await Responsavel.create({
+            nome,
+            email
+        });
 
-const editarResponsavel = (req, res) => {
-    const { nome, email, id, senha} = req.body;
-    const responsavelAtualizado = respModelo.editarResponsavel(id, nome, email, senha);
-    if (responsavelAtualizado) {
-        res.json(responsavelAtualizado);
+        res.status(201).json(novo);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ erro: "Erro ao criar responsável" });
     }
-    else {
-        res.status(404).json({ mensagem: "Responsável não encontrado." });
+};
+
+// ATUALIZAR
+exports.atualizarResponsavel = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const responsavel = await Responsavel.findByPk(id);
+
+        if (!responsavel) {
+            return res.status(404).json({ erro: "Responsável não encontrado" });
+        }
+
+        const { nome, email } = req.body;
+
+        await responsavel.update({
+            nome,
+            email
+        });
+
+        res.json(responsavel);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ erro: "Erro ao atualizar responsável" });
     }
 };
 
+// DELETAR
+exports.deletarResponsavel = async (req, res) => {
+    try {
+        const { id } = req.params;
 
+        const responsavel = await Responsavel.findByPk(id);
 
-const getTodosResponsaveis = (req, res) => {
-    const responsaveis = respModelo.getTodosResponsaveis();
-    res.json(responsaveis);
-    
+        if (!responsavel) {
+            return res.status(404).json({ erro: "Responsável não encontrado" });
+        }
+
+        await responsavel.destroy();
+
+        res.json({ mensagem: "Responsável deletado com sucesso" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ erro: "Erro ao deletar responsável" });
+    }
 };
-
-const getResponsavelPorId = (req, res) => {
-    const { id_responsavel } = req.body;
-
-    const responsavel = respModelo.getResponsavelId(parseInt(id_responsavel));
-    if (responsavel) {
-        res.render('Avisos/responsavelId', { responsavel: responsavel, adminSenha: req.session.user.adminSenha });
-    } else {
-        res.status(404).json({ mensagem: "Responsável não encontrado." });
-    }  
-
-};
-
-const logoutResp = (req, res) => {
-    req.session.destroy (err => {
-        res.redirect('/inicial.html')
-    }   );
-};
-
-
-module.exports = {
-    loginResponsavel,
-    criarResponsavel,
-    editarResponsavel,
-    getTodosResponsaveis,
-    getResponsavelPorId,
-    logoutResp,
-    perfilResponsavel
-}
