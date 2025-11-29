@@ -95,3 +95,8 @@ exports.deletarResponsavel = async (req, res) => {
         res.status(500).json({ erro: "Erro ao deletar responsável" });
     }
 };
+
+exports.loginResponsavel = (req, res) => {
+    res.render('Logins/responsavel', { messages: req.flash() });
+};
+

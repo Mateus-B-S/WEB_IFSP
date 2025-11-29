@@ -1,9 +1,9 @@
 // controllers/exameController.js
-const Exame = require('../Modelos/exame_modelo');
+const Exame = require('../Modelos/exame_medico');
 const Animal = require('../Modelos/animal_modelo');
 const Veterinario = require('../Modelos/vet_modelo');
 
-// LISTAR TODOS OS EXAMES (com join)
+// listar os exames com join
 exports.listarExames = async (req, res) => {
     try {
         const exames = await Exame.findAll({
@@ -20,7 +20,7 @@ exports.listarExames = async (req, res) => {
     }
 };
 
-// BUSCAR EXAME POR ID
+// aqui é busca por id, acho q tinha
 exports.buscarExamePorId = async (req, res) => {
     try {
         const { id } = req.params;
@@ -43,7 +43,7 @@ exports.buscarExamePorId = async (req, res) => {
     }
 };
 
-// CRIAR EXAME
+// cria os exames
 exports.criarExame = async (req, res) => {
     try {
         const { prontuario_vet, id_animal, data_exame, observacoes } = req.body;
@@ -62,7 +62,7 @@ exports.criarExame = async (req, res) => {
     }
 };
 
-// ATUALIZAR EXAME
+// atualiza os exames
 exports.atualizarExame = async (req, res) => {
     try {
         const { id } = req.params;
@@ -89,7 +89,7 @@ exports.atualizarExame = async (req, res) => {
     }
 };
 
-// DELETAR EXAME
+// deleta os exames
 exports.deletarExame = async (req, res) => {
     try {
         const { id } = req.params;
@@ -106,6 +106,26 @@ exports.deletarExame = async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({ erro: "Erro ao deletar exame" });
+    }
+};
+
+// aq ele lista exames por veterinário
+exports.listarExamesPorVet = async (req, res) => {
+    try {
+        const { prontuario_vet } = req.body;
+
+        const exames = await Exame.findAll({
+            where: { prontuario_vet },
+            include: [
+                { model: Animal },
+                { model: Veterinario }
+            ]
+        });
+
+        res.json(exames);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ erro: "Erro ao buscar exames do veterinário" });
     }
 };
 

@@ -1,8 +1,8 @@
 
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const sequelize = require('../Banco_dados/connection');
 
-const animal = sequelize.define('animal', {
+const Animal = sequelize.define('animal', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -28,4 +28,4 @@ const animal = sequelize.define('animal', {
   timestamps: false
 });
 
-module.exports = animal;
+module.exports = Animal;

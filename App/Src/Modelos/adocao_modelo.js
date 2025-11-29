@@ -1,9 +1,9 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const sequelize = require('../Banco_dados/connection');
 
 // import dos outros models
-const Animal = require('./animal');
-const Responsavel = require('./responsavel');
+const Animal = require('./animal_modelo');
+const Responsavel = require('./responsavel_modelo');
 
 const Adocao = sequelize.define('adocao', {
   id: {

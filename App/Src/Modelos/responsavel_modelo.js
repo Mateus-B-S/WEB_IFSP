@@ -2,7 +2,7 @@
 
 
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const sequelize = require('../Banco_dados/connection');
 
 const responsavel = sequelize.define('responsavel', {
   id: {

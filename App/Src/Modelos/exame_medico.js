@@ -1,6 +1,6 @@
 // Modelos/exame_modelo.js
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const sequelize = require('../Banco_dados/connection');
 
 const Animal = require('./animal_modelo');
 const Veterinario = require('./vet_modelo');

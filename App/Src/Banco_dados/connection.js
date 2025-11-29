@@ -10,7 +10,7 @@ const sequelize = new Sequelize('projetolegal', 'root', 'aluno123', {
 sequelize.authenticate()
   .then(() => {
     console.log('✅ Conectado ao MySQL com sucesso!');
-    return sequelize.sync({ alter: true });
+    return sequelize.sync();
   })
   .then(() => console.log('✅ Banco de dados sincronizado!'))
   .catch(err => console.error('❌ Erro:', err));
