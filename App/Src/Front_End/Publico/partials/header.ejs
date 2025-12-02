@@ -1,0 +1,254 @@
+<header class="app-header">
+  <div class="header-container">
+    <!-- Logo e Nome da Empresa (Esquerda) -->
+    <div class="header-left">
+      <div class="logo-section">
+        <div class="logo-icon">🐾</div>
+        <h1 class="company-name">DogCat</h1>
+      </div>
+    </div>
+
+    <!-- Sobre a Empresa (Centro) -->
+    <div class="header-center">
+      <nav class="header-nav">
+        <a href="/" class="header-link">Início</a>
+        <a href="/#sobre" class="header-link">Sobre</a>
+        <a href="/#servicos" class="header-link">Serviços</a>
+      </nav>
+    </div>
+
+    <!-- Entre em Contato e Perfil (Direita) -->
+    <div class="header-right">
+      <a href="/#contato" class="btn-contact">Entre em Contato</a>
+      <button class="btn-profile" id="profileBtn" title="Perfil do Usuário">
+        <span class="profile-icon">👤</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Menu Mobile Toggle -->
+  <button class="header-toggle" id="headerToggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</header>
+
+<style>
+  .app-header {
+    background: linear-gradient(90deg, #6dd5ed, #2193b0);
+    padding: 12px 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    flex-shrink: 0;
+  }
+  .header-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  /* Seção Esquerda - Logo */
+  .header-left {
+    flex: 0 0 auto;
+  }
+
+  .logo-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  .logo-section:hover {
+    transform: scale(1.05);
+  }
+
+  .logo-icon {
+    font-size: 32px;
+    line-height: 1;
+  }
+
+  .company-name {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Seção Centro - Navegação */
+  .header-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .header-nav {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+  }
+
+  .header-link {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+
+  .header-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+  }
+
+  /* Seção Direita - Contato e Perfil */
+  .header-right {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .btn-contact {
+    padding: 8px 18px;
+    background: rgba(255, 255, 255, 0.25);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .btn-contact:hover {
+    background: rgba(255, 255, 255, 0.35);
+    transform: translateY(-2px);
+  }
+
+  .btn-profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    font-size: 20px;
+  }
+
+  .btn-profile:hover {
+    background: rgba(255, 255, 255, 0.35);
+    transform: scale(1.1);
+  }
+
+  .profile-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Toggle Mobile */
+  .header-toggle {
+    display: none;
+    flex-direction: column;
+    background: none;
+    border: none;
+    cursor: pointer;
+    gap: 5px;
+  }
+
+  .header-toggle span {
+    width: 24px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  /* Responsivo */
+  @media (max-width: 768px) {
+    .header-container {
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .header-left {
+      flex: 1 1 auto;
+      min-width: 150px;
+    }
+
+    .company-name {
+      font-size: 18px;
+    }
+
+    .header-center {
+      flex: 1 1 100%;
+      order: 3;
+    }
+
+    .header-nav {
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .header-link {
+      font-size: 13px;
+      padding: 6px 10px;
+    }
+
+    .header-right {
+      flex: 0 0 auto;
+    }
+
+    .btn-contact {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .app-header {
+      padding: 10px 15px;
+    }
+
+    .header-container {
+      gap: 8px;
+    }
+
+    .header-center {
+      display: none;
+    }
+
+    .header-toggle {
+      display: flex;
+      order: 2;
+    }
+
+    .logo-icon {
+      font-size: 24px;
+    }
+
+    .company-name {
+      font-size: 16px;
+    }
+
+    .btn-contact {
+      display: none;
+    }
+  }
+</style>

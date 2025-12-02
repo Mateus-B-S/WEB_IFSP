@@ -1,41 +1,62 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin_Login</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-</head>
-<body>
-    <section class="vh-100" style="background-color: #508bfc;">
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-        <div class="card shadow-2-strong" style="border-radius: 1rem;">
-          <div class="card-body p-5 text-center">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <%- include('../../Publico/partials/header.ejs') %>
+    <section class="vh-100" style="background-color: #508bfc">
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-2-strong" style="border-radius: 1rem">
+              <div class="card-body p-5 text-center">
+                <h3 class="mb-5">Login de Administrador</h3>
+                <% if (messages.error && messages.error.length > 0) { %>
+                <strong style="color: red"
+                  >Erro: <%= messages.error[0] %></strong
+                >
+                <% } %>
+                <form action="/admin/" method="POST">
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <input
+                      type="password"
+                      id="typePasswordX-2"
+                      name="senha"
+                      class="form-control form-control-lg"
+                      required
+                    />
+                    <label class="form-label" for="typePasswordX-2"
+                      >Senha</label
+                    >
+                  </div>
 
-            <h3 class="mb-5">Login de Administrador</h3>
-            <% if (messages.error && messages.error.length > 0) { %>
-              <strong style="color:red">Erro: <%= messages.error[0] %></strong>
-            <% } %>
-            <form action="/admin/" method="POST">
-              <div data-mdb-input-init class="form-outline mb-4">
-                <input type="password" id="typePasswordX-2" name="senha" class="form-control form-control-lg" required/>
-                <label class="form-label" for="typePasswordX-2">Senha</label>
+                  <!-- Checkbox -->
+                  <button
+                    data-mdb-button-init
+                    data-mdb-ripple-init
+                    class="btn btn-primary btn-lg btn-block"
+                    type="submit"
+                  >
+                    Login
+                  </button>
+                </form>
+
+                <hr class="my-4" />
               </div>
-
-              <!-- Checkbox -->
-              <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
-            </form>
-
-             <hr class="my-4">
-
-            
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-</body>
+    </section>
+    <%- include('../../Publico/partials/footer.ejs') %>
+  </body>
 </html>
