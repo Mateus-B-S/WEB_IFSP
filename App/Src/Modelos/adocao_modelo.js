@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../Banco_dados/connection');
 
 // import dos outros models
-const Animal = require('./animal_modelo');
+const animal = require('./animal_modelo').Animal;
 const Responsavel = require('./responsavel_modelo');
 
 const Adocao = sequelize.define('adocao', {
@@ -24,8 +24,8 @@ const Adocao = sequelize.define('adocao', {
 module.exports = Adocao;
 
 
-Animal.hasOne(Adocao, { foreignKey: 'animal_id' });
-Adocao.belongsTo(Animal, { foreignKey: 'animal_id' });
+animal.hasOne(Adocao, { foreignKey: 'animal_id' });
+Adocao.belongsTo(animal, { foreignKey: 'animal_id' });
 
 
 Responsavel.hasMany(Adocao, { foreignKey: 'responsavel_id' });

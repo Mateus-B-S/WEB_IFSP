@@ -28,4 +28,21 @@ const Animal = sequelize.define('animal', {
   timestamps: false
 });
 
-module.exports = Animal;
+const getTodosAnimais = () => Animal.findAll();
+const animaisdisponiveis = () => Animal.findAll({ where: { adotado: false } });
+const criarAnimal = (params) => Animal.create(params);
+const getAnimalId = (id) => Animal.findByPk(id);
+const mudarAnimal = (id, params) => {
+    return Animal.update(params, { where: { id: id } });
+};
+const deleteAnimal = (id) => {
+    return Animal.destroy({ where: { id: id } });
+};
+module.exports = {
+  Animal, 
+  getTodosAnimais, 
+  criarAnimal, getAnimalId,
+  mudarAnimal, 
+  deleteAnimal, 
+  animaisdisponiveis
+};

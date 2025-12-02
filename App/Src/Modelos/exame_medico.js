@@ -2,7 +2,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../Banco_dados/connection');
 
-const Animal = require('./animal_modelo');
+const animal = require('./animal_modelo').Animal;
 const Veterinario = require('./vet_modelo');
 
 const Exame = sequelize.define('Exame', {
@@ -37,8 +37,8 @@ const Exame = sequelize.define('Exame', {
 });
 
 // relacionamentooooos
-Exame.belongsTo(Animal, { foreignKey: 'id_animal' });
-Animal.hasMany(Exame, { foreignKey: 'id_animal' });
+Exame.belongsTo(animal, { foreignKey: 'id_animal' });
+animal.hasMany(Exame, { foreignKey: 'id_animal' });
 
 Exame.belongsTo(Veterinario, { foreignKey: 'prontuario_vet' });
 Veterinario.hasMany(Exame, { foreignKey: 'prontuario_vet' });
