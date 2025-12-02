@@ -3,7 +3,7 @@ const sequelize = require('../Banco_dados/connection');
 
 // import dos outros models
 const animal = require('./animal_modelo').Animal;
-const Responsavel = require('./responsavel_modelo');
+const responsavel = require('./responsavel_modelo').Responsavel;
 
 const Adocao = sequelize.define('adocao', {
   id: {
@@ -20,16 +20,34 @@ const Adocao = sequelize.define('adocao', {
   timestamps: false
 });
 
-// exporta o model primeiro
-module.exports = Adocao;
-
-
 animal.hasOne(Adocao, { foreignKey: 'animal_id' });
 Adocao.belongsTo(animal, { foreignKey: 'animal_id' });
 
+responsavel.hasMany(Adocao, { foreignKey: 'responsavel_id' });
+Adocao.belongsTo(responsavel, { foreignKey: 'responsavel_id' });
 
-Responsavel.hasMany(Adocao, { foreignKey: 'responsavel_id' });
-Adocao.belongsTo(Responsavel, { foreignKey: 'responsavel_id' });
+const getTodasAdocoes = () => Adocao.findAll();
+
+const criarAdocao = (params) => Adocao.create(params);
+
+const todasAdocoesdeumResponsavel = (responsavel_nome) => {
+    return Adocao.findAll({ where: { responsavel_nome: responsavel_nome } });
+};
+
+const atualizarAdocao = async(id, params) => {
+    await Adocao.update(params, { where: { id: id } });
+};
+const deleteAdocao = async(id) => {
+  await Adocao.destroy({ where: { id: id } });
+};
 
 
-//a função é essa, mas não sei bem o que fazer com o resto vei
+// exporta o model primeiro
+module.exports = {
+  Adocao,
+  getTodasAdocoes,
+  criarAdocao,
+  todasAdocoesdeumResponsavel,
+  atualizarAdocao,
+  deleteAdocao
+};

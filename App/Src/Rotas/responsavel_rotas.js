@@ -8,14 +8,16 @@ const permitidos = require(path.join(__dirname, '../Segurança/autorizacao'));
 // LOGIN
 router.get('/login', responsavelControle.loginResponsavel);
 
-// CRUD
-router.get('/todos', responsavelControle.listarResponsaveis);
-router.get('/:id', responsavelControle.buscarResponsavelPorId);
-router.post('/criar', responsavelControle.criarResponsavel);
-router.put('/editar/:id', responsavelControle.atualizarResponsavel);
-router.delete('/deletar/:id', responsavelControle.deletarResponsavel);
+router.post("/", responsavelControle.perfilResponsavel);
+router.post("/criar", responsavelControle.criarResponsavel);
+router.put("/editar", responsavelControle.editarResponsavel);
+router.get("/login", responsavelControle.loginResponsavel);
 
-// ADMIN
-router.get('/admin/:id', permitidos('admin'), responsavelControle.buscarResponsavelPorId);
+// busca pelo id
+router.post("/responsavelPorId", permitidos("admin"), responsavelControle.getResponsavelPorId);
+
+//logout
+router.post("/logout", responsavelControle.logoutResp);
+
 
 module.exports = router;

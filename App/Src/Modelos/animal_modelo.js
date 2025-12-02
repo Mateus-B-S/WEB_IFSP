@@ -38,6 +38,7 @@ const mudarAnimal = (id, params) => {
 const deleteAnimal = (id) => {
     return Animal.destroy({ where: { id: id } });
 };
+
 module.exports = {
   Animal, 
   getTodosAnimais, 

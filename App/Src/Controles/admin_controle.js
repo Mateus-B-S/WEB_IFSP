@@ -10,12 +10,12 @@ const loginAdmin = (req, res) => {
   res.render('Logins/admin', { messages: req.flash() });
 };
 
-// Processa o login
+// processa o login
 const perfilAdmin = async (req, res) => {
   try {
     const { senha } = req.body || {};
 
-    // Busca o admin no banco
+    // busca o admin no banco
     const admin = await Admin.findOne();
 
     if (!admin || senha !== admin.senha.toString()) {
@@ -23,13 +23,13 @@ const perfilAdmin = async (req, res) => {
       return res.redirect('/login/admin'); // ajuste conforme sua rota
     }
 
-    // Salva sessão
+    // salva a sessão
     req.session.user = {
       tipo_conta: 'admin',
       adminSenha: admin.senha
     };
 
-    // Carrega todos os dados para o dashboard do admin
+    // carrega todos os dados para o dashboard do admin ja que ele pode tudo
     const [
       listaAnimais,
       listaResponsaveis,
@@ -44,7 +44,7 @@ const perfilAdmin = async (req, res) => {
       Adocao.findAll()
     ]);
 
-    // Renderiza a página de perfil
+    // renderiza a página de perfil
     return res.render("Perfil/admin", {
       animais: listaAnimais,
       responsaveis: listaResponsaveis,
@@ -59,7 +59,7 @@ const perfilAdmin = async (req, res) => {
   }
 };
 
-// Logout
+// logout
 const logoutAdmin = (req, res) => {
   req.session.destroy(err => {
     res.redirect('/inicial.html');

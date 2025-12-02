@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../Banco_dados/connection');
 
 const animal = require('./animal_modelo').Animal;
-const Veterinario = require('./vet_modelo');
+const veterinario = require('./vet_modelo').Veterinario;
 
 const Exame = sequelize.define('Exame', {
   id: {
@@ -40,42 +40,8 @@ const Exame = sequelize.define('Exame', {
 Exame.belongsTo(animal, { foreignKey: 'id_animal' });
 animal.hasMany(Exame, { foreignKey: 'id_animal' });
 
-Exame.belongsTo(Veterinario, { foreignKey: 'prontuario_vet' });
-Veterinario.hasMany(Exame, { foreignKey: 'prontuario_vet' });
+Exame.belongsTo(veterinario, { foreignKey: 'prontuario_vet' });
+veterinario.hasMany(Exame, { foreignKey: 'prontuario_vet' });
 
 module.exports = Exame;
 
-//const { DataTypes } = require('sequelize');
-//const sequelize = require('../config/db');
-//const prontuario_vet = require('./vet');
-//const id_animal  = require('./animal')
-
-
-//const exames = sequelize.define('Exames', {
-  //id: {
-    //type: DataTypes.INTEGER,
-    //primaryKey: true,
-    //autoIncrement: true
- // },
-  //data_exame: {
-    //type: DataTypes.DATEONLY,
-    //allowNull: false
- // }
-
-  //observacoes: {
-    //type: DataTypes.STRING,
-    //allowNull: false
- // }
-
-//}, {
-  //tableName: 'exame',
-  //timestamps: false
-//});
-
-//module.exports = exame;
-
-//Animal.hasOne(Adocao, { foreignKey: 'id_animal' });
-//Adocao.belongsTo(Animal, { foreignKey: 'id_animal' });
-
-//Veterinario.hasMany(Exames, { foreignKey: 'prontuario_vet' });
-//Exames.belongsTo(Veterinario, { foreignKey: 'prontuario_vet' });

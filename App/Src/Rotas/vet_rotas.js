@@ -20,3 +20,5 @@ router.delete('/deletarVet', permitidos('admin'), vetControle.deletarVet);
 router.post('/logout', vetControle.logoutVet);
 
 module.exports = router;
+
+//aparentemente ok

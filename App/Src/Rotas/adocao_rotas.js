@@ -4,25 +4,22 @@ const path = require('path');
 const permitidos = require(path.join(__dirname, '../Segurança/autorizacao'));
 const adocaoControle = require('../Controles/adocao_controle');
 
-// LISTAR TODAS AS ADOÇÕES
+// lista tds as adoções
 router.get('/', permitidos('admin', 'veterinario'), adocaoControle.listar);
 
-// LISTAR ADOÇÕES POR RESPONSÁVEL
-router.post('/listarPorResponsavel', 
-    permitidos('admin', 'veterinario'), 
-    adocaoControle.listarAdocoesPorResponsavel
-);
+// listar por responsavel
+router.post('/listarPorResponsavel', permitidos('admin', 'veterinario'), adocaoControle.listarAdocoesPorResponsavel);
 
-// BUSCAR POR ID
+// busca pelo id
 router.get('/:id', permitidos('admin', 'veterinario'), adocaoControle.buscarPorId);
 
-// CRIAR ADOÇÃO
-router.post('/adotarAnimal', adocaoControle.criar);
+// aq ele cria
+router.post('/adotarAnimal', adocaoControle.criarAdocao);
 
-// ATUALIZAR
+// devolver (atualizar)
 router.put('/:id', permitidos('admin'), adocaoControle.atualizar);
 
-// DELETAR
+// exclui
 router.delete('/:id', permitidos('admin'), adocaoControle.deletar);
 
 module.exports = router;

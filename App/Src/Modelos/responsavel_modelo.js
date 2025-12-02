@@ -4,7 +4,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../Banco_dados/connection');
 
-const responsavel = sequelize.define('responsavel', {
+const Responsavel = sequelize.define('responsavel', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -25,4 +25,21 @@ const responsavel = sequelize.define('responsavel', {
   timestamps: false
 });
 
-module.exports = responsavel;
+const getTodosResponsaveis = () => Responsavel.findAll();
+const criarResponsavel = (params) => Responsavel.create(params);
+const getResponsavelId = (id) => Responsavel.find(r => r.id === id);
+const editarResponsavel = (id, params) => {
+    return Responsavel.update(params, { where: { id: id } });
+};
+const deleteResponsavel = (id) => {
+    return Responsavel.destroy({ where: { id: id } });
+};
+
+module.exports = {
+  Responsavel,
+  getTodosResponsaveis,
+  criarResponsavel,
+  getResponsavelId,
+  editarResponsavel,
+  deleteResponsavel
+};

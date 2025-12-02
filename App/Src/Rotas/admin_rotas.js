@@ -7,7 +7,7 @@ const path = require('path');
 
 const adminControle = require('../Controles/admin_controle');
 
-// Rota para login do administrador
+// rota para login do administrador
 router.post('/', adminControle.perfilAdmin);
 
 //logout

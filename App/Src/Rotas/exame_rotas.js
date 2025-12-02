@@ -5,10 +5,12 @@ const path = require('path');
 const permitidos = require(path.join(__dirname, '../Segurança/autorizacao'));
 
 
-router.get('/listarporvet', permitidos('admin', 'veterinario'), exameControle.listarExamesPorVet);
+//router.get('/listarporvet', permitidos('admin', 'veterinario'), exameControle.listarExamesPorVet);
 
-// Rotas para administração de exames médicos
+// rotas para administração de exames médicos
 router.post('/criarExame', permitidos('admin', 'veterinario'), exameControle.criarExame);
-router.post('/listarPorVet', permitidos('admin'), exameControle.listarExamesPorVet);
-
+router.post('/listarPorVet', permitidos('admin'), exameControle.listarExamesPorVet); //tem q apagar um desses
+router.delete('/:id', permitidos('admin'), exameControle.deletarExame);
+router.put('/:id', permitidos('admin'), exameControle.atualizarExame);
+//ver se eu boto  busca por id tbm
 module.exports = router;

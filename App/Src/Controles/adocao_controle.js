@@ -5,7 +5,7 @@ const Responsavel = require('../Modelos/responsavel_modelo');
 
 module.exports = {
 
-  // LISTAR TODAS AS ADOÇÕES
+  // listar todas as adoções
   async listar(req, res) {
     try {
       const adocoes = await Adocao.findAll({
@@ -22,7 +22,7 @@ module.exports = {
     }
   },
 
-  // LISTAR ADOÇÕES POR RESPONSÁVEL (nova funcionalidade)
+  // listar de acordo com resonsavel
   async listarAdocoesPorResponsavel(req, res) {
     try {
       const { responsavel_id } = req.body;
@@ -50,7 +50,7 @@ module.exports = {
     }
   },
 
-  // BUSCAR UMA ADOÇÃO POR ID
+  //busca as adoções por id
   async buscarPorId(req, res) {
     try {
       const { id } = req.params;
@@ -72,7 +72,7 @@ module.exports = {
     }
   },
 
-  // CRIAR UMA NOVA ADOÇÃO
+  // cria uma nova
   async criar(req, res) {
     try {
       const { data_adocao, animal_id, responsavel_id } = req.body;
@@ -80,12 +80,6 @@ module.exports = {
       if (!data_adocao || !animal_id || !responsavel_id) {
         return res.status(400).json({ erro: 'Campos obrigatórios: data_adocao, animal_id, responsavel_id.' });
       }
-
-      // (opcional) checar existência do animal e do responsavel
-      // const animalExists = await Animal.findByPk(animal_id);
-      // const respExists = await Responsavel.findByPk(responsavel_id);
-      // if (!animalExists || !respExists) return res.status(400).json({ erro: 'Animal ou responsável inválido.' });
-
       const novaAdocao = await Adocao.create({
         data_adocao,
         animal_id,
@@ -99,7 +93,7 @@ module.exports = {
     }
   },
 
-  // ATUALIZAR UMA ADOÇÃO
+  // editar/atualizar (devolução)
   async atualizar(req, res) {
     try {
       const { id } = req.params;
@@ -119,7 +113,7 @@ module.exports = {
     }
   },
 
-  // EXCLUIR UMA ADOÇÃO
+  // deletarrr
   async deletar(req, res) {
     try {
       const { id } = req.params;

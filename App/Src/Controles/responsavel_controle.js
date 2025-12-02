@@ -1,7 +1,7 @@
 // controllers/responsavelController.js
 const Responsavel = require('../Modelos/responsavel_modelo');
 
-// LISTAR TODOS
+// lista todos
 exports.listarResponsaveis = async (req, res) => {
     try {
         const responsaveis = await Responsavel.findAll();
@@ -12,7 +12,7 @@ exports.listarResponsaveis = async (req, res) => {
     }
 };
 
-// BUSCAR POR ID
+// busca os ngc por id
 exports.buscarResponsavelPorId = async (req, res) => {
     try {
         const { id } = req.params;
@@ -34,7 +34,7 @@ const loginResponsavel = (req, res) => {
     res.render('Logins/responsavel', { messages: req.flash() });
 };
 
-// CRIAR
+// cria conta de responsaveis
 exports.criarResponsavel = async (req, res) => {
     try {
         const { nome, email } = req.body;
@@ -51,7 +51,7 @@ exports.criarResponsavel = async (req, res) => {
     }
 };
 
-// ATUALIZAR
+// atualiza a conta deles
 exports.atualizarResponsavel = async (req, res) => {
     try {
         const { id } = req.params;
@@ -76,7 +76,7 @@ exports.atualizarResponsavel = async (req, res) => {
     }
 };
 
-// DELETAR
+// deleta um responsavel
 exports.deletarResponsavel = async (req, res) => {
     try {
         const { id } = req.params;

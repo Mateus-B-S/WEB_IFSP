@@ -1,11 +1,11 @@
 const Veterinario = require('../Modelos/vet_modelo');
 
-// Renderiza tela de login
+// renderiza tela de login
 const loginVet = (req, res) => {
     res.render('Logins/vet', { messages: req.flash() });
 };
 
-// Processa login do veterinário
+// processa o login do vet
 const perfilVet = async (req, res) => {
     try {
         const { prontuario } = req.body;
@@ -30,7 +30,7 @@ const perfilVet = async (req, res) => {
     }
 };
 
-// Buscar todos os veterinários
+// busca todos os veterináriosss
 const getTodosVets = async (req, res) => {
     try {
         const vets = await Veterinario.findAll();
@@ -41,7 +41,7 @@ const getTodosVets = async (req, res) => {
     }
 };
 
-// Buscar veterinário por ID
+// busca de vet por ID
 const getVetPorId = async (req, res) => {
     try {
         const { id } = req.query;
@@ -58,7 +58,7 @@ const getVetPorId = async (req, res) => {
     }
 };
 
-// Criar veterinário
+// cria um vet novo
 const criarVet = async (req, res) => {
     try {
         const { nome, formacao, prontuario } = req.body;
@@ -76,7 +76,7 @@ const criarVet = async (req, res) => {
     }
 };
 
-// Editar veterinário
+// edita o veterinário
 const editarVet = async (req, res) => {
     try {
         const { id, nome, formacao, prontuario } = req.body;
@@ -96,7 +96,7 @@ const editarVet = async (req, res) => {
     }
 };
 
-// Deletar veterinário
+// exclui ele hehe
 const deletarVet = async (req, res) => {
     try {
         const { id } = req.body;
@@ -117,7 +117,7 @@ const deletarVet = async (req, res) => {
     }
 };
 
-// Logout
+// sair da conta (logout)
 const logoutVet = (req, res) => {
     req.session.destroy(err => {
         res.redirect('/inicial.html');
