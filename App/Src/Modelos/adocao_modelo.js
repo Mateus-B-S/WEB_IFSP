@@ -14,31 +14,41 @@ const Adocao = sequelize.define('adocao', {
   data_adocao: {
     type: DataTypes.DATEONLY,
     allowNull: false
+  },
+  animal_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  responsavel_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false
   }
 }, {
   tableName: 'adocoes',
   timestamps: false
 });
 
+
+
 animal.hasOne(Adocao, { foreignKey: 'animal_id' });
-Adocao.belongsTo(animal, { foreignKey: 'animal_id' });
+Adocao.belongsTo(animal, { foreignKey: 'id' });
 
 responsavel.hasMany(Adocao, { foreignKey: 'responsavel_id' });
-Adocao.belongsTo(responsavel, { foreignKey: 'responsavel_id' });
+Adocao.belongsTo(responsavel, { foreignKey: 'id' });
 
-const getTodasAdocoes = () => Adocao.findAll();
+const getTodasAdocoes = () => Adocao.findAll({ raw: true });
 
 const criarAdocao = (params) => Adocao.create(params);
 
-const todasAdocoesdeumResponsavel = (responsavel_nome) => {
-    return Adocao.findAll({ where: { responsavel_nome: responsavel_nome } });
+const todasAdocoesdeumResponsavel = (responsavel_id) => {
+    return Adocao.findAll({ where: { responsavel_id: responsavel_id }, raw: true});
 };
 
 const atualizarAdocao = async(id, params) => {
-    await Adocao.update(params, { where: { id: id } });
+    await Adocao.update(params, { where: { id: id }, raw: true });
 };
 const deleteAdocao = async(id) => {
-  await Adocao.destroy({ where: { id: id } });
+  await Adocao.destroy({ where: { id: id }, raw: true });
 };
 
 

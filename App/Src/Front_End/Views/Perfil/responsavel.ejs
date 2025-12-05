@@ -12,7 +12,7 @@
         <h1>Olá, <%= nome %>!</h1>
         <h2>Seus Animais Adotados</h2>
         <div class="cards-grid" id="adoptedAnimalsGrid">
-            <% animaisResponsavel.forEach(function(animal) { %>
+            <% Object.keys(animaisResponsavel).forEach(function(animal) { %>
             <div class="card">
                 <div class="card-header bg-light">
                     <div class="card-header-custom">
@@ -32,7 +32,7 @@
 
         <h2>Animais para adoção</h2>
         <div class="cards-grid">
-            <% animaisAdocao.forEach(function(animal) { %>
+            <% Object.keys(animaisAdocao).forEach(function(animal) { %>
             <div class="card" data-id="<%= animal.id %>" tabindex="0">
                 <div class="card-header bg-light">
                     <div class="card-header-custom">

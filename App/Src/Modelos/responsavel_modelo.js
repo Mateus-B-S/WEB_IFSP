@@ -25,14 +25,15 @@ const Responsavel = sequelize.define('responsavel', {
   timestamps: false
 });
 
-const getTodosResponsaveis = () => Responsavel.findAll();
-const criarResponsavel = (params) => Responsavel.create(params);
-const getResponsavelId = (id) => Responsavel.find(r => r.id === id);
-const editarResponsavel = (id, params) => {
-    return Responsavel.update(params, { where: { id: id } });
+const getTodosResponsaveis = () => Responsavel.findAll({ raw: true });
+const criarResponsavel = (params) => 
+  Responsavel.create( params );
+const getResponsavelId = (id) => Responsavel.findOne({ where: { id: id }, raw: true });
+const editarResponsavel = (id, {nome, email, senha}) => {
+    return Responsavel.update({nome, email, senha}, { where: { id: id }, raw: true });
 };
 const deleteResponsavel = (id) => {
-    return Responsavel.destroy({ where: { id: id } });
+    return Responsavel.destroy({ where: { id: id }, raw: true });
 };
 
 module.exports = {

@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
+permitidos = require(path.join(__dirname, '../Segurança/autorizacao'));
 
 
 const adminControle = require('../Controles/admin_controle');

@@ -43,5 +43,29 @@ animal.hasMany(Exame, { foreignKey: 'id_animal' });
 Exame.belongsTo(veterinario, { foreignKey: 'prontuario_vet' });
 veterinario.hasMany(Exame, { foreignKey: 'prontuario_vet' });
 
-module.exports = Exame;
+const getTodosExames = () => Exame.findAll({ raw: true });
+
+const criarExameMedico = (params) => Exame.create(params);
+
+const atualizarExame = async(id, params) => {
+  await Exame.update(params, { where: { id: id }, raw: true });
+};
+
+const deleteExame = async(id) => {
+  await Exame.destroy({ where: { id: id }, raw: true });
+};
+
+const getExamesPorVet = (prontuario_vet) => {
+  return Exame.findAll({ where: { prontuario_vet: prontuario_vet }, raw: true });
+};
+
+
+module.exports = {
+  Exame,
+  getTodosExames,
+  criarExameMedico,
+  atualizarExame,
+  deleteExame,
+  getExamesPorVet
+  }; 
 

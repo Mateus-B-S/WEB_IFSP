@@ -5,7 +5,7 @@ const router = express.Router();
 const path = require('path');
 const permitidos = require(path.join(__dirname, '../Segurança/autorizacao'));
 
-router.post('/', vetControle.perfilVet);
+router.post('/',permitidos('veterinario'), vetControle.perfilVet);
 router.get('/todos', vetControle.getTodosVets);
 router.get('/buscar/id', vetControle.getVetPorId);
 router.get('/login', vetControle.loginVet);

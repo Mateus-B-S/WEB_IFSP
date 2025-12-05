@@ -1,73 +1,55 @@
-const Admin = require('../Modelos/admin_modelo');
-const Animal = require('../Modelos/animal_modelo');
-const Responsavel = require('../Modelos/responsavel_modelo');
-const Veterinario = require('../Modelos/vet_modelo');
-const Exame = require('../Modelos/exame_medico');
-const Adocao = require('../Modelos/adocao_modelo');
+const admin = require('../Modelos/admin_modelo');
+const animalModelo = require('../Modelos/animal_modelo');
+const respModelo = require('../Modelos/responsavel_modelo');
+const exameModelo = require('../Modelos/exame_medico');
+const vetModelo = require('../Modelos/vet_modelo');
+const adocaoModelo = require('../Modelos/adocao_modelo');
+//const path = require('path');
 
-// Renderiza o formulário de login
-const loginAdmin = (req, res) => {
-  res.render('Logins/admin', { messages: req.flash() });
-};
-
-// processa o login
-const perfilAdmin = async (req, res) => {
-  try {
+const perfilAdmin =  async (req, res) => {
     const { senha } = req.body || {};
-
-    // busca o admin no banco
-    const admin = await Admin.findOne();
-
-    if (!admin || senha !== admin.senha.toString()) {
-      req.flash('error', 'Senha incorreta. Acesso negado.');
-      return res.redirect('/login/admin'); // ajuste conforme sua rota
-    }
-
-    // salva a sessão
-    req.session.user = {
-      tipo_conta: 'admin',
-      adminSenha: admin.senha
-    };
-
-    // carrega todos os dados para o dashboard do admin ja que ele pode tudo
-    const [
-      listaAnimais,
-      listaResponsaveis,
-      listaVeterinarios,
-      listaExames,
-      listaAdocoes
-    ] = await Promise.all([
-      Animal.findAll(),
-      Responsavel.findAll(),
-      Veterinario.findAll(),
-      Exame.findAll(),
-      Adocao.findAll()
+    // Buscar a senha armazenada (pegar o único admin) e comparar como string
+    const adminRow = await admin.findOne({ attributes: ['senha'], raw: true });
+    const adminSenha = adminRow ? String(adminRow.senha) : null;
+        
+    // Os .resolve faz com que primeiro ele faz a função e só depois mande para o EJS  
+    const [listaAnimais, listaResponsaveis, listaVeterinarios, listaExames, listaAdocoes] = await Promise.all([
+        Promise.resolve(animalModelo.getTodosAnimais()),
+        Promise.resolve(respModelo.getTodosResponsaveis()),
+        Promise.resolve(vetModelo.getTodosvets()),
+        Promise.resolve(exameModelo.getTodosExames()), 
+        Promise.resolve(adocaoModelo.getTodasAdocoes())
     ]);
+    if (senha && String(senha) === adminSenha) {
 
-    // renderiza a página de perfil
-    return res.render("Perfil/admin", {
-      animais: listaAnimais,
-      responsaveis: listaResponsaveis,
-      veterinarios: listaVeterinarios,
-      exames: listaExames,
-      adocoes: listaAdocoes
-    });
-
-  } catch (err) {
-    console.error("Erro no perfilAdmin:", err);
-    res.status(500).send("Erro no servidor.");
-  }
+        req.session.user = { tipo_conta: 'admin', adminSenha: adminSenha }; 
+        // grava sessão
+    
+        res.render("Perfil/admin", { animais: listaAnimais, 
+            responsaveis: listaResponsaveis, 
+            veterinarios: listaVeterinarios, 
+            exames: listaExames, 
+            adocoes: listaAdocoes }); 
+        // Renderiza a página de perfil do administrador
+        }    
+    else {
+        req.flash('error', 'Senha incorreta. Acesso negado.');
+        return loginAdmin(req, res);
+    }
 };
 
-// logout
+const loginAdmin = (req, res) => {
+    res.render('Logins/admin', { messages: req.flash() });
+};
+
 const logoutAdmin = (req, res) => {
-  req.session.destroy(err => {
-    res.redirect('/inicial.html');
-  });
+    req.session.destroy (err => {
+        res.redirect('/inicial.html')
+    }   );
 };
 
 module.exports = {
-  loginAdmin,
-  perfilAdmin,
-  logoutAdmin
+    logoutAdmin,
+    loginAdmin,
+    perfilAdmin
 };

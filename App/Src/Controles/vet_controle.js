@@ -1,136 +1,87 @@
-const Veterinario = require('../Modelos/vet_modelo');
+const modeloVet = require('../Modelos/vet_modelo');
+const exameModelo = require('../Modelos/exame_medico');
 
-// renderiza tela de login
+
+const perfilVet = (req, res) => {
+    const { prontuario, senha } = req.body;
+    const vet = modeloVet.vets.find(v => v.prontuario === prontuario && v.senha === senha);
+    const examesVet = exameModelo.getExamesporVet(prontuario);
+    if (vet) {
+        req.session.user = { tipo_conta: 'veterinario', id_vet: vet.id }; // grava sessão
+        res.render("Perfil/veterinario", { nome: vet.nome, exames: examesVet });
+        //mandar para ejs do perfil do veterinario
+    }
+    else {
+        req.flash('error', 'Prontuário ou senha inválidos. Acesso negado.');
+        return loginVet(req, res);
+    }
+};
+
 const loginVet = (req, res) => {
-    res.render('Logins/vet', { messages: req.flash() });
+    res.render('Logins/veterinario', { messages: req.flash() });
 };
 
-// processa o login do vet
-const perfilVet = async (req, res) => {
-    try {
-        const { prontuario } = req.body;
 
-        const vet = await Veterinario.findOne({ where: { prontuario } });
+const getTodosVets = (req, res) => {
+    const vets = modeloVet.getTodosvets();
+    res.json(vets);
+}
 
-        if (!vet) {
-            req.flash('error', 'Prontuário inválido.');
-            return res.redirect('/login/vet');
-        }
-
-        req.session.user = {
-            tipo_conta: 'veterinario',
-            vetId: vet.id
-        };
-
-        return res.render('Perfil/vet', { vet });
-
-    } catch (error) {
-        console.error("Erro em perfilVet:", error);
-        return res.status(500).send("Erro interno.");
+const getVetPorId = (req, res) => {
+    const id = parseInt(req.query.id);
+    const vet = modeloVet.getvetsId(id);
+    if (vet) {
+        res.json(vet);
+    }
+    else {
+        res.status(404).json({ mensagem: "Veterinário não encontrado." });
     }
 };
 
-// busca todos os veterináriosss
-const getTodosVets = async (req, res) => {
-    try {
-        const vets = await Veterinario.findAll();
-        return res.json(vets);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ erro: 'Erro ao listar veterinários' });
+//funções só para admins
+
+const criarVet = (req, res) => {
+    
+        const novoVet = modeloVet.criarVet(req.body);
+        res.render('Avisos/veterinarios', { veterinario: novoVet , adminSenha: req.session.user.adminSenha});
+};
+
+const editarVet = (req, res) => {
+    const { id } = req.body;
+    const vetAtualizado = modeloVet.mudarVet(id, req.body);
+    if (vetAtualizado) {
+        res.json(vetAtualizado);
+    }
+    else {
+        res.status(404).json({ mensagem: "Veterinário não encontrado." });
+    }
+    
+};
+
+const deletarVet = (req, res) => {
+    const id = parseInt(req.query.id);
+
+    const sucesso = modeloVet.deleteVet(id);
+    if (sucesso) {
+        res.json({ mensagem: "Veterinário deletado com sucesso." });
+    } else {
+        res.status(404).json({ mensagem: "Veterinário não encontrado." });
     }
 };
 
-// busca de vet por ID
-const getVetPorId = async (req, res) => {
-    try {
-        const { id } = req.query;
-        const vet = await Veterinario.findByPk(id);
-
-        if (!vet) {
-            return res.status(404).json({ erro: 'Veterinário não encontrado' });
-        }
-
-        return res.json(vet);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ erro: 'Erro ao buscar veterinário' });
-    }
-};
-
-// cria um vet novo
-const criarVet = async (req, res) => {
-    try {
-        const { nome, formacao, prontuario } = req.body;
-
-        const novo = await Veterinario.create({
-            nome,
-            formacao,
-            prontuario
-        });
-
-        return res.status(201).json(novo);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ erro: 'Erro ao criar veterinário' });
-    }
-};
-
-// edita o veterinário
-const editarVet = async (req, res) => {
-    try {
-        const { id, nome, formacao, prontuario } = req.body;
-
-        const vet = await Veterinario.findByPk(id);
-
-        if (!vet) {
-            return res.status(404).json({ erro: 'Veterinário não encontrado' });
-        }
-
-        await vet.update({ nome, formacao, prontuario });
-
-        return res.json(vet);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ erro: 'Erro ao editar veterinário' });
-    }
-};
-
-// exclui ele hehe
-const deletarVet = async (req, res) => {
-    try {
-        const { id } = req.body;
-
-        const vet = await Veterinario.findByPk(id);
-
-        if (!vet) {
-            return res.status(404).json({ erro: 'Veterinário não encontrado' });
-        }
-
-        await vet.destroy();
-
-        return res.json({ mensagem: 'Veterinário deletado' });
-
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ erro: 'Erro ao deletar veterinário' });
-    }
-};
-
-// sair da conta (logout)
 const logoutVet = (req, res) => {
-    req.session.destroy(err => {
-        res.redirect('/inicial.html');
-    });
+    req.session.destroy (err => {
+        res.redirect('/inicial.html')
+    }   );
 };
 
 module.exports = {
     loginVet,
-    perfilVet,
     getTodosVets,
     getVetPorId,
     criarVet,
     editarVet,
     deletarVet,
-    logoutVet
-};
+    logoutVet,
+    perfilVet
+}

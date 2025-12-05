@@ -5,7 +5,7 @@ const sequelize = require('../Banco_dados/connection');
 const Veterinario = sequelize.define('veterinario', {
   id: {
     type: DataTypes.INTEGER,
-    primaryKey: true,
+    //primaryKey: true,
     autoIncrement: true
   },
   nome: {
@@ -28,12 +28,12 @@ const Veterinario = sequelize.define('veterinario', {
   timestamps: false
 });
 
-const getTodosvets = () => Veterinario.findAll();
-const getProntuarioVet = (prontuario) => Veterinario.findAll({ where: { prontuario: prontuario }});
-const getVetsId = (id) => Veterinario.findByPk(id);
+const getTodosvets = () => Veterinario.findAll({ raw: true });
+const getProntuarioVet = (prontuario) => Veterinario.findAll({ where: { prontuario: prontuario }, raw: true });
+const getVetsId = (id) => Veterinario.findByPk(id , { raw: true });
 const criarVet = (params) => Veterinario.create(params);
-const mudarVet = (id, params) => Veterinario.update(params, {where: {id: id}});
-const deleteVet = (id) =>  Veterinario.destroy({where:{id: id}})
+const mudarVet = (id, params) => Veterinario.update(params, {where: {id: id}, raw: true});
+const deleteVet = (id) =>  Veterinario.destroy({where:{id: id}, raw: true});
 
 module.exports = { 
   Veterinario,

@@ -6,12 +6,11 @@ const path = require('path');
 const permitidos = require(path.join(__dirname, '../Segurança/autorizacao'));
 
 // LOGIN
-router.get('/login', responsavelControle.loginResponsavel);
 
-router.post("/", responsavelControle.perfilResponsavel);
+router.post("/", permitidos('responsavel'), responsavelControle.perfilResponsavel);
 router.post("/criar", responsavelControle.criarResponsavel);
 router.put("/editar", responsavelControle.editarResponsavel);
-router.get("/login", responsavelControle.loginResponsavel);
+router.get('/login', responsavelControle.loginResponsavel);
 
 // busca pelo id
 router.post("/responsavelPorId", permitidos("admin"), responsavelControle.getResponsavelPorId);

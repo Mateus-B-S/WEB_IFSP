@@ -9,7 +9,7 @@ const Admin = sequelize.define('admin', {
     autoIncrement: true
   },
   senha: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false
   }
 
@@ -17,6 +17,7 @@ const Admin = sequelize.define('admin', {
   tableName: 'admins',
   timestamps: false
 });
+
 
 // exportar para uso em controllers
 module.exports = Admin;

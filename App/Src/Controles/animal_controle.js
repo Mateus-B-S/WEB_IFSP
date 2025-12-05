@@ -1,94 +1,52 @@
-const Animal = require('../Modelos/animal_modelo');
+const animalModelo = require('../Modelos/animal_modelo');
 
-// LISTAR TODOS OS ANIMAIS
-exports.listarAnimais = async (req, res) => {
-    try {
-        const animais = await Animal.findAll();
-        res.json(animais);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ erro: "Erro ao buscar animais" });
+const getTodosAnimais = (req, res) => {
+    const animais = animalModelo.getTodosAnimais();
+    res.json(animais);
+};
+
+const animaisdisponiveis = (req, res) => {
+    const animais = animalModelo.animaisdisponiveis();
+    res.json(animais);
+}
+
+
+//depois mudar para busca por tipo do animal
+const getAnimalPorId = (req, res) => {
+    const  id  = req.query.id;
+    const adminSenha = req.session.user ? req.session.user.adminSenha : null;
+    const animal = Promise.resolve(animalModelo.getAnimalId(parseInt(id)));
+    if (animal) {
+        res.render('Avisos/animalId', { animal: animal, adminSenha: adminSenha});
+    } else {
+        res.status(404).json({ mensagem: "Animal não encontrado." });
     }
 };
 
-// BUSCAR UM ANIMAL POR ID
-exports.buscarAnimalPorId = async (req, res) => {
-    try {
-        const { id } = req.params;
 
-        const animal = await Animal.findByPk(id);
 
-        if (!animal) {
-            return res.status(404).json({ erro: "Animal não encontrado" });
+const criarAnimal = (req, res) => {
+    const novoAnimal = Promise.resolve(animalModelo.criarAnimal(req.body));
+    res.render('Avisos/criarAnimal', { animal: novoAnimal, adminSenha: req.session.user.adminSenha } );
+
+};
+
+const editarAnimal = (req, res) => {
+    const { id } = req.body;
+    
+        const animalAtualizado = animalModelo.mudarAnimal(id, req.body);
+        if (animalAtualizado) {
+            res.json(animalAtualizado);
         }
-
-        res.json(animal);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ erro: "Erro ao buscar animal" });
-    }
-};
-
-// CRIAR ANIMAL
-exports.criarAnimal = async (req, res) => {
-    try {
-        const { nome, raça, adotado } = req.body;
-
-        const novoAnimal = await Animal.create({
-            nome,
-            raça,
-            adotado
-        });
-
-        res.status(201).json(novoAnimal);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ erro: "Erro ao criar animal" });
-    }
-};
-
-// ATUALIZAR ANIMAL
-exports.atualizarAnimal = async (req, res) => {
-    try {
-        const { id } = req.params;
-
-        const animal = await Animal.findByPk(id);
-
-        if (!animal) {
-            return res.status(404).json({ erro: "Animal não encontrado" });
+        else {
+            res.status(404).json({ mensagem: "Animal não encontrado." });
         }
-
-        const { nome, raça, adotado } = req.body;
-
-        await animal.update({
-            nome,
-            raça,
-            adotado
-        });
-
-        res.json(animal);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ erro: "Erro ao atualizar animal" });
-    }
 };
 
-// DELETAR ANIMAL
-exports.deletarAnimal = async (req, res) => {
-    try {
-        const { id } = req.params;
-
-        const animal = await Animal.findByPk(id);
-
-        if (!animal) {
-            return res.status(404).json({ erro: "Animal não encontrado" });
-        }
-
-        await animal.destroy();
-
-        res.json({ mensagem: "Animal deletado com sucesso" });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ erro: "Erro ao deletar animal" });
-    }
-};
+module.exports = {
+    getTodosAnimais,
+    getAnimalPorId,
+    criarAnimal,
+    editarAnimal,
+    animaisdisponiveis
+}

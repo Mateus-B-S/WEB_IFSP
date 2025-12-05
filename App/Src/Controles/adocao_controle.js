@@ -1,133 +1,39 @@
-// Src/Controles/adocao_controle.js
-const Adocao = require('../Modelos/adocao_modelo');
-const Animal = require('../Modelos/animal_modelo');
-const Responsavel = require('../Modelos/responsavel_modelo');
+const adocaoModelo = require('../Modelos/adocao_modelo');
+const responsavelModelo = require('../Modelos/responsavel_modelo');
+
+const listarAdocoes = (req, res) => {
+    const adocoes = adocaoModelo.getTodasAdocoes();
+    res.status(200).json(adocoes);
+};
+
+const criarAdocao = (req, res) => {
+    
+    const novaAdocao = adocaoModelo.criarAdocao(req.body);
+    console.log('Resultado adoção:', novaAdocao);
+    
+    if (novaAdocao === null) {
+        console.log('Erro: animal não encontrado ou já adotado, ou responsável não existe');
+        res.status(400).json({ mensagem: "Erro ao criar adoção. Responsável ou animal não registrados" });
+    }
+    else {
+        console.log('Adoção criada com sucesso');
+        return res.render('Avisos/adocao', { adocao: novaAdocao, emailResponsavel: req.session.user.email , senhaResponsavel: req.session.user.senha } );
+    }    
+};
+
+
+const listarAdocoesPorResponsavel = (req, res) => {
+    const { responsavel_nome } = req.body;
+    const responsavel = responsavelModelo.Responsavel.findOne({ where: { nome: responsavel_nome } });
+    const adocoes = adocaoModelo.todasAdocoesdeumResponsavel(responsavel.id);
+    if (!adocoes || adocoes.length === 0) {
+        return res.status(404).json({ mensagem: "Nenhuma adoção encontrada para o responsável fornecido." });
+    }
+    res.render('Avisos/adocaoPorResp', { adocoes: adocoes, nomeResponsavel: responsavel_nome, adminSenha: req.session.user.adminSenha });
+};
 
 module.exports = {
-
-  // listar todas as adoções
-  async listar(req, res) {
-    try {
-      const adocoes = await Adocao.findAll({
-        include: [
-          { model: Animal, attributes: ['id', 'nome', 'especie', 'adotado'] },
-          { model: Responsavel, attributes: ['id', 'nome', 'email'] }
-        ]
-      });
-
-      return res.json(adocoes);
-    } catch (error) {
-      console.error('listar adocoes erro:', error);
-      return res.status(500).json({ erro: 'Erro ao listar adoções.' });
-    }
-  },
-
-  // listar de acordo com resonsavel
-  async listarAdocoesPorResponsavel(req, res) {
-    try {
-      const { responsavel_id } = req.body;
-
-      if (!responsavel_id) {
-        return res.status(400).json({ erro: "Você deve informar o 'responsavel_id' no body." });
-      }
-
-      const adocoes = await Adocao.findAll({
-        where: { responsavel_id },
-        include: [
-          { model: Animal, attributes: ['id', 'nome', 'especie', 'adotado'] },
-          { model: Responsavel, attributes: ['id', 'nome', 'email'] }
-        ]
-      });
-
-      if (!adocoes || adocoes.length === 0) {
-        return res.status(404).json({ mensagem: 'Nenhuma adoção encontrada para esse responsável.' });
-      }
-
-      return res.json(adocoes);
-    } catch (error) {
-      console.error('listarAdocoesPorResponsavel erro:', error);
-      return res.status(500).json({ erro: 'Erro ao listar adoções do responsável.' });
-    }
-  },
-
-  //busca as adoções por id
-  async buscarPorId(req, res) {
-    try {
-      const { id } = req.params;
-      if (!id) return res.status(400).json({ erro: 'ID obrigatório na rota.' });
-
-      const adocao = await Adocao.findByPk(id, {
-        include: [
-          { model: Animal, attributes: ['id', 'nome', 'especie', 'adotado'] },
-          { model: Responsavel, attributes: ['id', 'nome', 'email'] }
-        ]
-      });
-
-      if (!adocao) return res.status(404).json({ erro: 'Adoção não encontrada.' });
-
-      return res.json(adocao);
-    } catch (error) {
-      console.error('buscarPorId erro:', error);
-      return res.status(500).json({ erro: 'Erro ao buscar adoção.' });
-    }
-  },
-
-  // cria uma nova
-  async criar(req, res) {
-    try {
-      const { data_adocao, animal_id, responsavel_id } = req.body;
-
-      if (!data_adocao || !animal_id || !responsavel_id) {
-        return res.status(400).json({ erro: 'Campos obrigatórios: data_adocao, animal_id, responsavel_id.' });
-      }
-      const novaAdocao = await Adocao.create({
-        data_adocao,
-        animal_id,
-        responsavel_id
-      });
-
-      return res.status(201).json(novaAdocao);
-    } catch (error) {
-      console.error('criar erro:', error);
-      return res.status(500).json({ erro: 'Erro ao criar adoção.' });
-    }
-  },
-
-  // editar/atualizar (devolução)
-  async atualizar(req, res) {
-    try {
-      const { id } = req.params;
-      const { data_adocao, animal_id, responsavel_id } = req.body;
-
-      if (!id) return res.status(400).json({ erro: 'ID obrigatório na rota.' });
-
-      const adocao = await Adocao.findByPk(id);
-      if (!adocao) return res.status(404).json({ erro: 'Adoção não encontrada.' });
-
-      await adocao.update({ data_adocao, animal_id, responsavel_id });
-
-      return res.json(adocao);
-    } catch (error) {
-      console.error('atualizar erro:', error);
-      return res.status(500).json({ erro: 'Erro ao atualizar adoção.' });
-    }
-  },
-
-  // deletarrr
-  async deletar(req, res) {
-    try {
-      const { id } = req.params;
-      if (!id) return res.status(400).json({ erro: 'ID obrigatório na rota.' });
-
-      const adocao = await Adocao.findByPk(id);
-      if (!adocao) return res.status(404).json({ erro: 'Adoção não encontrada.' });
-
-      await adocao.destroy();
-      return res.json({ mensagem: 'Adoção removida com sucesso.' });
-    } catch (error) {
-      console.error('deletar erro:', error);
-      return res.status(500).json({ erro: 'Erro ao excluir adoção.' });
-    }
-  }
-
+    listarAdocoes,
+    criarAdocao,
+    listarAdocoesPorResponsavel
 };
