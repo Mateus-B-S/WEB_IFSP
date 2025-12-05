@@ -60,7 +60,6 @@
                         <th>ID</th>
                         <th>Nome</th>
                         <th>Raça</th>
-                        <th>Tipo</th>
                         <th>Adotado</th>
                     </tr>
                 </thead>
@@ -74,8 +73,7 @@
                     <tr>
                         <td data-label="ID"><%= animal.id %></td>
                         <td data-label="Nome"><%= animal.nome %></td>
-                        <td data-label="Raça"><%= animal.raça %></td>
-                        <td data-label="Tipo"><%= animal.tipo %></td>
+                        <td data-label="Raça"><%= animal.raca %></td>
                         <td data-label="Adotado"><%= animal.adotado ? 'Sim' : 'Não' %></td>
                     </tr>
                     <% }); %>
@@ -84,14 +82,13 @@
             </table>
             </div>
 
-            <form action="/animal/adicionarAnimal" method="POST">
+            <form action="/animal/criar" method="POST">
                 Nome: <input type="text" name="nome"><br>
                 Raça: <input type="text" name="raca"><br>
-                Tipo: <input type="text" name="tipo"><br>
                 <button type="submit">Cadastrar novo</button>
             </form><br>
 
-            <form action="/animal/editarAnimal" method="PUT">
+            <form action="/animal/editar" method="PUT">
                 <input type="text" id="id_animal" name="id_animal" required>
                 <button type="submit">Editar (não mexer ainda) </button>
             </form><br>

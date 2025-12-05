@@ -1,10 +1,7 @@
 const adocaoModelo = require('../Modelos/adocao_modelo');
 const responsavelModelo = require('../Modelos/responsavel_modelo');
 
-const listarAdocoes = (req, res) => {
-    const adocoes = adocaoModelo.getTodasAdocoes();
-    res.status(200).json(adocoes);
-};
+
 
 const criarAdocao = (req, res) => {
     
@@ -22,10 +19,10 @@ const criarAdocao = (req, res) => {
 };
 
 
-const listarAdocoesPorResponsavel = (req, res) => {
+const listarAdocoesPorResponsavel = async (req, res) => {
     const { responsavel_nome } = req.body;
-    const responsavel = responsavelModelo.Responsavel.findOne({ where: { nome: responsavel_nome } });
-    const adocoes = adocaoModelo.todasAdocoesdeumResponsavel(responsavel.id);
+    const responsavel = await Promise.resolve(responsavelModelo.Responsavel.findOne({ where: { nome: responsavel_nome } }));
+    const adocoes = await Promise.resolve(adocaoModelo.todasAdocoesdeumResponsavel(responsavel.id));
     if (!adocoes || adocoes.length === 0) {
         return res.status(404).json({ mensagem: "Nenhuma adoção encontrada para o responsável fornecido." });
     }
@@ -33,7 +30,7 @@ const listarAdocoesPorResponsavel = (req, res) => {
 };
 
 module.exports = {
-    listarAdocoes,
+    
     criarAdocao,
     listarAdocoesPorResponsavel
 };

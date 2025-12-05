@@ -5,8 +5,6 @@ const path = require('path');
 const permitidos = require(path.join(__dirname, '../Segurança/autorizacao'));
 
 
-//router.get('/listarporvet', permitidos('admin', 'veterinario'), exameControle.listarExamesPorVet);
-
 // rotas para administração de exames médicos
 router.post('/criarExame', permitidos('admin', 'veterinario'), exameControle.criarExame);
 router.post('/listarPorVet', permitidos('admin'), exameControle.listarExamesPorVet); //tem q apagar um desses

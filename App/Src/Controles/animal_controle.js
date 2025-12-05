@@ -1,21 +1,11 @@
 const animalModelo = require('../Modelos/animal_modelo');
 
-const getTodosAnimais = (req, res) => {
-    const animais = animalModelo.getTodosAnimais();
-    res.json(animais);
-};
-
-const animaisdisponiveis = (req, res) => {
-    const animais = animalModelo.animaisdisponiveis();
-    res.json(animais);
-}
-
 
 //depois mudar para busca por tipo do animal
-const getAnimalPorId = (req, res) => {
+const getAnimalPorId = async (req, res) => {
     const  id  = req.query.id;
     const adminSenha = req.session.user ? req.session.user.adminSenha : null;
-    const animal = Promise.resolve(animalModelo.getAnimalId(parseInt(id)));
+    const animal = await Promise.resolve(animalModelo.getAnimalId(parseInt(id)));
     if (animal) {
         res.render('Avisos/animalId', { animal: animal, adminSenha: adminSenha});
     } else {
@@ -25,16 +15,16 @@ const getAnimalPorId = (req, res) => {
 
 
 
-const criarAnimal = (req, res) => {
-    const novoAnimal = Promise.resolve(animalModelo.criarAnimal(req.body));
+const criarAnimal = async (req, res) => {
+    const novoAnimal = await Promise.resolve(animalModelo.criarAnimal(req.body));
     res.render('Avisos/criarAnimal', { animal: novoAnimal, adminSenha: req.session.user.adminSenha } );
 
 };
 
-const editarAnimal = (req, res) => {
+const editarAnimal = async (req, res) => {
     const { id } = req.body;
     
-        const animalAtualizado = animalModelo.mudarAnimal(id, req.body);
+        const animalAtualizado = await animalModelo.mudarAnimal(id, req.body);
         if (animalAtualizado) {
             res.json(animalAtualizado);
         }
@@ -43,10 +33,8 @@ const editarAnimal = (req, res) => {
         }
 };
 
-module.exports = {
-    getTodosAnimais,
+module.exports = { 
     getAnimalPorId,
     criarAnimal,
     editarAnimal,
-    animaisdisponiveis
 }

@@ -7,16 +7,13 @@ const adocaoControle = require('../Controles/adocao_controle');
 // listar por responsavel
 router.post('/listarPorResponsavel', permitidos('admin', 'veterinario'), adocaoControle.listarAdocoesPorResponsavel);
 
-// busca pelo id
-
-
 // aq ele cria
 router.post('/adotarAnimal', adocaoControle.criarAdocao);
 
 // devolver (atualizar)
 
 
-// exclui
+
 
 
 module.exports = router;

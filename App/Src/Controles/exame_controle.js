@@ -12,15 +12,10 @@ const criarExame = (req, res) => {
     }       
 };
 
-const listarExames = (req, res) => { 
-   const exames = exameModelo.getTodosExames();
-   res.status(200).json(exames);
-};
-
-const listarExamesPorVet = (req, res) => {
+const listarExamesPorVet = async (req, res) => {
     const { vet_prontuario } = req.body;
 
-    const [exames , nomeVet] = Promise.all([
+    const [exames , nomeVet] = await Promise.all([
         Promise.resolve(exameModelo.getExamesPorVet(vet_prontuario)),
         Promise.resolve(vetModelo.getProntuarioVet(vet_prontuario).nome)
     ]); 
@@ -29,6 +24,5 @@ const listarExamesPorVet = (req, res) => {
 
 module.exports = {
     criarExame,
-    listarExames,
     listarExamesPorVet
 };

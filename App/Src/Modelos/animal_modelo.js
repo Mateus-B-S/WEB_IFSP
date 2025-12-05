@@ -18,7 +18,6 @@ const Animal = sequelize.define('animal', {
     type: DataTypes.STRING,
     allowNull: false
   },
-
   adotado: {
     type: DataTypes.BOOLEAN,
     defaultValue: false

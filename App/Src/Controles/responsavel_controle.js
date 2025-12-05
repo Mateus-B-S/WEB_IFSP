@@ -4,12 +4,12 @@ const animalModelo = require('../Modelos/animal_modelo');
 const adocaoModelo = require('../Modelos/adocao_modelo');
 const path = require('path');
 
-const perfilResponsavel = (req, res) => {
+const perfilResponsavel = async (req, res) => {
     const {nome, email, senha } = req.body;
-    const responsavel = respModelo.Responsavel.findOne({ where: { email: email, senha: senha , nome: nome} });
-    const animaisDisponiveis = animalModelo.animaisdisponiveis(); 
+    const responsavel = await respModelo.Responsavel.findOne({ where: { email: email, senha: senha , nome: nome}, raw: true });
+    const animaisDisponiveis = await animalModelo.animaisdisponiveis(); 
     if (responsavel) {
-        const adocoesResponsavel = adocaoModelo.todasAdocoesdeumResponsavel(responsavel.id);
+        const adocoesResponsavel = await adocaoModelo.todasAdocoesdeumResponsavel(responsavel.id);
         req.session.user = { tipo_conta: 'responsavel', id_responsavel: responsavel.id, email: email, senha: senha}; // grava sessão
         res.render('Perfil/responsavel', { nome: nome ,
             animaisAdocao: animaisDisponiveis,
@@ -26,16 +26,16 @@ const loginResponsavel = (req, res) => {
     res.render('Logins/responsavel', { messages: req.flash() });
 };
 
-const criarResponsavel = (req, res) => {
+const criarResponsavel = async (req, res) => {
     const { nome } = req.body;
-    respModelo.criarResponsavel(req.body);
+    await Promise.resolve(respModelo.criarResponsavel(req.body));
     return res.render('Avisos/criarResponsavel', { nome: nome });
 };
 
 
-const editarResponsavel = (req, res) => {
-    const { nome, email, id, senha} = req.body;
-    const responsavelAtualizado = respModelo.editarResponsavel(id, nome, email, senha);
+const editarResponsavel = async (req, res) => {
+    const { id } = req.body;
+    const responsavelAtualizado = await Promise.resolve(respModelo.editarResponsavel(id, req.body));
     if (responsavelAtualizado) {
         res.json(responsavelAtualizado);
     }
@@ -45,17 +45,10 @@ const editarResponsavel = (req, res) => {
 };
 
 
-
-const getTodosResponsaveis = (req, res) => {
-    const responsaveis = respModelo.getTodosResponsaveis();
-    res.json(responsaveis);
-    
-};
-
-const getResponsavelPorId = (req, res) => {
+const getResponsavelPorId = async (req, res) => {
     const { id_responsavel } = req.body;
 
-    const responsavel = respModelo.getResponsavelId(parseInt(id_responsavel));
+    const responsavel = await respModelo.getResponsavelId(parseInt(id_responsavel));
     if (responsavel) {
         res.render('Avisos/responsavelId', { responsavel: responsavel, adminSenha: req.session.user.adminSenha });
     } else {
@@ -75,7 +68,6 @@ module.exports = {
     loginResponsavel,
     criarResponsavel,
     editarResponsavel,
-    getTodosResponsaveis,
     getResponsavelPorId,
     logoutResp,
     perfilResponsavel

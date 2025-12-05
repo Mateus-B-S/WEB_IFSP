@@ -22,14 +22,11 @@ const loginVet = (req, res) => {
 };
 
 
-const getTodosVets = (req, res) => {
-    const vets = modeloVet.getTodosvets();
-    res.json(vets);
-}
 
-const getVetPorId = (req, res) => {
+
+const getVetPorId = async (req, res) => {
     const id = parseInt(req.query.id);
-    const vet = modeloVet.getvetsId(id);
+    const vet = await Promise.resolve(modeloVet.getVetsId(id));
     if (vet) {
         res.json(vet);
     }
@@ -40,15 +37,14 @@ const getVetPorId = (req, res) => {
 
 //funções só para admins
 
-const criarVet = (req, res) => {
-    
-        const novoVet = modeloVet.criarVet(req.body);
-        res.render('Avisos/veterinarios', { veterinario: novoVet , adminSenha: req.session.user.adminSenha});
+const criarVet = async (req, res) => {
+    const novoVet = await modeloVet.criarVet(req.body);
+    res.render('Avisos/veterinarios', { veterinario: novoVet , adminSenha: req.session.user.adminSenha});
 };
 
-const editarVet = (req, res) => {
+const editarVet = async (req, res) => {
     const { id } = req.body;
-    const vetAtualizado = modeloVet.mudarVet(id, req.body);
+    const vetAtualizado = await modeloVet.mudarVet(id, req.body);
     if (vetAtualizado) {
         res.json(vetAtualizado);
     }
@@ -58,10 +54,10 @@ const editarVet = (req, res) => {
     
 };
 
-const deletarVet = (req, res) => {
+const deletarVet = async (req, res) => {
     const id = parseInt(req.query.id);
 
-    const sucesso = modeloVet.deleteVet(id);
+    const sucesso = await modeloVet.deleteVet(id);
     if (sucesso) {
         res.json({ mensagem: "Veterinário deletado com sucesso." });
     } else {
@@ -77,7 +73,6 @@ const logoutVet = (req, res) => {
 
 module.exports = {
     loginVet,
-    getTodosVets,
     getVetPorId,
     criarVet,
     editarVet,
