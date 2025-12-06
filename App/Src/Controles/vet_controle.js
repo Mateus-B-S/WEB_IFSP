@@ -17,6 +17,8 @@ const perfilVet = (req, res) => {
     }
 };
 
+
+
 const loginVet = (req, res) => {
     res.render('Logins/veterinario', { messages: req.flash() });
 };

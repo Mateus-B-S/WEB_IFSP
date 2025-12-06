@@ -63,6 +63,11 @@ const logoutResp = (req, res) => {
     }   );
 };
 
+const deletarResponsavel = async (req, res) => {
+    const { id } = req.body;
+    await Promise.resolve(respModelo.deleteResponsavel(id));
+    res.json({ mensagem: "Responsável deletado com sucesso." });
+};
 
 module.exports = {
     loginResponsavel,

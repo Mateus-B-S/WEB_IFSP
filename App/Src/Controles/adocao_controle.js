@@ -29,6 +29,24 @@ const listarAdocoesPorResponsavel = async (req, res) => {
     res.render('Avisos/adocaoPorResp', { adocoes: adocoes, nomeResponsavel: responsavel_nome, adminSenha: req.session.user.adminSenha });
 };
 
+const editarAdocao = async (req, res) => {
+    const { id } = req.body;
+    const adocaoAtualizada = await Promise.resolve(adocaoModelo.atualizarAdocao(id, req.body));
+    if (adocaoAtualizada) {
+        res.json(adocaoAtualizada);
+        //res.render('Avisos/atualizarAdocao', { adocao: adocaoAtualizada });
+    }
+    else {
+        res.status(404).json({ mensagem: "Adoção não encontrada." });
+    }
+};
+
+const deleteAdocao = async (req, res) => {
+    const { id } = req.body;
+    await Promise.resolve(adocaoModelo.deleteAdocao(id));
+    res.json({ mensagem: "Adoção deletada com sucesso." });
+};
+
 module.exports = {
     
     criarAdocao,

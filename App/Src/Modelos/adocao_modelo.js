@@ -40,6 +40,8 @@ const getTodasAdocoes = () => Adocao.findAll({ raw: true });
 
 const criarAdocao = (params) => Adocao.create(params);
 
+
+//pesquisar por nome depois
 const todasAdocoesdeumResponsavel = (responsavel_id) => {
     return Adocao.findAll({ where: { responsavel_id: responsavel_id }, raw: true});
 };
