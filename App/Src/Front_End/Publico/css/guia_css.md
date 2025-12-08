@@ -1,22 +1,6 @@
-# 🗂️ Estrutura de Pastas e Arquivos CSS
-
-## Localização Principal
-```
-App/
-└── Src/
-    └── Front_End/
-        └── Publico/
-            └── css/
-                ├── style.css (✅ ARQUIVO PRINCIPAL)
-                ├── README.md (📖 DOCUMENTAÇÃO)
-                └── [futuras extensões]
-```
-
-## 📄 Arquivos CSS Principais
+## Arquivos CSS Principais para não se perder
 
 ### 1. `style.css` - Arquivo Principal
-**Tamanho**: ~600 linhas
-**Organização**: 8 seções principais
 
 ```
 style.css
@@ -90,7 +74,7 @@ style.css
    └─ .bg-light
 ```
 
-## 🎨 Variáveis (:root)
+## Variáveis (:root)
 
 ### Cores
 ```css
@@ -143,7 +127,7 @@ style.css
 --radius-lg: 12px
 ```
 
-## 📁 Arquivos que Usam o CSS
+## Arquivos que Usam o CSS
 
 ### Arquivos `.ejs` (Templates EJS)
 - `App/Src/Front_End/Views/Perfil/responsavel.ejs`
@@ -163,56 +147,56 @@ style.css
   - Link: `<link href="/css/style.css" rel="stylesheet">`
   - Usa: Botões, Layout
 
-## 🔍 Como Encontrar Algo
+## Como Encontrar Algo?
 
-### Preciso editar cores?
+### Cores:
 → Vá para `style.css`, seção **2. Variáveis & Cores**
 
-### Preciso ajustar spacing/gap?
+### Spacing/gap:
 → Vá para `style.css`, seção **2. Variáveis & Cores** (variáveis `--gap-*`)
 
-### Preciso modificar cards?
+### Cards:
 → Vá para `style.css`, seção **5. Cards & Grids**
 
-### Preciso ajustar responsividade?
+### Responsividade:
 → Vá para `style.css`, seção **8. Responsividade**
 
-### Preciso adicionar animações?
+### Animações:
 → Vá para `style.css`, seção **7. Animações**
 
-### Preciso editar tabelas admin?
+### Tabelas admin:
 → Vá para `style.css`, seção **Admin Específico**
 
-### Preciso editar formulários veterinário?
+### Formulários veterinário:
 → Vá para `style.css`, seção **Veterinário Específico**
 
-## 🚀 Como Adicionar Novas Classes
+## Adicionão de Novas Classes:
 
-### Passo 1: Identifique a seção
+### 1. Seções
 ```
-É sobre cor? → Seção 2 (Variáveis)
-É sobre layout? → Seção 4 (Layout Geral)
-É sobre card? → Seção 5 (Cards & Grids)
-É sobre animação? → Seção 7 (Animações)
+Cor → Seção 2 (Variáveis)
+Layout → Seção 4 (Layout Geral)
+Card → Seção 5 (Cards & Grids)
+Animação → Seção 7 (Animações)
 ```
 
-### Passo 2: Adicione a classe
+### 2. Adicionar a Classe:
 ```css
-/* Adicione no lugar apropriado */
+/* Local do código */
 .nova-classe {
     /* estilos aqui */
 }
 ```
 
-### Passo 3: Use no HTML
+### 3. Usar no HTML
 ```html
 <div class="nova-classe">Conteúdo</div>
 ```
 
-### Passo 4: Documente (se necessário)
-Atualize o `README.md` se for uma classe importante.
+### 4. Documentar (se necessário)
+Atualizar o `README.md` para classes importantes.
 
-## 📊 Integração com Bootstrap
+## Integração com Bootstrap
 
 ```
 Bootstrap 5.3.8 CDN
@@ -223,29 +207,22 @@ Bootstrap 5.3.8 CDN
     style.css
         ↓
    Customiza + Adiciona componentes
-        ↓
-    Resultado final: UI consistente
 ```
 
-## 🔗 Links de Referência
+## Links de Referência
 
 - **Bootstrap Docs**: https://getbootstrap.com/docs/5.3/
 - **CSS Variables**: https://developer.mozilla.org/en-US/docs/Web/CSS/var()
 - **CSS Grid**: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout
 - **CSS Flexbox**: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout
 
-## 📋 Checklist para Manutenção
+## Checklist para Manutenção
 
-- [ ] Sempre usar variáveis CSS (`var(--nome)`)
-- [ ] Manter consistência de cores com paleta definida
-- [ ] Usar espaçamento com `--gap-*`
-- [ ] Respeitar breakpoints existentes
-- [ ] Testar em mobile (600px), tablet (960px), desktop (1400px)
-- [ ] Adicionar comentários em código complexo
-- [ ] Documentar novas variáveis no `:root`
-- [ ] Atualizar README.md se adicionar novas classes
-
----
-
-**Última atualização**: 25 de Novembro de 2025
-**Responsável**: Time de Frontend
+- Sempre usar variáveis CSS (`var(--nome)`)
+- Manter consistência de cores com paleta definida
+- Usar espaçamento com `--gap-*`
+- Respeitar breakpoints existentes
+- Testar em mobile (600px), tablet (960px), desktop (1400px)
+- Adicionar comentários em código complexo
+- Documentar novas variáveis no `:root`
+- Atualizar README.md se adicionar novas classes

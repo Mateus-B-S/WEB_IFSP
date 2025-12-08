@@ -10,6 +10,10 @@
       integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
       crossorigin="anonymous"
     />
+    <link 
+      href="../../Publico/css/style.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <%- include('../../Publico/partials/header.ejs') %>
@@ -56,6 +60,14 @@
                       >Senha</label
                     >
                   </div>
+              <div data-mdb-input-init class="form-outline mb-4">
+                <!-- password with show/hide toggle -->
+                <div class="input-group">
+                  <input type="password" id="senhaResponsavel" class="form-control form-control-lg" name="senha" aria-describedby="toggleSenhaBtn" />
+                  <button class="btn btn-outline-secondary" type="button" id="toggleSenhaBtn" aria-pressed="false" title="Mostrar senha">Mostrar</button>
+                </div>
+                <label class="form-label" for="senhaResponsavel">Senha</label>
+              </div>
 
                   <!-- Checkbox -->
                   <div class="form-check d-flex justify-content-start mb-4">
@@ -69,6 +81,11 @@
                       Remember password
                     </label>
                   </div>
+              <!-- Checkbox -->
+              <div class="form-check d-flex justify-content-start mb-4">
+                <input class="form-check-input" type="checkbox" value="" id="form1Example3" />
+                <label class="form-check-label" for="form1Example3"> Lembrar senha </label>
+              </div>
 
                   <button
                     data-mdb-button-init
@@ -95,4 +112,31 @@
     </section>
     <%- include('../../Publico/partials/footer.ejs') %>
   </body>
+            <p>Não possui uma conta? <a href="../CriarConta/responsavel.html">Crie uma!</a></p>
+            
+            <script src="/Scripts/contas.js"></script>
+            <!-- Inline script to toggle password visibility -->
+            <script>
+              (function(){
+                var toggle = document.getElementById('toggleSenhaBtn');
+                var input = document.getElementById('senhaResponsavel');
+                if (!toggle || !input) return;
+                toggle.addEventListener('click', function () {
+                  var isHidden = input.type === 'password';
+                  input.type = isHidden ? 'text' : 'password';
+                  toggle.textContent = isHidden ? 'Ocultar' : 'Mostrar';
+                  toggle.title = isHidden ? 'Ocultar senha' : 'Mostrar senha';
+                  toggle.setAttribute('aria-pressed', String(isHidden));
+                });
+              })();
+            </script>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</section>
+</body>
 </html>

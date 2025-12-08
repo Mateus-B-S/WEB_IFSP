@@ -8,7 +8,29 @@
 </head>
 <header> </header>
 <body>
-    <h1>Confirmação de adoção</h1>
+        <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                    <div class="card-body p-5 text-center">
+                        <h1>Confirmação de Adoção</h1>
+                        <h2>Dados da Adoção: </h2>
+                        <p>Nome do Responsável: <%= adocao.responsavel_nome %></p>
+                        <p>Nome do animal: <%= adocao.animal_nome %> </p>
+                        <p>ID do Animal: <%= adocao.animal_id %></p>
+                        <p>Data da Adoção: <%= adocao.data_adocao %></p>
+                        <p>Sua adoção foi realizada com sucesso!</p>
+                        <form action="/responsavel/" method="POST">
+                            <input type="hidden" name="senha" value="<%= senhaResponsavel %>">
+                            <input type="hidden" name="email" value="<%= emailResponsavel %>">
+                            <button type="submit" class="btn btn-primary">Voltar ao perfil</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <h1>Confirmação de adoção</h1>
     <h2>Dados da adoção: </h2>
     <ul>
         <li>Nome do Responsável: <%= adocao.responsavel_nome %></li>
@@ -20,6 +42,6 @@
         <input type="hidden" name="senha" value="<%= senhaResponsavel %>">
         <input type="hidden" name="email" value="<%= emailResponsavel %>">
         <button type="submit" class="btn btn-primary">Voltar ao perfil</button>
-    </form>
+    </form> -->
 </body>
 </html>
