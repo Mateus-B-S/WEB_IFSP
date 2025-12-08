@@ -1,9 +1,9 @@
 # Estrutura de CSS - App Animais ao Resgate
 
-## 📁 Localização
+## Localização
 `/App/Src/Front_End/Publico/css/style.css`
 
-## 📋 Índice do Arquivo CSS
+## Índice do Arquivo CSS
 
 ### 1. **Reset & Base**
 - Reset padrão de estilos
@@ -109,7 +109,7 @@ Breakpoints definidos:
 | `--text-light` | #6c757d | Texto secundário |
 | `--border-light` | #dee2e6 | Borders |
 
-## 🔧 Como Usar
+## Como Usar
 
 ### No HTML
 ```html
@@ -136,7 +136,7 @@ Breakpoints definidos:
 }
 ```
 
-## 📊 Espaçamento
+## Espaçamento
 
 | Variável | Tamanho | Uso |
 |----------|---------|-----|
@@ -145,7 +145,7 @@ Breakpoints definidos:
 | `--gap-lg` | 18px | Espaços grandes |
 | `--gap-xl` | 24px | Espaços extra grandes |
 
-## ⏱️ Transições
+## Transições
 
 | Variável | Duração | Uso |
 |----------|---------|-----|
@@ -153,7 +153,7 @@ Breakpoints definidos:
 | `--transition-md` | 0.28s | Transições normais |
 | `--transition-lg` | 0.42s | Animações suaves |
 
-## 🎯 Sombras
+## Sombras
 
 | Variável | Efeito | Uso |
 |----------|--------|-----|
@@ -162,7 +162,7 @@ Breakpoints definidos:
 | `--shadow-lg` | Grande | Hover |
 | `--shadow-xl` | Extra grande | Modals |
 
-## 📱 Seções Específicas
+## Seções Específicas
 
 ### Admin (`admin.ejs`)
 - `.sections` - Grid de seções
@@ -177,19 +177,12 @@ Breakpoints definidos:
 - Inputs com focus customizado
 
 ### Responsável (`responsavel.ejs`)
+**Estlizações não definitivas**
 - Cards com animações
 - Modal com zoom
 - Grid de cards responsivo
 
-## 🚀 Boas Práticas
-
-1. **Use variáveis CSS** - Sempre prefira `var(--coluna)` ao invés de cores hardcoded
-2. **Seja consistente** - Mantenha espaçamento com `--gap-*`
-3. **Reutilize classes** - `.avatar`, `.card`, `.card-text` funcionam em múltiplos contextos
-4. **Respeite breakpoints** - Mobile first, depois expanda para telas maiores
-5. **Documente mudanças** - Se adicionar novas variáveis, documente aqui
-
-## 📝 Adicionando Novas Classes
+## Adicionar Novas Classes
 
 Exemplo de como adicionar uma nova variante:
 
@@ -206,14 +199,8 @@ Exemplo de como adicionar uma nova variante:
 /* Documente aqui */
 ```
 
-## 🔗 Integração com Bootstrap
+## Integração com Bootstrap
 
 O projeto usa Bootstrap 5.3.8 + CSS customizado:
 - Bootstrap fornece componentes base (`.btn`, `.form-control`, etc)
 - `style.css` fornece customizações e componentes específicos
-- Juntos criam uma UI consistente
-
----
-
-**Último atualizado:** 25 de Novembro de 2025
-**Mantém:** Estrutura centralizada e fácil de editar

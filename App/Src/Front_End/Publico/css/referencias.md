@@ -1,17 +1,17 @@
 ````markdown
-# 🎯 Referência Rápida - CSS & Bootstrap
+# Referência Rápida - CSS & Bootstrap
 
-## 📍 Onde Está o CSS?
+## Pasta CSS:
 **`/App/Src/Front_End/Publico/css/style.css`**
 
-## 🔗 Como Usar nos Templates
+## Como Usar nos Templates:
 
 ```html
 <!-- Adicione no <head> -->
 <link href="/css/style.css" rel="stylesheet">
 ```
 
-## 🎨 Variáveis CSS Principais
+## Variáveis CSS Principais
 
 ```css
 /* Cores */
@@ -37,7 +37,7 @@ var(--shadow-lg)            /* Sombra grande */
 var(--shadow-xl)            /* Sombra extra grande */
 ```
 
-## 📦 Classes Principais
+## Classes Principais
 
 ### Cards
 ```html
@@ -124,16 +124,16 @@ var(--shadow-xl)            /* Sombra extra grande */
 <div class="w-100">Largura 100%</div>
 ```
 
-## 🎯 Exemplos Práticos
+## Exemplos Práticos
 
-### Exemplo 1: Card de Animal
+### Exemplo 1: Card de Animal (adoções)
 ```html
 <div class="card">
     <div class="card-header bg-light">
         <div class="card-header-custom">
-            <div class="avatar">F</div>
+            <div class="avatar">P</div>
             <div>
-                <h5 class="card-title mb-1">Fluffy</h5>
+                <h5 class="card-title mb-1">Pipoca</h5>
                 <p class="card-text text-muted mb-0" style="font-size:13px">
                     <strong>Raça:</strong> Persa
                 </p>
@@ -179,7 +179,7 @@ var(--shadow-xl)            /* Sombra extra grande */
 </div>
 ```
 
-## 📱 Responsividade
+## Responsividade
 
 | Tamanho | Width | Breakpoint |
 |---------|-------|-----------|
@@ -187,7 +187,7 @@ var(--shadow-xl)            /* Sombra extra grande */
 | Tablet | 600-960px | `@media (max-width: 960px)` |
 | Desktop | 960px+ | Sem media query |
 
-## ✍️ Como Editar CSS
+## Como Editar CSS
 
 ### Encontrar algo
 1. Abra `/App/Src/Front_End/Publico/css/style.css`
@@ -207,7 +207,7 @@ var(--shadow-xl)            /* Sombra extra grande */
 2. Copie uma classe similar
 3. Adapte para suas necessidades
 
-## 🔗 Bootstrap Classes Úteis
+## Bootstrap Classes Úteis
 
 ```html
 <!-- Margins -->
@@ -246,7 +246,7 @@ text-uppercase text-lowercase text-capitalize
 fw-bold fw-normal
 ```
 
-## 🐛 Debug
+## Debug
 
 ### Verificar variável CSS
 ```css
@@ -260,14 +260,9 @@ console.log(getComputedStyle(document.documentElement).getPropertyValue('--prima
 3. Procure por `style.css`
 4. Verifique se está em `/css/style.css`
 
-## 📞 Suporte
+## 
 
-- **Documentação completa**: `/App/Src/Front_End/Publico/css/README.md`
-- **Estrutura detalhada**: `/App/Src/Front_End/Publico/css/ESTRUTURA.md`
+- **Documentação completa**: `/App/Src/Front_End/Publico/css/sumario.md`
+- **Estrutura detalhada**: `/App/Src/Front_End/Publico/css/indice.md`
 - **Bootstrap oficial**: https://getbootstrap.com/
-
----
-
-**Último atualizado**: 25 de Novembro de 2025
-
 ```
