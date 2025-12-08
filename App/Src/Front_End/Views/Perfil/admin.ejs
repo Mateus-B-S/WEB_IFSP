@@ -257,8 +257,9 @@
                 <% } else { %>
                 <% (exames || []).forEach(function(exame) { %>
                 <tr>
-                    <td data-label="ID do Animal"><%= exame.id_animal %></td>
-                    <td data-label="Prontuário do Veterinário"><%= exame.prontuario_vet %></td>
+                    <td data-label="Animal"><%= exame.animal ? exame.animal.nome : '—' %></td>
+                    <td data-label="Raça"><%= exame.animal ? exame.animal.raca : '—' %></td>
+                    <td data-label="Veterinário"><%= exame.veterinario ? exame.veterinario.nome : '—' %></td>
                     <td data-label="Data do Exame"><%= exame.data_exame %></td>
                     <td data-label="Resultados"><%= exame.observacoes %></td>
                 </tr>

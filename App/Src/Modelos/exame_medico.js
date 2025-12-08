@@ -43,7 +43,11 @@ animal.hasMany(Exame, { foreignKey: 'id_animal' });
 Exame.belongsTo(veterinario, { foreignKey: 'prontuario_vet' });
 veterinario.hasMany(Exame, { foreignKey: 'prontuario_vet' });
 
-const getTodosExames = () => Exame.findAll({ raw: true });
+const getTodosExames = () => Exame.findAll({
+  include: [
+    { model: animal, attributes: ['nome', 'raca'] },
+    { model: veterinario, attributes: ['nome'] }]
+  }, {raw: true });
 
 const criarExameMedico = (params) => Exame.create(params);
 
