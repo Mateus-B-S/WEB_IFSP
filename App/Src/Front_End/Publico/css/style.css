@@ -80,6 +80,9 @@ body {
   --radius-sm: 6px;
   --radius-md: 8px;
   --radius-lg: 12px;
+
+  /* Autenticação */
+  --auth-offset: 140px; /* espaço reservado para header + padding; ajuste se necessário */
 }
 
 /* ============================================================================
@@ -116,7 +119,7 @@ h6 {
 }
 
 /* ============================================================================
-   4. LAYOUT GERAL
+   4. LAYOUT GERAL - 100% Flex sem Fixed Heights
    ============================================================================ */
 .container-fluid {
   padding: var(--gap-lg);
@@ -126,6 +129,82 @@ h6 {
 /* Seções de componentes */
 .section {
   margin-bottom: var(--gap-xl);
+}
+
+/* Header: altura automática, ocupa espaço natural */
+.app-header {
+  flex: 0 0 auto;                  /* não expande, altura natural */
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Main: ocupa 100% do espaço restante */
+.app-main {
+  flex: 1 1 auto;                  /* cresce para ocupar tudo */
+  display: flex;
+  flex-direction: column;
+  min-height: 0;                   /* permite overflow em filhos */
+  width: 100%;
+}
+
+/* Footer: altura automática, ocupa espaço natural */
+.app-footer {
+  flex: 0 0 auto;                  /* não expande, altura natural */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Seção de autenticação: 100% do app-main */
+.auth-section {
+  flex: 1 1 auto;                  /* ocupa todo espaço disponível */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+  min-height: 0;
+  width: 100%;
+}
+
+/* Card: largura máxima percentual, sem altura fixa */
+.auth-card {
+  width: 100%;
+  max-width: 540px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  overflow: hidden;
+  height: auto;                    /* altura automática */
+}
+
+/* Corpo do card: 100% do espaço, scroll interno */
+.auth-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+  padding: 1.25rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  flex: 1 1 auto;                  /* ocupa espaço */
+  min-height: 0;
+  text-align: center;
+  width: 100%;
+}
+
+/* Formulário: 100% do espaço */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+  flex: 1 1 auto;                  /* ocupa espaço */
+  min-height: 0;
+  width: 100%;
+}
+
+/* Botão: posiciona na base */
+.submit-btn {
+  margin-top: auto;
+  width: 100%;
 }
 
 /* ============================================================================
@@ -380,6 +459,19 @@ h6 {
     height: 120px;
     font-size: 36px;
   }
+
+  .auth-card {
+    max-height: calc(100vh - 100px);
+    border-radius: 0.75rem;
+  }
+
+  .auth-card-body {
+    padding: 1rem;
+  }
+
+  .auth-section {
+    padding: 16px;
+  }
 }
 
 /* Tablet - 600px a 960px */
@@ -600,4 +692,101 @@ table.responsive-table tbody tr:nth-child(even) {
 
 .bg-light {
   background-color: var(--bs-light) !important;
+}
+
+/* ============================================================================
+   9. LOGIN PAGES - Flex layout sem overflow
+   ============================================================================ */
+
+/* Seção de login: cresce para ocupar espaço disponível entre header e footer */
+.login-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+  min-height: 0; /* importante para permitir flex shrink */
+}
+
+/* Container do login: limita largura máxima do card */
+.login-container {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Card: container flexível que não ultrapassa a altura disponível */
+.login-card {
+  width: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: #fff;
+  overflow: hidden;
+}
+
+/* Conteúdo do card: permite scroll interno se necessário */
+.login-card-content {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  gap: var(--gap-md);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  flex: 1;
+  min-height: 0;
+  text-align: center;
+}
+
+/* Formulário: ocupa espaço e empurra botão para baixo */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+  margin-top: auto;
+}
+
+.login-form button {
+  margin-top: auto;
+}
+
+/* Responsivo: reduzir padding em telas pequenas */
+@media (max-width: 600px) {
+  .login-section {
+    padding: 16px;
+  }
+
+  .login-card-content {
+    padding: 1.5rem;
+  }
+
+  .login-container {
+    max-width: 100%;
+  }
+}
+
+/* Garantir que header e main sejam containers flex distintos */
+.app-header {
+  flex: 0 0 auto;                  /* não expande, altura natural */
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.app-main {
+  flex: 1 1 auto;                  /* cresce/encolhe para ocupar espaço restante */
+  display: flex;
+  flex-direction: column;
+  min-height: 0;                   /* permite overflow em filhos */
+}
+
+.app-footer {
+  flex: 0 0 auto;                  /* não expande */
+  width: 100%;                     /* garante largura total */
+  box-sizing: border-box;
 }
