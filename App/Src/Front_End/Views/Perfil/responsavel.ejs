@@ -11,15 +11,15 @@
     <div class="container-fluid">
         <h1>Olá, <%= nome %>!</h1>
         <h2>Seus Animais Adotados</h2>
-        <div class="cards-grid" id="adoptedAnimalsGrid">
-            <% Object.keys(animaisResponsavel).forEach(function(animal) { %>
+        <div class="cards-grid">
+            <% (animaisResponsavel || [] ).forEach(function(animal) { %>
             <div class="card">
                 <div class="card-header bg-light">
                     <div class="card-header-custom">
                         <div class="avatar"><%= (animal.animal_nome && animal.animal_nome.charAt(0)) ? animal.animal_nome.charAt(0).toUpperCase() : 'A' %></div>
                         <div>
                             <h5 class="card-title mb-1"><%= animal.animal_nome %></h5>
-                            <p class="card-text text-muted mb-0" style="font-size:13px"><strong>Raça:</strong> <%= animal.animal_raça %></p>
+                            <p class="card-text text-muted mb-0" style="font-size:13px"><strong>Raça:</strong> <%= animal.animal_raca %></p>
                         </div>
                     </div>
                 </div>
@@ -29,17 +29,19 @@
             </div>
             <% }); %>
         </div>
+    </div>
 
-        <h2>Animais para adoção</h2>
-        <div class="cards-grid">
-            <% Object.keys(animaisAdocao).forEach(function(animal) { %>
-            <div class="card" data-id="<%= animal.id %>" tabindex="0">
+    <h2>Animais para adoção</h2>
+    <div class="container-fluid">
+        <div class="cards-grid" >
+            <% (animaisAdocao || [] ).forEach(function(animal) { %>
+                <div class="card" data-id="<%= animal.id %>">
                 <div class="card-header bg-light">
                     <div class="card-header-custom">
                         <div class="avatar"><%= (animal.nome && animal.nome.charAt(0)) ? animal.nome.charAt(0).toUpperCase() : 'A' %></div>
                         <div>
                             <h5 class="card-title mb-1"><%= animal.nome %></h5>
-                            <p class="card-text text-muted mb-0" style="font-size:13px"><strong>Raça:</strong> <%= animal.raça %></p>
+                            <p class="card-text text-muted mb-0" style="font-size:13px"><strong>Raça:</strong> <%= animal.raca %></p>
                             <p class="card-text text-muted mb-0" style="font-size:13px"><strong>Tipo:</strong> <%= animal.tipo %></p>
                         </div>
                     </div>
@@ -47,15 +49,15 @@
                 <div class="card-body"></div>
                 <div class="card-footer bg-light">
                     <form action="/adocao/adotarAnimal" method="POST" style="width:100%">
+                        <input type="hidden" name="data_adocao" value="<%= new Date().toISOString().split('T')[0] %>">
                         <input type="hidden" name="animal_id" value="<%= animal.id %>">
-                        <input type="hidden" name="responsavel_nome" value="<%= nome %>">
-                        <button type="submit" class="btn btn-primary btn-sm w-100">Adotar</button>
+                        <input type="hidden" name="responsavel_id" value="<%= responsavel_id %>">
+                        <input type="hidden" name="nome_animal" value="<%= animal.nome %>">
+                        <button type="submit" class="btn btn-primary btn-sm w-100" onclick="return confirm('Você realmente deseja adotar esse animal?')">Adotar</button>
                     </form>
                 </div>
             </div>
-            
         </div>
-
         <!-- Modal for zoomed card -->
         <div id="modalBackdrop" class="modal-backdrop" aria-hidden="true">
             <div id="modal" class="modal" role="dialog" aria-modal="true">
@@ -76,14 +78,15 @@
                     </div>
                 </div>
             </div>
-
-            <% }); %>
         </div>
+    </div>
+    <% }); %>
 
         <form action="/responsavel/logout" method="POST" style="margin-top:18px">
             <button type="submit" class="btn btn-danger">Logout</button>
         </form>
-    </div>
+    
+    
 
     <script>
         // modal logic: open when clicking a card, populate with card data

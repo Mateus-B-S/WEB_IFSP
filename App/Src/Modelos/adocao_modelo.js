@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../Banco_dados/connection');
 
+
 // import dos outros models
 const animal = require('./animal_modelo').Animal;
 const responsavel = require('./responsavel_modelo').Responsavel;
@@ -38,12 +39,18 @@ Adocao.belongsTo(responsavel, { foreignKey: 'id' });
 
 const getTodasAdocoes = () => Adocao.findAll({ raw: true });
 
-const criarAdocao = (params) => Adocao.create(params);
+const criarAdocao = async (animal_id, params) => {
+  await Adocao.create(params, {raw: true});
+  animal.update({ adotado: true }, { where: { id: animal_id } });
+  const novaAdocao = await Adocao.findOne({ where: { animal_id: animal_id }, raw: true });
+  return novaAdocao;
+};
 
 
 //pesquisar por nome depois
-const todasAdocoesdeumResponsavel = (responsavel_id) => {
-    return Adocao.findAll({ where: { responsavel_id: responsavel_id }, raw: true});
+const todasAdocoesdeumResponsavel = async (responsavel_nome) => {
+  const responsavel_id = await  Promise.resolve(responsavel.findOne({ where: { nome: responsavel_nome }, attributes:['id'], raw: true}));
+    return Adocao.findAll({ where: { responsavel_id: responsavel_id.id }, raw: true});
 };
 
 const atualizarAdocao = async(id, params) => {

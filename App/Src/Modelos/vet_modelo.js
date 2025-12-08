@@ -22,7 +22,10 @@ const Veterinario = sequelize.define('veterinario', {
     defaultValue: '',
     primaryKey: true
   },
-
+  senha: {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
 }, {
   tableName: 'veterinarios',
   timestamps: false
@@ -31,7 +34,7 @@ const Veterinario = sequelize.define('veterinario', {
 const getTodosvets = () => Veterinario.findAll({ raw: true });
 const getProntuarioVet = (prontuario) => Veterinario.findAll({ where: { prontuario: prontuario }, raw: true });
 const getVetsId = (id) => Veterinario.findByPk(id , { raw: true });
-const criarVet = (params) => Veterinario.create(params);
+const criarVet = (params) => Veterinario.create(params, { raw: true });
 const mudarVet = (id, params) => Veterinario.update(params, {where: {id: id}, raw: true});
 const deleteVet = (id) =>  Veterinario.destroy({where:{id: id}, raw: true});
 

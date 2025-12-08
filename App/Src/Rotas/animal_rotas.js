@@ -10,6 +10,7 @@ router.get("/buscarPorId", animalControle.getAnimalPorId);
 // criar e editar o veterinario, mas aqui tá sem ser por id
 router.post('/criar', permitidos('veterinario', 'admin'), animalControle.criarAnimal);
 router.put('/editar', permitidos('veterinario', 'admin'), animalControle.editarAnimal);
-//router.delete('/deletarAnimal', permitidos('admin'), animalControle.deletarAnimal);
+router.delete('/deletar', permitidos('admin'), animalControle.deletarAnimal);
+router.put('/devolver', permitidos('responsavel', 'admin'), animalControle.devolverAnimal);
 
 module.exports = router;

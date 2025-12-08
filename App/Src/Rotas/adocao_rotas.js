@@ -11,6 +11,10 @@ router.post('/listarPorResponsavel', permitidos('admin', 'veterinario'), adocaoC
 router.post('/adotarAnimal', adocaoControle.criarAdocao);
 
 // devolver (atualizar)
+router.put('/devolverAnimal', permitidos('admin', 'veterinario'), adocaoControle.editarAdocao);
+
+// deletar adocao
+router.delete('/deletarAdocao', permitidos('admin', 'veterinario'), adocaoControle.deleteAdocao);
 
 
 

@@ -1,9 +1,8 @@
 const exameModelo = require('../Modelos/exame_medico');
 const vetModelo = require('../Modelos/vet_modelo');
 
-const criarExame = (req, res) => {
-    const { id_animal, vet_prontuario, observacoes} = req.body;
-    const novoExame = exameModelo.criarExameMedico(id_animal, vet_prontuario, observacoes);
+const criarExame = async (req, res) => {
+    const novoExame = await Promise.resolve(exameModelo.criarExameMedico(req.body));
     if (novoExame) {
         res.status(201).json(novoExame);
     }

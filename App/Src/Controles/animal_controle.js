@@ -21,16 +21,27 @@ const criarAnimal = async (req, res) => {
 
 };
 
-const editarAnimal = async (req, res) => {
+const devolverAnimal = async (req, res) => {
     const { id } = req.body;
     
-        const animalAtualizado = await animalModelo.mudarAnimal(id, req.body);
+        const animalAtualizado = await Promise.resolve(animalModelo.devolverAnimal(id));
         if (animalAtualizado) {
-            res.json(animalAtualizado);
+            res.render('Avisos/devolverAnimal', { animal: animalAtualizado, adminSenha: req.session.user.adminSenha } );
         }
         else {
             res.status(404).json({ mensagem: "Animal não encontrado." });
         }
+};
+
+const editarAnimal = async (req, res) => {
+    const { id } = req.body;
+    const animalAtualizado = await Promise.resolve(animalModelo.editarAnimal(id, req.body));
+    if (animalAtualizado) {
+        res.send('Animal atualizado com sucesso.');
+    }
+    else {
+        res.status(404).json({ mensagem: "Animal não encontrado." });
+    }
 };
 
 const animaisdisponiveis = async (req, res) => {
@@ -41,14 +52,15 @@ const animaisdisponiveis = async (req, res) => {
 const deletarAnimal = async (req, res) => {
     const { id } = req.body;
     await Promise.resolve(animalModelo.deleteAnimal(id));
-    res.json({ mensagem: "Animal deletado com sucesso." });
+    res.render('Avisos/deletarAnimal', { adminSenha: req.session.user.adminSenha} );
 };
 
 
 module.exports = { 
     getAnimalPorId,
     criarAnimal,
-    editarAnimal,
+    devolverAnimal,
     animaisdisponiveis,
-    deletarAnimal
+    deletarAnimal,
+    editarAnimal
 }

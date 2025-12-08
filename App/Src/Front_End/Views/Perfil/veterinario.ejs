@@ -26,7 +26,7 @@
                     <tbody>
                         <% exames.forEach(function(exame) { %>
                         <tr>
-                            <td><%= exame.animal_id %></td>
+                            <td><%= exame.id_animal %></td>
                             <td><%= exame.data_exame %></td>
                             <td><%= exame.observacoes %></td>
                         </tr>
@@ -42,20 +42,22 @@
         <div class="section">
             <h2>Cadastrar Novo Exame</h2>
             <form action="/exame/criarExame" method="POST" class="needs-validation">
+
+                <input type="hidden" name="prontuario_vet" value="<%= prontuario %>">
+                
                 <div class="form-group">
                     <label for="id_animal">ID do Animal</label>
                     <input type="number" id="id_animal" name="id_animal" class="form-control" required>
                 </div>
                 
-                <div class="form-group">
-                    <label for="vet_prontuario">Prontuário do Veterinário</label>
-                    <input type="text" id="vet_prontuario" name="vet_prontuario" class="form-control" required>
-                </div>
                 
+                <input type="hidden" name="data_exame" value="<%= new Date().toISOString().split('T')[0] %>">
+       
                 <div class="form-group">
                     <label for="observacoes">Observações</label>
                     <textarea id="observacoes" name="observacoes" class="form-control" rows="4" required></textarea>
                 </div>
+
                 
                 <button type="submit" class="btn btn-primary">Cadastrar Exame</button>
             </form>

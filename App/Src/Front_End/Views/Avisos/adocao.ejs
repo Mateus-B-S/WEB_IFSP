@@ -10,12 +10,13 @@
     <h1>Confirmação de adoção</h1>
     <h2>Dados da adoção: </h2>
     <ul>
-        <li>Nome do Responsável: <%= adocao.responsavel_nome %></li>
-        <li>Nome do animal: <%= adocao.animal_nome%> </li>
+        <li>Nome do Responsável: <%= nomeResponsavel %></li>
+        <li>Nome do animal: <%= nomeAnimal %> </li>
         <li>ID do Animal: <%= adocao.animal_id %></li>
         <li>Data da Adoção: <%= adocao.data_adocao %></li>
     <p>Sua adoção foi realizada com sucesso!</p>
     <form action="/responsavel/" method="POST">
+        <input type="hidden" name="nome" value="<%= nomeResponsavel %>">
         <input type="hidden" name="senha" value="<%= senhaResponsavel %>">
         <input type="hidden" name="email" value="<%= emailResponsavel %>">
         <button type="submit" class="btn btn-primary">Voltar ao perfil</button>

@@ -6,18 +6,19 @@ const path = require('path');
 
 const perfilResponsavel = async (req, res) => {
     const {nome, email, senha } = req.body;
-    const responsavel = await respModelo.Responsavel.findOne({ where: { email: email, senha: senha , nome: nome}, raw: true });
-    const animaisDisponiveis = await animalModelo.animaisdisponiveis(); 
+    const responsavel = await Promise.resolve(respModelo.Responsavel.findOne({ where: { email: email, senha: senha , nome: nome}, raw: true }));
+    const animaisDisponiveis = await Promise.resolve(animalModelo.animaisdisponiveis()); 
     if (responsavel) {
-        const adocoesResponsavel = await adocaoModelo.todasAdocoesdeumResponsavel(responsavel.id);
-        req.session.user = { tipo_conta: 'responsavel', id_responsavel: responsavel.id, email: email, senha: senha}; // grava sessão
-        res.render('Perfil/responsavel', { nome: nome ,
+        const adocoesResponsavel = await adocaoModelo.todasAdocoesdeumResponsavel(responsavel.nome);
+        req.session.user = { tipo_conta: 'responsavel', id_responsavel: responsavel.id, nome: nome ,email: email, senha: senha}; // grava sessão
+        res.render('Perfil/responsavel', { nome: req.session.user.nome, 
             animaisAdocao: animaisDisponiveis,
-            animaisResponsavel: adocoesResponsavel
+            animaisResponsavel: adocoesResponsavel,
+            responsavel_id: req.session.user.id_responsavel
         }) ;
         //mandar para ejs do perfil do responsavel
     } else {
-        req.flash('error', 'Email ou senha inválidos. Acesso negado.');
+        req.flash('error', 'Email, nome ou senha inválidos. Acesso negado.');
         return loginResponsavel(req, res);
     }
 };

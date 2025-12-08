@@ -31,18 +31,22 @@ const getTodosAnimais = () => Animal.findAll({ raw: true });
 const animaisdisponiveis = () => Animal.findAll({ where: { adotado: false }, raw: true });
 const criarAnimal = (params) => Animal.create(params);
 const getAnimalId = (id) => Animal.findByPk(id, { raw: true });
-const mudarAnimal = (id, params) => {
-    return Animal.update(params, { where: { id: id } });
+const devolverAnimal = (id) => {
+    return Animal.update({ adotado: false }, { where: { id: id } });
 };
 const deleteAnimal = (id) => {
     return Animal.destroy({ where: { id: id } });
+};
+const editarAnimal = (id, params) => {
+    return Animal.update(params, { where: { id: id }, raw: true });
 };
 
 module.exports = {
   Animal, 
   getTodosAnimais, 
   criarAnimal, getAnimalId,
-  mudarAnimal, 
+  devolverAnimal, 
   deleteAnimal, 
-  animaisdisponiveis
+  animaisdisponiveis,
+  editarAnimal
 };

@@ -18,8 +18,11 @@ const Responsavel = sequelize.define('responsavel', {
   email: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  senha: {
+    type: DataTypes.STRING,
+    allowNull: false
   }
-  
 }, {
   tableName: 'responsaveis',
   timestamps: false
