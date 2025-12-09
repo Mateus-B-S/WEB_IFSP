@@ -6,57 +6,52 @@ const vetModelo = require('../Modelos/vet_modelo');
 const adocaoModelo = require('../Modelos/adocao_modelo');
 const bcrypt = require('bcrypt');
 
-const perfilAdmin =  async (req, res) => {
+// Login e perfil do admin
+const perfilAdmin = async (req, res) => {
     const { senha } = req.body || {};
 
-    // Buscar a senha armazenada do admin
+    // Buscar a senha armazenada (apenas o primeiro admin)
     const adminRow = await admin.findOne({ attributes: ['senha'], raw: true });
+    const adminSenha = adminRow ? String(adminRow.senha) : null;
 
-    if (!adminRow) {
-        req.flash('error', 'Admin não encontrado');
-        return loginAdmin(req, res);
-    }
+    // Carregar listas para dashboard
+    const [listaAnimais, listaResponsaveis, listaVeterinarios, listaExames, listaAdocoes] = await Promise.all([
+        animalModelo.getTodosAnimais(),
+        respModelo.getTodosResponsaveis(),
+        vetModelo.getTodosvets(),
+        exameModelo.getTodosExames(),
+        adocaoModelo.getTodasAdocoes()
+    ]);
 
-    const adminSenha = adminRow.senha;
-
-    // Verificação usando bcrypt
-    const senhaValida = await bcrypt.compare(senha, adminSenha);
-    if (!senhaValida) {
+    if (senha && String(senha) === adminSenha) {
+        req.session.user = { tipo_conta: 'admin', adminSenha: adminSenha }; 
+        res.render("Perfil/admin", { 
+            animais: listaAnimais, 
+            responsaveis: listaResponsaveis, 
+            veterinarios: listaVeterinarios, 
+            exames: listaExames, 
+            adocoes: listaAdocoes 
+        });
+    } else {
         req.flash('error', 'Senha incorreta. Acesso negado.');
         return loginAdmin(req, res);
     }
-
-    // Listas para o EJS
-    const [listaAnimais, listaResponsaveis, listaVeterinarios, listaExames, listaAdocoes] = await Promise.all([
-        Promise.resolve(animalModelo.getTodosAnimais()),
-        Promise.resolve(respModelo.getTodosResponsaveis()),
-        Promise.resolve(vetModelo.getTodosvets()),
-        Promise.resolve(exameModelo.getTodosExames()), 
-        Promise.resolve(adocaoModelo.getTodasAdocoes())
-    ]);
-
-    req.session.user = { tipo_conta: 'admin' }; // grava sessão
-    res.render("Perfil/admin", { 
-        animais: listaAnimais, 
-        responsaveis: listaResponsaveis, 
-        veterinarios: listaVeterinarios, 
-        exames: listaExames, 
-        adocoes: listaAdocoes 
-    });
 };
 
+// Renderizar login do admin
 const loginAdmin = (req, res) => {
     res.render('Logins/admin', { messages: req.flash() });
 };
 
+// Logout admin
 const logoutAdmin = (req, res) => {
     req.session.destroy(err => {
-        res.redirect('/inicial.html')
+        res.redirect('/inicial.html');
     });
 };
 
 module.exports = {
-    logoutAdmin,
     loginAdmin,
-    perfilAdmin
+    perfilAdmin,
+    logoutAdmin
 };

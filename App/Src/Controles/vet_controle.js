@@ -2,10 +2,16 @@ const modeloVet = require('../Modelos/vet_modelo');
 const exameModelo = require('../Modelos/exame_medico');
 const bcrypt = require('bcrypt');
 
+// Login e perfil do veterinário
 const perfilVet = async (req, res) => {
-    const {nome, prontuario, senha } = req.body;
+    const { nome, prontuario, senha } = req.body;
 
-    // Busca o veterinário pelo nome e prontuário
+    if (!nome || !prontuario || !senha) {
+        req.flash('error', 'Preencha todos os campos.');
+        return loginVet(req, res);
+    }
+
+    // Buscar veterinário pelo nome e prontuário
     const vet = await modeloVet.Veterinario.findOne({ where: { nome, prontuario }, raw: true });
 
     if (!vet) {
@@ -13,26 +19,28 @@ const perfilVet = async (req, res) => {
         return loginVet(req, res);
     }
 
-    // Verifica a senha com bcrypt
+    // Verificar senha com bcrypt
     const senhaValida = await bcrypt.compare(senha, vet.senha);
     if (!senhaValida) {
         req.flash('error', 'Prontuário ou senha inválidos. Acesso negado.');
         return loginVet(req, res);
     }
 
-    // Busca exames do veterinário
+    // Buscar exames do veterinário
     const examesVet = await exameModelo.getExamesPorVet(prontuario);
 
-    // Grava sessão
+    // Gravar sessão
     req.session.user = { tipo_conta: 'veterinario', id_vet: vet.id, nome: vet.nome, prontuario: vet.prontuario };
 
     res.render("Perfil/veterinario", { nome: vet.nome, exames: examesVet, prontuario: vet.prontuario });
 };
 
+// Renderizar tela de login
 const loginVet = (req, res) => {
     res.render('Logins/veterinario', { messages: req.flash() });
 };
 
+// Buscar veterinário por ID
 const getVetPorId = async (req, res) => {
     const id = parseInt(req.query.id);
     const vet = await modeloVet.getVetsId(id);
@@ -43,8 +51,7 @@ const getVetPorId = async (req, res) => {
     }
 };
 
-// Funções só para admins
-
+// Criação de veterinário (admin)
 const criarVet = async (req, res) => {
     const dadosVet = { ...req.body };
     // Hash da senha antes de salvar
@@ -54,6 +61,7 @@ const criarVet = async (req, res) => {
     res.render('Avisos/veterinarios', { veterinario: novoVet, adminSenha: req.session.user.adminSenha });
 };
 
+// Deletar veterinário (admin)
 const deletarVet = async (req, res) => {
     const { id } = req.body;
 
@@ -65,6 +73,7 @@ const deletarVet = async (req, res) => {
     }
 };
 
+// Logout veterinário
 const logoutVet = (req, res) => {
     req.session.destroy(err => {
         res.redirect('/inicial.html');
@@ -73,9 +82,9 @@ const logoutVet = (req, res) => {
 
 module.exports = {
     loginVet,
+    perfilVet,
     getVetPorId,
     criarVet,
     deletarVet,
-    logoutVet,
-    perfilVet
+    logoutVet
 };

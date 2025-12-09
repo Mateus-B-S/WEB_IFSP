@@ -8,9 +8,7 @@ const perfilResponsavel = async (req, res) => {
     const {nome, email, senha} = req.body;
 
     // Buscar o usuário pelo email e nome
-    const responsavel = await Promise.resolve(
-        respModelo.Responsavel.findOne({ where: { email: email, nome: nome}, raw: true })
-    );
+    const responsavel = await respModelo.Responsavel.findOne({ where: { email: email, nome: nome}, raw: true });
 
     if (!responsavel) {
         req.flash('error', 'Email ou nome inválidos');
@@ -24,7 +22,7 @@ const perfilResponsavel = async (req, res) => {
         return loginResponsavel(req, res);
     }
 
-    const animaisDisponiveis = await Promise.resolve(animalModelo.animaisdisponiveis()); 
+    const animaisDisponiveis = await animalModelo.animaisdisponiveis(); 
     const adocoesResponsavel = await adocaoModelo.todasAdocoesdeumResponsavel(responsavel.nome);
 
     req.session.user = { tipo_conta: 'responsavel', id_responsavel: responsavel.id, nome: nome ,email: email }; // grava sessão
@@ -48,8 +46,48 @@ const criarResponsavel = async (req, res) => {
     const senhaHashed = await bcrypt.hash(senha, 10);
     req.body.senha = senhaHashed;
 
-    await Promise.resolve(respModelo.criarResponsavel(req.body));
+    await respModelo.criarResponsavel(req.body);
     return res.render('Avisos/criarResponsavel', { nome: nome });
 };
 
-// Restante das funções (editar, deletar,
+const editarResponsavel = async (req, res) => {
+    const { id } = req.body;
+    const responsavelAtualizado = await respModelo.editarResponsavel(id, req.body);
+    if (responsavelAtualizado) {
+        res.json(responsavelAtualizado);
+    } else {
+        res.status(404).json({ mensagem: "Responsável não encontrado." });
+    }
+};
+
+const getResponsavelPorId = async (req, res) => {
+    const { id_responsavel } = req.body;
+    const responsavel = await respModelo.getResponsavelId(parseInt(id_responsavel));
+    if (responsavel) {
+        res.render('Avisos/responsavelId', { responsavel: responsavel, adminSenha: req.session.user.adminSenha });
+    } else {
+        res.status(404).json({ mensagem: "Responsável não encontrado." });
+    }  
+};
+
+const logoutResp = (req, res) => {
+    req.session.destroy(err => {
+        res.redirect('/inicial.html');
+    });
+};
+
+const deletarResponsavel = async (req, res) => {
+    const { id } = req.body;
+    await respModelo.deleteResponsavel(id);
+    res.json({ mensagem: "Responsável deletado com sucesso." });
+};
+
+module.exports = {
+    loginResponsavel,
+    criarResponsavel,
+    editarResponsavel,
+    getResponsavelPorId,
+    logoutResp,
+    perfilResponsavel,
+    deletarResponsavel
+};

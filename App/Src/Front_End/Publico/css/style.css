@@ -800,3 +800,41 @@ table.responsive-table tbody tr:nth-child(even) {
   width: 100%;                     /* garante largura total */
   box-sizing: border-box;
 }
+
+/* ANIMACOESSSSSSSSSSSSSS */
+.fly-clone {
+    position: absolute;
+    z-index: 1050;
+    transition: all 0.4s ease;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+.modal-backdrop {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(10,20,30,0);
+    z-index: 1040;
+    transition: background 0.4s ease;
+}
+.modal {
+    visibility: hidden;
+    max-width: 860px;
+    width: 90%;
+    max-height: 560px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 25px rgba(0,0,0,0.3);
+    overflow: auto;
+    transition: opacity 0.3s ease;
+}
+.modal.open {
+    visibility: visible;
+    opacity: 1;
+}
