@@ -1,101 +1,83 @@
-const animal = require('./animal_modelo');
-const responsavel = require('./responsavel_modelo');
-
-let adocao = [
-    { animal_id: 1, animal_nome: animal.getAnimalId(1).nome, animal_raça: animal.getAnimalId(1).raça , responsavel_nome: "Aninha", data_adocao: "2023-10-01", adotado: 1}
-];
-
-const getTodasAdocoes = () => adocao;
+const { DataTypes } = require('sequelize');
+const sequelize = require('../Banco_dados/connection');
 
 
-const criarAdocao = (animal_id, responsavel_nome) => {
+// import dos outros models
+const animal = require('./animal_modelo').Animal;
+const responsavel = require('./responsavel_modelo').Responsavel;
 
-    // verifica se o animal e o responsavel existem e se o animal ainda está disponível
-    const id = Number(animal_id);
-    const nomeResp = String(responsavel_nome);
+const Adocao = sequelize.define('adocao', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  data_adocao: {
+    type: DataTypes.DATEONLY,
+    allowNull: false
+  },
+  animal_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  responsavel_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  }
+}, {
+  tableName: 'adocoes',
+  timestamps: false
+});
 
-    // logs para testar o erro, dps eu removo
-    console.log('Procurando animal com ID:', id, 'tipo:', typeof id);
-    console.log('Procurando responsável com nome:', nomeResp);
-    console.log('Animais disponíveis:', animal.animais.filter(a => a.adotado === 0).map(a => ({ id: a.id, nome: a.nome, adotado: a.adotado })));
 
-    const animalObj = animal.animais.find(a => a.id === id && a.adotado === 0);
-    const responsavelObj = responsavel.responsaveis.find(r => r.nome === nomeResp);
 
-    console.log('Animal encontrado:', !!animalObj, animalObj ? `${animalObj.nome} (ID: ${animalObj.id})` : 'nulo');
-    console.log('Responsável encontrado:', !!responsavelObj, responsavelObj ? responsavelObj.nome : 'nulo');
+// Definir associações corretamente: usar as chaves estrangeiras que existem
+animal.hasOne(Adocao, { foreignKey: 'animal_id' });
+Adocao.belongsTo(animal, { foreignKey: 'animal_id' });
 
-    if (animalObj && responsavelObj) {
-        const newAdocao = {
-            animal_id: id,
-            animal_nome: animal.getAnimalId(id).nome,
-            animal_raça: animal.getAnimalId(id).raça,
-            responsavel_nome: nomeResp,
-            data_adocao: new Date().toISOString().split('T')[0], // "["2025-11-11", "15:01:30"]"
-            adotado: 1 // sempre que uma adoção é criada, o animal é marcado como adotado
-        };
+responsavel.hasMany(Adocao, { foreignKey: 'responsavel_id' });
+Adocao.belongsTo(responsavel, { foreignKey: 'responsavel_id' });
 
-        adocao.push(newAdocao);
-        // atualizar o animal no modelo para refletir que foi adotado
-        if (typeof animal.mudarAnimal === 'function') {
-            animal.mudarAnimal(id, undefined, undefined, undefined, 1);
-        } else {
-            // fallback: alterar diretamente
-            const a = animal.getAnimalId(id);
-            if (a) a.adotado = 1;
-        }
+// Buscar adocoes incluindo dados do animal e do responsavel
+const getTodasAdocoes = () => Adocao.findAll({
+  include: [
+    { model: animal, attributes: ['nome', 'raca'] },
+    { model: responsavel, attributes: ['nome'] }
+  ],
+  raw: true,
+  nest: true
+});
 
-        console.log('Adoção criada com sucesso');
-        return newAdocao;
-    }
-
-    console.log('Erro: não foi possível criar adoção');
-    return null;
+const criarAdocao = async (animal_id, params) => {
+  // criar a adoção e marcar o animal como adotado
+  await Adocao.create(params);
+  await animal.update({ adotado: true }, { where: { id: animal_id } });
+  const novaAdocao = await Adocao.findOne({ where: { animal_id: animal_id }, raw: true });
+  return novaAdocao;
 };
 
-const todasAdocoesdeumResponsavel = (responsavel_nome) => {
-    return adocao.filter(a => a.responsavel_nome === responsavel_nome);
+
+//pesquisar por nome depois
+const todasAdocoesdeumResponsavel = async (responsavel_nome) => {
+  const resp = await responsavel.findOne({ where: { nome: responsavel_nome }, attributes: ['id'], raw: true });
+  if (!resp) return [];
+  return Adocao.findAll({ where: { responsavel_id: resp.id }, raw: true });
 };
 
+const atualizarAdocao = async (id, params) => {
+  await Adocao.update(params, { where: { id: id } });
+};
+const deleteAdocao = async (animal_id) => {
+  await Adocao.destroy({ where: { animal_id: animal_id} });
+};
+
+
+// exporta o model primeiro
 module.exports = {
-    animal,
-    adocao,
-    getTodasAdocoes,
-    criarAdocao,
-    todasAdocoesdeumResponsavel
+  Adocao,
+  getTodasAdocoes,
+  criarAdocao,
+  todasAdocoesdeumResponsavel,
+  atualizarAdocao,
+  deleteAdocao
 };
-
-
-
-//const { DataTypes } = require('sequelize');
-//const sequelize = require('../config/db');
-//const animal = require('./animal');
-//const responsavel = require('./responsavel')
-
-
-//const adocao = sequelize.define('adocoes', {
-  //id: {
-    //type: DataTypes.INTEGER,
-    //primaryKey: true,
-    //autoIncrement: true
- // },
-  //data_adocao: {
-    //type: DataTypes.DATEONLY,
-    //allowNull: false
- // }
-
-
-//}, {
-  //tableName: 'adocoes',
-  //timestamps: false
-//});
-
-//module.exports = adocao;
-
-//Animal.hasOne(Adocao, { foreignKey: 'animal_id' });
-//Adocao.belongsTo(Animal, { foreignKey: 'animal_id' });
-
-//Responsavel.hasMany(Adocao, { foreignKey: 'responsavel_id' });
-//Adocao.belongsTo(Responsavel, { foreignKey: 'responsavel_id' });
-
-//a função é essa, mas não sei bem o que fazer com o resto vei

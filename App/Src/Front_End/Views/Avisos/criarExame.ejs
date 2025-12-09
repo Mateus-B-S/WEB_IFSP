@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>exame_criado</title>
+</head>
+<body>
+    <h1>Exame criado com sucesso!</h1>
+    <p>id do animal: <%= exame.id_animal %></p>
+    <p>Nome do Veterinário: <%= nome %></p>
+    <p>Prontuário do Veterinário: <%= prontuario %></p>
+    <p>Observações: <%= exame.observações %></p>
+    <form action="/veterinario/" method="post">
+        <input type="hidden" name="nome" value="<%= nome %>">
+        <input type="hidden" name="prontuario" value="<%= prontuario %>">
+        <input type="hidden" name="senha" value="<%= senha %>">
+        <button type="submit">Voltar ao Painel do Veterinário</button>
+</body>
+</html>
