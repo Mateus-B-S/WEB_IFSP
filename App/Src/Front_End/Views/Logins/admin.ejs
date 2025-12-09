@@ -20,31 +20,19 @@
                   >Erro: <%= messages.error[0] %></strong
                 >
             <% } %>
-            <form action="/admin/login" method="POST">
+            <form action="/admin/" method="POST">
               <div data-mdb-input-init class="form-outline mb-4">
-                <input type="password" id="typePasswordX-2" class="form-control form-control-lg" name="username"/>
+                <input type="password" id="typePasswordX-2" class="form-control form-control-lg" name="senha"/>
                 <label class="form-label" for="typePasswordX-2">Senha</label>
               </div>
 
-                  <!-- Checkbox -->
-                  <button
-                    data-mdb-button-init
-                    data-mdb-ripple-init
-                    class="btn btn-primary btn-lg btn-block submit-btn"
-                    type="submit"
-                  >
-                    Login
-                  </button>
+                  
+                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-warning btn-lg btn-block" type="submit">Login</button>
+
                 </form>
 
-                <hr class="my-4" />
+              <hr class="my-4" />
               </div>
-
-              <!-- Checkbox -->
-              <button data-mdb-button-init data-mdb-ripple-init class="btn btn-warning btn-lg btn-block" type="submit">Login</button>
-            </form>
-
-             <hr class="my-4">
 
             
           </div>
