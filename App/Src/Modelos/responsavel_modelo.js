@@ -3,6 +3,7 @@
 
 const { DataTypes } = require('sequelize');
 const sequelize = require('../Banco_dados/connection');
+const bcrypt = require('bcrypt');
 
 const Responsavel = sequelize.define('responsavel', {
   id: {
@@ -25,7 +26,19 @@ const Responsavel = sequelize.define('responsavel', {
   }
 }, {
   tableName: 'responsaveis',
-  timestamps: false
+  timestamps: false,
+  hooks: {
+      beforeCreate: async (responsavel) => {
+        const salt = await bcrypt.genSalt(10);
+        responsavel.senha = await bcrypt.hash(responsavel.senha, salt);
+      },
+      beforeUpdate: async (responsavel) => {
+        if (responsavel.changed('senha')) {
+          const salt = await bcrypt.genSalt(10);
+          responsavel.senha = await bcrypt.hash(responsavel.senha, salt);
+        }
+      }
+    }
 });
 
 const getTodosResponsaveis = () => Responsavel.findAll({ raw: true });

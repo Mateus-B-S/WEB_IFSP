@@ -28,7 +28,19 @@ const Veterinario = sequelize.define('veterinario', {
   }
 }, {
   tableName: 'veterinarios',
-  timestamps: false
+  timestamps: false,
+  hooks: {
+         beforeCreate: async (vet) => {
+          const salt = await bcrypt.genSalt(10);
+          vet.senha = await bcrypt.hash(vet.senha, salt);
+        },
+        beforeUpdate: async (vet) => {
+          if (vet.changed('senha')) {
+            const salt = await bcrypt.genSalt(10);
+            vet.senha = await bcrypt.hash(vet.senha, salt);
+          }
+        }
+      }
 });
 
 const getTodosvets = () => Veterinario.findAll({ raw: true });

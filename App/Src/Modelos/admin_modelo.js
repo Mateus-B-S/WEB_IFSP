@@ -15,7 +15,19 @@ const Admin = sequelize.define('admin', {
 
 }, {
   tableName: 'admins',
-  timestamps: false
+  timestamps: false,
+  hooks: {
+        beforeCreate: async (admin) => {
+          const salt = await bcrypt.genSalt(10);
+          admin.senha = await bcrypt.hash(admin.senha, salt);
+        },
+        beforeUpdate: async (admin) => {
+          if (admin.changed('senha')) {
+            const salt = await bcrypt.genSalt(10);
+            admin.senha = await bcrypt.hash(admin.senha, salt);
+          }
+        }
+      }
 });
 
 
