@@ -4,54 +4,52 @@ const respModelo = require('../Modelos/responsavel_modelo');
 const exameModelo = require('../Modelos/exame_medico');
 const vetModelo = require('../Modelos/vet_modelo');
 const adocaoModelo = require('../Modelos/adocao_modelo');
-const bcrypt = require('bcrypt');
+//const path = require('path');
 
-// Login e perfil do admin
-const perfilAdmin = async (req, res) => {
+const perfilAdmin =  async (req, res) => {
     const { senha } = req.body || {};
-
-    // Buscar a senha armazenada (apenas o primeiro admin)
+    // Buscar a senha armazenada (pegar o único admin) e comparar como string
     const adminRow = await admin.findOne({ attributes: ['senha'], raw: true });
     const adminSenha = adminRow ? String(adminRow.senha) : null;
-
-    // Carregar listas para dashboard
+        
+    // Os .resolve faz com que primeiro ele faz a função e só depois mande para o EJS  
     const [listaAnimais, listaResponsaveis, listaVeterinarios, listaExames, listaAdocoes] = await Promise.all([
-        animalModelo.getTodosAnimais(),
-        respModelo.getTodosResponsaveis(),
-        vetModelo.getTodosvets(),
-        exameModelo.getTodosExames(),
-        adocaoModelo.getTodasAdocoes()
+        await Promise.resolve(animalModelo.getTodosAnimais()),
+        await Promise.resolve(respModelo.getTodosResponsaveis()),
+        await Promise.resolve(vetModelo.getTodosvets()),
+        Promise.resolve(exameModelo.getTodosExames()), 
+        Promise.resolve(adocaoModelo.getTodasAdocoes())
     ]);
-
     if (senha && String(senha) === adminSenha) {
+
         req.session.user = { tipo_conta: 'admin', adminSenha: adminSenha }; 
-        res.render("Perfil/admin", { 
-            animais: listaAnimais, 
+        // grava sessão
+    
+        res.render("Perfil/admin", { animais: listaAnimais, 
             responsaveis: listaResponsaveis, 
             veterinarios: listaVeterinarios, 
             exames: listaExames, 
-            adocoes: listaAdocoes 
-        });
-    } else {
+            adocoes: listaAdocoes }); 
+        // Renderiza a página de perfil do administrador
+        }    
+    else {
         req.flash('error', 'Senha incorreta. Acesso negado.');
         return loginAdmin(req, res);
     }
 };
 
-// Renderizar login do admin
 const loginAdmin = (req, res) => {
     res.render('Logins/admin', { messages: req.flash() });
 };
 
-// Logout admin
 const logoutAdmin = (req, res) => {
-    req.session.destroy(err => {
-        res.redirect('/inicial.html');
-    });
+    req.session.destroy (err => {
+        res.redirect('/inicial.html')
+    }   );
 };
 
 module.exports = {
+    logoutAdmin,
     loginAdmin,
-    perfilAdmin,
-    logoutAdmin
+    perfilAdmin
 };

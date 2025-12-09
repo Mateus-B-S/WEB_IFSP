@@ -21,6 +21,7 @@
                         <p>Data da Adoção: <%= adocao.data_adocao %></p>
                         <p>Sua adoção foi realizada com sucesso!</p>
                         <form action="/responsavel/" method="POST">
+                            <input type="hidden" name="nome" value="<%= nomeResponsavel %>">
                             <input type="hidden" name="senha" value="<%= senhaResponsavel %>">
                             <input type="hidden" name="email" value="<%= emailResponsavel %>">
                             <button type="submit" class="btn btn-primary">Voltar ao perfil</button>

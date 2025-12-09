@@ -14,6 +14,6 @@ router.post('/', adminControle.perfilAdmin);
 //logout
 router.get('/logout', adminControle.logoutAdmin);
 
-router.get('/login', adminControle.loginAdmin)
+router.get('/login', adminControle.loginAdmin);
 
 module.exports = router;

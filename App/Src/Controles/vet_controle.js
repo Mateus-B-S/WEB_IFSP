@@ -19,20 +19,20 @@ const perfilVet = async (req, res) => {
         return loginVet(req, res);
     }
 
-    // Verificar senha com bcrypt
-    const senhaValida = await bcrypt.compare(senha, vet.senha);
-    if (!senhaValida) {
-        req.flash('error', 'Prontuário ou senha inválidos. Acesso negado.');
-        return loginVet(req, res);
-    }
+    // Verifica a senha com bcrypt
+    //const senhaValida = await bcrypt.compare(senha, vet.senha);
+    //if (!senhaValida) {
+    //    req.flash('error', 'Prontuário ou senha inválidos. Acesso negado.');
+    //    return loginVet(req, res);
+    //}
 
     // Buscar exames do veterinário
     const examesVet = await exameModelo.getExamesPorVet(prontuario);
 
-    // Gravar sessão
-    req.session.user = { tipo_conta: 'veterinario', id_vet: vet.id, nome: vet.nome, prontuario: vet.prontuario };
+    // Grava sessão
+    req.session.user = { tipo_conta: 'veterinario', id_vet: vet.id, nome: vet.nome, prontuario: vet.prontuario, senha: vet.senha };
 
-    res.render("Perfil/veterinario", { nome: vet.nome, exames: examesVet, prontuario: vet.prontuario });
+    res.render("Perfil/veterinario", { nome: vet.nome, exames: examesVet, prontuario: vet.prontuario, senha: vet.senha });
 };
 
 // Renderizar tela de login
@@ -55,7 +55,7 @@ const getVetPorId = async (req, res) => {
 const criarVet = async (req, res) => {
     const dadosVet = { ...req.body };
     // Hash da senha antes de salvar
-    dadosVet.senha = await bcrypt.hash(dadosVet.senha, 10);
+    //dadosVet.senha = await bcrypt.hash(dadosVet.senha, 10);
 
     const novoVet = await modeloVet.criarVet(dadosVet);
     res.render('Avisos/veterinarios', { veterinario: novoVet, adminSenha: req.session.user.adminSenha });

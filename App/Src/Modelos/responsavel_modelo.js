@@ -43,7 +43,7 @@ const Responsavel = sequelize.define('responsavel', {
 
 const getTodosResponsaveis = () => Responsavel.findAll({ raw: true });
 const criarResponsavel = (params) => 
-  Responsavel.create( params );
+  Responsavel.create( params, { fields: ['nome', 'email', 'senha'] }, { raw: true   });
 const getResponsavelId = (id) => Responsavel.findOne({ where: { id: id }, raw: true });
 const editarResponsavel = (id, params) => {
     return Responsavel.update(params, { where: { id: id } });
