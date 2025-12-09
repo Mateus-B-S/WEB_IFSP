@@ -44,7 +44,8 @@ const getTodasAdocoes = () => Adocao.findAll({
     { model: animal, attributes: ['nome', 'raca'] },
     { model: responsavel, attributes: ['nome'] }
   ],
-  raw: true
+  raw: true,
+  nest: true
 });
 
 const criarAdocao = async (animal_id, params) => {

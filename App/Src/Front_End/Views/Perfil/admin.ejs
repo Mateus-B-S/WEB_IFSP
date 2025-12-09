@@ -173,9 +173,9 @@
                 <% } else { %>
                 <% (adocoes || []).forEach(function(adocao) { %>
                 <tr>
-                    <td data-label="Responsável"><%= adocao.responsavel_nome %></td>
+                    <td data-label="Responsável"><%= adocao.responsavel ? adocao.responsavel.nome : adocao.responsavel_nome %></td>
                     <td data-label="ID do Animal"><%= adocao.animal_id %></td>
-                    <td data-label="Nome do Animal"><%= adocao.animal_nome %></td>
+                    <td data-label="Nome do Animal"><%= adocao.animal ? adocao.animal.nome : adocao.animal_nome %></td>
                     <td data-label="Data da Adoção"><%= adocao.data_adocao %></td>
                 </tr>
                 <% }); %>
@@ -244,8 +244,9 @@
         <table class="responsive-table">
             <thead>
                 <tr>
-                    <th>ID do Animal</th>
-                    <th>Prontuário do Veterinário</th>
+                    <th>Animal</th>
+                    <th>Raça</th>
+                    <th>Veterinário</th>
                     <th>Data do Exame</th>
                     <th>Resultados</th>
                 </tr>
@@ -258,9 +259,9 @@
                 <% } else { %>
                 <% (exames || []).forEach(function(exame) { %>
                 <tr>
-                    <td data-label="Animal"><%= exame.animal ? exame.animal.nome : '—' %></td>
-                    <td data-label="Raça"><%= exame.animal ? exame.animal.raca : '—' %></td>
-                    <td data-label="Veterinário"><%= exame.veterinario ? exame.veterinario.nome : '—' %></td>
+                    <td data-label="Animal"><%= exame.animal.nome %></td>
+                    <td data-label="Raça"><%= exame.animal.raca %></td>
+                    <td data-label="Veterinário"><%= exame.veterinario.nome %></td>
                     <td data-label="Data do Exame"><%= exame.data_exame %></td>
                     <td data-label="Resultados"><%= exame.observacoes %></td>
                 </tr>

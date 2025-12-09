@@ -43,11 +43,14 @@ animal.hasMany(Exame, { foreignKey: 'id_animal' });
 Exame.belongsTo(veterinario, { foreignKey: 'prontuario_vet' });
 veterinario.hasMany(Exame, { foreignKey: 'prontuario_vet'});
 
-const getTodosExames = () => Exame.findAll({ 
-  include:[
+const getTodosExames = () => Exame.findAll({
+  include: [
     { model: animal, attributes: ['nome', 'raca'] },
     { model: veterinario, attributes: ['nome'] }
-  ], raw: true });
+  ],
+  raw: true,
+  nest: true
+});
 
 const criarExameMedico = (params) => Exame.create(params);
 
@@ -55,16 +58,26 @@ const atualizarExame = async(id, params) => {
   await Exame.update(params, { where: { id: id }});
 };
 
-const deleteExame = async(id) => {
-  await Exame.destroy({ where: { id: id }, raw: true });
+const deleteExame = async (id) => {
+  return Exame.destroy({ where: { id: id } });
 };
 
-const deleteExameporAnimal = async(id_animal) => {
-  await Exame.destroy({ where: { id_animal: id_animal }, raw: true });
+const deleteExameporAnimal = async (id_animal) => {
+  return Exame.destroy({ where: { id_animal: id_animal } });
 };
 
 const getExamesPorVet = (prontuario_vet) => {
-  return Exame.findAll({ where: { prontuario_vet: prontuario_vet }, raw: true });
+  return Exame.findAll({ where: { prontuario_vet: prontuario_vet }, include: [
+    { model: animal, attributes: ['nome', 'raca'] },
+    { model: veterinario, attributes: ['nome'] }
+  ], raw: true, nest: true });
+};
+
+const getExamesPorAnimal = (id_animal) => {
+  return Exame.findAll({ where: { id_animal }, include: [
+    { model: animal, attributes: ['nome', 'raca'] },
+    { model: veterinario, attributes: ['nome'] }
+  ], raw: true, nest: true });
 };
 
 
