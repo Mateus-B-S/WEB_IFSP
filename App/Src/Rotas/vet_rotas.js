@@ -12,8 +12,8 @@ router.get('/login', vetControle.loginVet);
 
 // Rotas para administração de veterinários
 router.post('/criarVet', permitidos('admin'), vetControle.criarVet);
-router.put('/editarVet', permitidos('admin'), vetControle.editarVet);
-router.delete('/deletarVet', permitidos('admin'), vetControle.deletarVet);
+
+router.delete('/deletar', permitidos('admin'), vetControle.deletarVet);
 
 //logout
 router.post('/logout', vetControle.logoutVet);

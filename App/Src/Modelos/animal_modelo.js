@@ -35,7 +35,8 @@ const devolverAnimal = (id) => {
     return Animal.update({ adotado: false }, { where: { id: id } });
 };
 const deleteAnimal = (id) => {
-    return Animal.destroy({ where: { id: id } });
+  // destroy retorna o número de linhas removidas (0 ou 1)
+  return Animal.destroy({ where: { id: id } });
 };
 const editarAnimal = (id, params) => {
     return Animal.update(params, { where: { id: id }, raw: true });

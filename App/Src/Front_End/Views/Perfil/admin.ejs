@@ -105,10 +105,6 @@
                 <button type="submit">Cadastrar novo</button>
             </form><br>
 
-            <form action="/animal/editar" method="PUT">
-                <input type="text" id="id_animal" name="id_animal" required>
-                <button type="submit">Editar (não mexer ainda) </button>
-            </form><br>
             </div>
         </div>
 
@@ -202,6 +198,7 @@
                     <th>Nome</th>
                     <th>Prontuário</th>
                     <th>Formação</th>
+                    <th>Deletar</th>
                 </tr>
             </thead>
             <tbody>
@@ -215,6 +212,11 @@
                     <td data-label="Nome"><%= vet.nome %></td>
                     <td data-label="Prontuário"><%= vet.prontuario %></td>
                     <td data-label="Formação"><%= vet.formacao %></td>
+                    <td data-label="Deletar">
+                        <form action="/veterinario/deletar?_method=DELETE" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este veterinário?');">
+                            <input type="hidden" name="id" value="<%= vet.id %>">
+                            <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash-fill bs-danger md"></i></button>
+                        </form>
                 </tr>
                 <% }); %>
                 <% } %>
@@ -230,7 +232,6 @@
             <button type="submit">Cadastrar novo</button>
         </form><br>
 
-        <h3>não vou fazer put e delete ainda, mas tá pronto</h3>
         </div>
     </div>
 
@@ -277,7 +278,7 @@
         </form><br>
 
         <form action="/exame/listarPorVet" method="POST">
-            Id do veterinário: <input type="text" name="vet_prontuario" required>
+            Prontuario do veterinário: <input type="text" name="vet_prontuario" required>
             <button type="submit">Listar exames por veterinário</button>
         </form><br>
         </div>

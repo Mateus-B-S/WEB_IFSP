@@ -14,9 +14,9 @@ const perfilAdmin =  async (req, res) => {
         
     // Os .resolve faz com que primeiro ele faz a função e só depois mande para o EJS  
     const [listaAnimais, listaResponsaveis, listaVeterinarios, listaExames, listaAdocoes] = await Promise.all([
-        Promise.resolve(animalModelo.getTodosAnimais()),
-        Promise.resolve(respModelo.getTodosResponsaveis()),
-        Promise.resolve(vetModelo.getTodosvets()),
+        await Promise.resolve(animalModelo.getTodosAnimais()),
+        await Promise.resolve(respModelo.getTodosResponsaveis()),
+        await Promise.resolve(vetModelo.getTodosvets()),
         Promise.resolve(exameModelo.getTodosExames()), 
         Promise.resolve(adocaoModelo.getTodasAdocoes())
     ]);

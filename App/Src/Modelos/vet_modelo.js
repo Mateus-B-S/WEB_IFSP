@@ -36,7 +36,7 @@ const getProntuarioVet = (prontuario) => Veterinario.findAll({ where: { prontuar
 const getVetsId = (id) => Veterinario.findByPk(id , { raw: true });
 const criarVet = (params) => Veterinario.create(params, { raw: true });
 const mudarVet = (id, params) => Veterinario.update(params, {where: {id: id}, raw: true});
-const deleteVet = (id) =>  Veterinario.destroy({where:{id: id}, raw: true});
+const deleteVet = (id) =>  Veterinario.destroy({where:{id: id} });
 
 module.exports = { 
   Veterinario,

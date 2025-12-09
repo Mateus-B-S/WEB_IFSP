@@ -1,4 +1,6 @@
 const animalModelo = require('../Modelos/animal_modelo');
+const adocaoModelo = require('../Modelos/adocao_modelo');
+const exameModelo = require('../Modelos/exame_medico');
 
 
 //depois mudar para busca por tipo do animal
@@ -24,6 +26,7 @@ const criarAnimal = async (req, res) => {
 const devolverAnimal = async (req, res) => {
     const { id } = req.body;
     
+    await adocaoModelo.deleteAdocao(id); // remover adoção associada
         const animalAtualizado = await Promise.resolve(animalModelo.devolverAnimal(id));
         if (animalAtualizado) {
             res.render('Avisos/devolverAnimal', { animal: animalAtualizado, adminSenha: req.session.user.adminSenha } );
@@ -51,8 +54,22 @@ const animaisdisponiveis = async (req, res) => {
 
 const deletarAnimal = async (req, res) => {
     const { id } = req.body;
-    await Promise.resolve(animalModelo.deleteAnimal(id));
-    res.render('Avisos/deletarAnimal', { adminSenha: req.session.user.adminSenha} );
+    try {
+        await exameModelo.deleteExameporAnimal(id); // remover exames associados
+        const deleted = await animalModelo.deleteAnimal(id);
+        if (!deleted) {
+            // nenhum registro removido
+            return res.status(404).render('Avisos/deletarAnimal', { adminSenha: req.session.user.adminSenha, mensagem: 'Animal não encontrado.' });
+        }
+        res.render('Avisos/deletarAnimal', { adminSenha: req.session.user.adminSenha } );
+    } catch (err) {
+        console.error('Erro ao deletar animal:', err);
+        // Mensagem mais amigável para a view; pode ser erro de FK (registro referenciado)
+        const mensagem = err && err.original && err.original.sqlMessage
+            ? `Erro do banco: ${err.original.sqlMessage}`
+            : 'Erro ao deletar animal.';
+        res.status(500).render('Avisos/deletarAnimal', { adminSenha: req.session.user.adminSenha, erro: mensagem });
+    }
 };
 
 

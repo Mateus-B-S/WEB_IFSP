@@ -9,7 +9,7 @@ const perfilVet = async (req, res) => {
         Promise.resolve(exameModelo.getExamesPorVet(prontuario))
   ]); 
     if (vet) {
-        req.session.user = { tipo_conta: 'veterinario', id_vet: vet.id }; // grava sessão
+        req.session.user = { tipo_conta: 'veterinario', id_vet: vet.id, nome: nome, senha: senha, prontuario: prontuario}; // grava sessão
         res.render("Perfil/veterinario", { nome: vet.nome, exames: examesVet, prontuario: vet.prontuario });
         //mandar para ejs do perfil do veterinario
     }
@@ -46,20 +46,10 @@ const criarVet = async (req, res) => {
     res.render('Avisos/veterinarios', { veterinario: novoVet , adminSenha: req.session.user.adminSenha});
 };
 
-const editarVet = async (req, res) => {
-    const { id } = req.body;
-    const vetAtualizado = await modeloVet.mudarVet(id, req.body);
-    if (vetAtualizado) {
-        res.json(vetAtualizado);
-    }
-    else {
-        res.status(404).json({ mensagem: "Veterinário não encontrado." });
-    }
-    
-};
+
 
 const deletarVet = async (req, res) => {
-    const id = parseInt(req.query.id);
+    const { id } = req.body;
 
     const sucesso = await modeloVet.deleteVet(id);
     if (sucesso) {
@@ -79,7 +69,6 @@ module.exports = {
     loginVet,
     getVetPorId,
     criarVet,
-    editarVet,
     deletarVet,
     logoutVet,
     perfilVet
