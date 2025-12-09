@@ -76,6 +76,5 @@ module.exports = {
     editarResponsavel,
     getResponsavelPorId,
     logoutResp,
-    perfilResponsavel,
-    deletarResponsavel
+    perfilResponsavel
 }
