@@ -24,14 +24,14 @@
           <div class="col-12 col-md-8 col-lg-6 col-xl-5">
             <div class="card shadow-2-strong auth-card" style="border-radius: 1rem">
               <div class="card-body p-5 text-center auth-card-body">
-                <h3 class="mb-5">Login de Responsável</h3>
+                <h3 class="mb-3">Login de Responsável</h3>
                 <% if (messages.error && messages.error.length > 0) { %>
                 <strong style="color: red"
                   >Erro: <%= messages.error[0] %></strong
                 >
                 <% } %>
                 <form action="/responsavel/" method="POST" class="auth-form">
-                  <div data-mdb-input-init class="form-outline mb-4">
+                  <div data-mdb-input-init class="form-outline mb-2">
                     <input
                       type="text"
                       class="form-control form-control-lg"
@@ -40,7 +40,7 @@
                     <label class="form-label">Nome</label>
                   </div>
 
-                  <div data-mdb-input-init class="form-outline mb-4">
+                  <div data-mdb-input-init class="form-outline mb-2">
                     <input
                       type="email"
                       id="typeEmailX-2"
@@ -50,7 +50,7 @@
                     <label class="form-label" for="typeEmailX-2">Email</label>
                   </div>
 
-                  <div data-mdb-input-init class="form-outline mb-4">
+                  <div data-mdb-input-init class="form-outline mb-2">
                     <input
                       type="password"
                       id="typePasswordX-2"
