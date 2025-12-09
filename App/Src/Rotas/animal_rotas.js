@@ -4,18 +4,13 @@ const path = require('path');
 const permitidos = require(path.join(__dirname, '../Segurança/autorizacao'));
 const animalControle = require('../Controles/animal_controle');
 
-router.get('/animais_disponiveis', animalControle.animaisdisponiveis);
-router.get('/buscar_animal_por_id', animalControle.getAnimalPorId);
 
-//rotas para animais (editar e criar) veterinario
-router.post('/criar',permitidos('veterinario'),  animalControle.criarAnimal);
-router.put('/editar', permitidos('veterinario'), animalControle.editarAnimal);
+router.get("/buscarPorId", animalControle.getAnimalPorId);
 
-
-// Rotas para administração de animais
-router.post('/adicionarAnimal', permitidos('admin'), animalControle.criarAnimal);
-router.put('/atualizarAnimal', permitidos('admin'), animalControle.editarAnimal);
-
-router.get('/buscarPorId', permitidos('admin'), animalControle.getAnimalPorId);
+// criar e editar o veterinario, mas aqui tá sem ser por id
+router.post('/criar', permitidos('veterinario', 'admin'), animalControle.criarAnimal);
+router.put('/editar', permitidos('veterinario', 'admin'), animalControle.editarAnimal);
+router.delete('/deletar', permitidos('admin'), animalControle.deletarAnimal);
+router.put('/devolver', permitidos('responsavel', 'admin'), animalControle.devolverAnimal);
 
 module.exports = router;

@@ -1,65 +1,49 @@
-let responsaveis = [
-    { id:1 , nome: "Aninha", email: "aninha@gmail.com", senha: "ANINHA123" }
-];
 
 
-const getResponsavelId = (id) => responsaveis.find(r => r.id === id);
 
-const getTodosResponsaveis = () => responsaveis;
+const { DataTypes } = require('sequelize');
+const sequelize = require('../Banco_dados/connection');
 
-const criarResponsavel = (nome, email, senha) =>  {
-    const newResponsavel = {
-        id: responsaveis.length > 0 ? Math.max(...responsaveis.map(r => r.id)) + 1 : 1,
-        nome: nome,
-        email: email,
-        senha: senha
-    };
-    responsaveis.push(newResponsavel);
-    return newResponsavel;
+const Responsavel = sequelize.define('responsavel', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  nome: {
+    type: DataTypes.STRING,
+    allowNull: false
+
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  senha: {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
+}, {
+  tableName: 'responsaveis',
+  timestamps: false
+});
+
+const getTodosResponsaveis = () => Responsavel.findAll({ raw: true });
+const criarResponsavel = (params) => 
+  Responsavel.create( params );
+const getResponsavelId = (id) => Responsavel.findOne({ where: { id: id }, raw: true });
+const editarResponsavel = (id, params) => {
+    return Responsavel.update(params, { where: { id: id }, raw: true });
 };
-const editarResponsavel = (id, nome, email, senha) => {
-    const resp = getResponsavelId(id);
-    if (resp) {
-        resp.nome = nome ?? resp.nome;
-        resp.email = email ?? resp.email;
-        resp.senha = senha ?? resp.senha;
-        return resp;
-    }
-    return null;
+const deleteResponsavel = (id) => {
+    return Responsavel.destroy({ where: { id: id }, raw: true });
 };
-
 
 module.exports = {
-    responsaveis,
-    criarResponsavel,
-    editarResponsavel,
-    getResponsavelId,
-    getTodosResponsaveis
-}
-
-
-//const { DataTypes } = require('sequelize');
-//const sequelize = require('../config/db');
-
-//const responsavel = sequelize.define('responsavel', {
-  //id: {
-    //type: DataTypes.INTEGER,
-    //primaryKey: true,
-    //autoIncrement: true
-  //},
-  //nome: {
-    //type: DataTypes.STRING,
-   // allowNull: false
-
-  //}
-  //email: {
-   // type: DataTypes.STRING,
-   // allowNull: false
-  //}
-  
-//}, {
- // tableName: 'responsaveis',
-  //timestamps: false
-//});
-
-//module.exports = responsavel;
+  Responsavel,
+  getTodosResponsaveis,
+  criarResponsavel,
+  getResponsavelId,
+  editarResponsavel,
+  deleteResponsavel
+};

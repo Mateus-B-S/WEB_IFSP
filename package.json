@@ -1,0 +1,21 @@
+{
+  "name": "web_ifsp",
+  "version": "1.0.0",
+  "description": "Trabalho de Web do 2 Semestre de 2025 - IFSP, campus Jacareí - 2 ano INFO\r   Feito por: Mateus Buchalla Santos; Luis G. Moraes; Isabelle NPCO; Luis Felipe Decarli",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mateus-B-S/WEB_IFSP.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Mateus-B-S/WEB_IFSP/issues"
+  },
+  "homepage": "https://github.com/Mateus-B-S/WEB_IFSP#readme"
+}

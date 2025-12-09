@@ -1,71 +1,93 @@
-const animal = require('./animal_modelo');
-const vet = require('./vet_modelo');
+// Modelos/exame_modelo.js
+const { DataTypes } = require('sequelize');
+const sequelize = require('../Banco_dados/connection');
 
-let exame_medico = [
-    {  animal_id: 1, vet_prontuario: "JC0001", data_exame: "2023-10-15", observacoes: "Tudo ok" }
-];
+const animal = require('./animal_modelo').Animal;
+const veterinario = require('./vet_modelo').Veterinario;
 
-const getTodosExames = () => exame_medico;
+const Exame = sequelize.define('Exame', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
 
-const criarExameMedico = (animal_id, vet_prontuario, observacoes) =>  {
-    const ver1 = animal_id == animal.getAnimalId(Number(animal_id)).id;
-    const ver2 = vet_prontuario == vet.getProntuarioVet(String(vet_prontuario)).prontuario;
-    if (ver1 && ver2) { 
-        const newExame = {
-            animal_id: animal_id,
-            vet_prontuario: vet_prontuario,
-            data_exame: new Date().toISOString().split('T')[0],
-            observacoes: observacoes
-        };
-        exame_medico.push(newExame);
-        return newExame;
-    }
-    return null;
+  prontuario_vet: {
+    type: DataTypes.STRING(6),
+    allowNull: false,
+  },
+
+  id_animal: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+
+  data_exame: {
+    type: DataTypes.DATEONLY,
+    allowNull: false
+  },
+
+  observacoes: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+}, {
+  tableName: 'exame',
+  timestamps: false
+});
+
+// relacionamentooooos
+Exame.belongsTo(animal, { foreignKey: 'id_animal' });
+animal.hasMany(Exame, { foreignKey: 'id_animal' });
+
+Exame.belongsTo(veterinario, { foreignKey: 'prontuario_vet' });
+veterinario.hasMany(Exame, { foreignKey: 'prontuario_vet'});
+
+const getTodosExames = () => Exame.findAll({
+  include: [
+    { model: animal, attributes: ['nome', 'raca'] },
+    { model: veterinario, attributes: ['nome'] }
+  ],
+  raw: true,
+  nest: true
+});
+
+const criarExameMedico = (params) => Exame.create(params);
+
+const atualizarExame = async(id, params) => {
+  await Exame.update(params, { where: { id: id }});
 };
 
-const getExamesporVet = (vet_prontuario) => {
-    return exame_medico.filter(e => e.vet_prontuario === vet_prontuario);
+const deleteExame = async (id) => {
+  return Exame.destroy({ where: { id: id } });
 };
+
+const deleteExameporAnimal = async (id_animal) => {
+  return Exame.destroy({ where: { id_animal: id_animal } });
+};
+
+const getExamesPorVet = (prontuario_vet) => {
+  return Exame.findAll({ where: { prontuario_vet: prontuario_vet }, include: [
+    { model: animal, attributes: ['nome', 'raca'] },
+    { model: veterinario, attributes: ['nome'] }
+  ], raw: true, nest: true });
+};
+
+const getExamesPorAnimal = (id_animal) => {
+  return Exame.findAll({ where: { id_animal }, include: [
+    { model: animal, attributes: ['nome', 'raca'] },
+    { model: veterinario, attributes: ['nome'] }
+  ], raw: true, nest: true });
+};
+
 
 module.exports = {
-    exame_medico,
-    criarExameMedico,
-    getTodosExames,
-    getExamesporVet
-}
+  Exame,
+  getTodosExames,
+  criarExameMedico,
+  atualizarExame,
+  deleteExame,
+  getExamesPorVet,
+  deleteExameporAnimal
+  }; 
 
-
-//const { DataTypes } = require('sequelize');
-//const sequelize = require('../config/db');
-//const prontuario_vet = require('./vet');
-//const id_animal  = require('./animal')
-
-
-//const exames = sequelize.define('Exames', {
-  //id: {
-    //type: DataTypes.INTEGER,
-    //primaryKey: true,
-    //autoIncrement: true
- // },
-  //data_exame: {
-    //type: DataTypes.DATEONLY,
-    //allowNull: false
- // }
-
-  //observacoes: {
-    //type: DataTypes.STRING,
-    //allowNull: false
- // }
-
-//}, {
-  //tableName: 'exame',
-  //timestamps: false
-//});
-
-//module.exports = exame;
-
-//Animal.hasOne(Adocao, { foreignKey: 'id_animal' });
-//Adocao.belongsTo(Animal, { foreignKey: 'id_animal' });
-
-//Veterinario.hasMany(Exames, { foreignKey: 'prontuario_vet' });
-//Exames.belongsTo(Veterinario, { foreignKey: 'prontuario_vet' });

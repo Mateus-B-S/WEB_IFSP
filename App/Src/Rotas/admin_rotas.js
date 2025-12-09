@@ -3,11 +3,12 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
+permitidos = require(path.join(__dirname, '../Segurança/autorizacao'));
 
 
 const adminControle = require('../Controles/admin_controle');
 
-// Rota para login do administrador
+// rota para login do administrador
 router.post('/', adminControle.perfilAdmin);
 
 //logout

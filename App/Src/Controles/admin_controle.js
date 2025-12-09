@@ -8,21 +8,30 @@ const adocaoModelo = require('../Modelos/adocao_modelo');
 
 const perfilAdmin =  async (req, res) => {
     const { senha } = req.body || {};
-    const listaAnimais = animalModelo.getTodosAnimais();
-    const listaResponsaveis = respModelo.getTodosResponsaveis();
-    const listaVeterinarios = vetModelo.getTodosvets();
-    const listaExames = exameModelo.getTodosExames();
-    const listaAdocoes = adocaoModelo.getTodasAdocoes();
-    if (senha && senha === admin.senha) {
-        req.session.user = { tipo_conta: 'admin', adminSenha: admin.senha }; 
+    // Buscar a senha armazenada (pegar o único admin) e comparar como string
+    const adminRow = await admin.findOne({ attributes: ['senha'], raw: true });
+    const adminSenha = adminRow ? String(adminRow.senha) : null;
+        
+    // Os .resolve faz com que primeiro ele faz a função e só depois mande para o EJS  
+    const [listaAnimais, listaResponsaveis, listaVeterinarios, listaExames, listaAdocoes] = await Promise.all([
+        await Promise.resolve(animalModelo.getTodosAnimais()),
+        await Promise.resolve(respModelo.getTodosResponsaveis()),
+        await Promise.resolve(vetModelo.getTodosvets()),
+        Promise.resolve(exameModelo.getTodosExames()), 
+        Promise.resolve(adocaoModelo.getTodasAdocoes())
+    ]);
+    if (senha && String(senha) === adminSenha) {
+
+        req.session.user = { tipo_conta: 'admin', adminSenha: adminSenha }; 
         // grava sessão
+    
         res.render("Perfil/admin", { animais: listaAnimais, 
             responsaveis: listaResponsaveis, 
             veterinarios: listaVeterinarios, 
             exames: listaExames, 
             adocoes: listaAdocoes }); 
         // Renderiza a página de perfil do administrador
-    }
+        }    
     else {
         req.flash('error', 'Senha incorreta. Acesso negado.');
         return loginAdmin(req, res);

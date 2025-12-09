@@ -1,21 +1,13 @@
 const animalModelo = require('../Modelos/animal_modelo');
-
-const getTodosAnimais = (req, res) => {
-    const animais = animalModelo.getTodosAnimais();
-    res.json(animais);
-};
-
-const animaisdisponiveis = (req, res) => {
-    const animais = animalModelo.animaisdisponiveis();
-    res.json(animais);
-}
+const adocaoModelo = require('../Modelos/adocao_modelo');
+const exameModelo = require('../Modelos/exame_medico');
 
 
 //depois mudar para busca por tipo do animal
-const getAnimalPorId = (req, res) => {
+const getAnimalPorId = async (req, res) => {
     const  id  = req.query.id;
     const adminSenha = req.session.user ? req.session.user.adminSenha : null;
-    const animal = animalModelo.getAnimalId(parseInt(id));
+    const animal = await Promise.resolve(animalModelo.getAnimalId(parseInt(id)));
     if (animal) {
         res.render('Avisos/animalId', { animal: animal, adminSenha: adminSenha});
     } else {
@@ -25,30 +17,67 @@ const getAnimalPorId = (req, res) => {
 
 
 
-const criarAnimal = (req, res) => {
-    const { nome, raca, tipo } = req.body;
-
-    const novoAnimal = animalModelo.criarAnimal(nome, raca, tipo);
+const criarAnimal = async (req, res) => {
+    const novoAnimal = await Promise.resolve(animalModelo.criarAnimal(req.body));
     res.render('Avisos/criarAnimal', { animal: novoAnimal, adminSenha: req.session.user.adminSenha } );
 
 };
 
-const editarAnimal = (req, res) => {
-    const { id, nome, raça, tipo, adotado } = req.body;
+const devolverAnimal = async (req, res) => {
+    const { id } = req.body;
     
-        const animalAtualizado = animalModelo.mudarAnimal(id, nome, raça, tipo, adotado);
+    await adocaoModelo.deleteAdocao(id); // remover adoção associada
+        const animalAtualizado = await Promise.resolve(animalModelo.devolverAnimal(id));
         if (animalAtualizado) {
-            res.json(animalAtualizado);
+            res.render('Avisos/devolverAnimal', { animal: animalAtualizado, adminSenha: req.session.user.adminSenha } );
         }
         else {
             res.status(404).json({ mensagem: "Animal não encontrado." });
         }
 };
 
-module.exports = {
-    getTodosAnimais,
+const editarAnimal = async (req, res) => {
+    const { id } = req.body;
+    const animalAtualizado = await Promise.resolve(animalModelo.editarAnimal(id, req.body));
+    if (animalAtualizado) {
+        res.send('Animal atualizado com sucesso.');
+    }
+    else {
+        res.status(404).json({ mensagem: "Animal não encontrado." });
+    }
+};
+
+const animaisdisponiveis = async (req, res) => {
+    const animais = await animalModelo.animaisdisponiveis();
+    res.status(200).json(animais);
+};  
+
+const deletarAnimal = async (req, res) => {
+    const { id } = req.body;
+    try {
+        await exameModelo.deleteExameporAnimal(id); // remover exames associados
+        const deleted = await animalModelo.deleteAnimal(id);
+        if (!deleted) {
+            // nenhum registro removido
+            return res.status(404).render('Avisos/deletarAnimal', { adminSenha: req.session.user.adminSenha, mensagem: 'Animal não encontrado.' });
+        }
+        res.render('Avisos/deletarAnimal', { adminSenha: req.session.user.adminSenha } );
+    } catch (err) {
+        console.error('Erro ao deletar animal:', err);
+        // Mensagem mais amigável para a view; pode ser erro de FK (registro referenciado)
+        const mensagem = err && err.original && err.original.sqlMessage
+            ? `Erro do banco: ${err.original.sqlMessage}`
+            : 'Erro ao deletar animal.';
+        res.status(500).render('Avisos/deletarAnimal', { adminSenha: req.session.user.adminSenha, erro: mensagem });
+    }
+};
+
+
+module.exports = { 
     getAnimalPorId,
     criarAnimal,
-    editarAnimal,
-    animaisdisponiveis
+    devolverAnimal,
+    animaisdisponiveis,
+    deletarAnimal,
+    editarAnimal
 }
