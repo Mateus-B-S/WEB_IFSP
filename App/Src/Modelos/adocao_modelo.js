@@ -35,7 +35,7 @@ const Adocao = sequelize.define('adocao', {
 animal.hasOne(Adocao, { foreignKey: 'animal_id' });
 Adocao.belongsTo(animal, { foreignKey: 'animal_id' });
 
-responsavel.hasMany(Adocao, { foreignKey: 'responsavel_id'});
+responsavel.hasMany(Adocao, { foreignKey: 'responsavel_id' });
 Adocao.belongsTo(responsavel, { foreignKey: 'responsavel_id' });
 
 // Buscar adocoes incluindo dados do animal e do responsavel
@@ -78,5 +78,5 @@ module.exports = {
   criarAdocao,
   todasAdocoesdeumResponsavel,
   atualizarAdocao,
-  deleteAdocao
+  deleteAdocao
 };
