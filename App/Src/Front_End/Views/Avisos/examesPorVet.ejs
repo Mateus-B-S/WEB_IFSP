@@ -20,11 +20,12 @@
             <tbody>
                 <% exames.forEach(function(exame) { %>
                 <tr>
-                    <td><%= exame.vet_prontuario %></td>
-                    <td><%= exame.animal_id %></td>
+                    <td><%= prontuarioVet %></td>
+                    <td><%= exame.id_animal %></td>
                     <td><%= exame.data_exame %></td>
-                    <td><%= exame.Observações %></td>
+                    <td><%= exame.observacoes %></td>
                 </tr>
+                <% }); %>
             </tbody>
         </table>
     <form action="/admin/" method="POST">

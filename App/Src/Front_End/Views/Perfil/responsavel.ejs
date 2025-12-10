@@ -109,8 +109,8 @@
             // Preenche modal
             modalAvatar.textContent = data.nome ? data.nome.charAt(0).toUpperCase() : 'A';
             modalName.textContent = data.nome || '—';
-            modalRaca.innerHTML = `<strong>Raça:</strong> ${data.raça || '—'}`;
-            modalTipo.innerHTML = `<strong>Tipo:</strong> ${data.tipo || '—'}`;
+            modalRaca.innerHTML = `<strong>Raça:</strong> ${data.animal.raca || '—'}`;
+            modalTipo.innerHTML = `<strong>Tipo:</strong> ${data.animal.tipotipo || '—'}`;
             modalAnimalId.value = data.id || '';
 
             // Clone do card

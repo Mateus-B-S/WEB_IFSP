@@ -18,7 +18,7 @@ const listarExamesPorVet = async (req, res) => {
         Promise.resolve(exameModelo.getExamesPorVet(vet_prontuario)),
         Promise.resolve(vetModelo.getProntuarioVet(vet_prontuario))
     ]); 
-    res.render('Avisos/examesPorVet', { exames: exames, prontuarioVet: vet_prontuario, nomeVet: nomeVet.nome , adminSenha: req.session.user.adminSenha, async: true });
+    res.render('Avisos/examesPorVet', { exames: exames, prontuarioVet: vet_prontuario, nomeVet: nomeVet.nome , adminSenha: req.session.user.adminSenha});
 };
 
 const editarExame = async (req, res) => {

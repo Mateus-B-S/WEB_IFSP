@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../Banco_dados/connection');
 
 
+
 const Veterinario = sequelize.define('veterinario', {
   id: {
     type: DataTypes.INTEGER,
@@ -28,19 +29,7 @@ const Veterinario = sequelize.define('veterinario', {
   }
 }, {
   tableName: 'veterinarios',
-  timestamps: false,
-  hooks: {
-         beforeCreate: async (vet) => {
-          const salt = await bcrypt.genSalt(10);
-          vet.senha = await bcrypt.hash(vet.senha, salt);
-        },
-        beforeUpdate: async (vet) => {
-          if (vet.changed('senha')) {
-            const salt = await bcrypt.genSalt(10);
-            vet.senha = await bcrypt.hash(vet.senha, salt);
-          }
-        }
-      }
+  timestamps: false
 });
 
 const getTodosvets = () => Veterinario.findAll({ raw: true });
