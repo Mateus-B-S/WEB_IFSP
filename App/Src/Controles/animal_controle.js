@@ -9,7 +9,7 @@ const getAnimalPorId = async (req, res) => {
     const adminSenha = req.session.user ? req.session.user.adminSenha : null;
     const animal = await Promise.resolve(animalModelo.getAnimalId(parseInt(id)));
     if (animal) {
-        res.render('Avisos/animalId', { animal: animal, adminSenha: adminSenha});
+        res.render('Avisos/Animal/animalId', { animal: animal, adminSenha: adminSenha});
     } else {
         res.status(404).json({ mensagem: "Animal não encontrado." });
     }
@@ -19,7 +19,7 @@ const getAnimalPorId = async (req, res) => {
 
 const criarAnimal = async (req, res) => {
     const novoAnimal = await Promise.resolve(animalModelo.criarAnimal(req.body));
-    res.render('Avisos/criarAnimal', { animal: novoAnimal, adminSenha: req.session.user.adminSenha } );
+    res.render('Avisos/Animal/criarAnimal', { animal: novoAnimal, adminSenha: req.session.user.adminSenha } );
 
 };
 
@@ -29,7 +29,7 @@ const devolverAnimal = async (req, res) => {
     await adocaoModelo.deleteAdocao(id); // remover adoção associada
         const animalAtualizado = await Promise.resolve(animalModelo.devolverAnimal(id));
         if (animalAtualizado) {
-            res.render('Avisos/devolverAnimal', { animal: animalAtualizado, adminSenha: req.session.user.adminSenha } );
+            res.render('Avisos/Animal/devolverAnimal', { animal: animalAtualizado, adminSenha: req.session.user.adminSenha } );
         }
         else {
             res.status(404).json({ mensagem: "Animal não encontrado." });
@@ -61,7 +61,7 @@ const deletarAnimal = async (req, res) => {
             // nenhum registro removido
             return res.status(404).render('Avisos/deletarAnimal', { adminSenha: req.session.user.adminSenha, mensagem: 'Animal não encontrado.' });
         }
-        res.render('Avisos/deletarAnimal', { adminSenha: req.session.user.adminSenha } );
+        res.render('Avisos/Animal/deletarAnimal', { adminSenha: req.session.user.adminSenha } );
     } catch (err) {
         console.error('Erro ao deletar animal:', err);
         // Mensagem mais amigável para a view; pode ser erro de FK (registro referenciado)

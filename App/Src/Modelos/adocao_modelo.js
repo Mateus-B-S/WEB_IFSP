@@ -52,7 +52,12 @@ const criarAdocao = async (animal_id, params) => {
   // criar a adoção e marcar o animal como adotado
   await Adocao.create(params);
   await animal.update({ adotado: true }, { where: { id: animal_id } });
-  const novaAdocao = await Adocao.findOne({ where: { animal_id: animal_id }, raw: true });
+  const novaAdocao = await Adocao.findOne({ where: { animal_id: animal_id },  include: [
+    { model: animal, attributes: ['nome', 'raca'] },
+    { model: responsavel, attributes: ['nome'] },
+    
+  ], nest: true });
+
   return novaAdocao;
 };
 
@@ -61,7 +66,11 @@ const criarAdocao = async (animal_id, params) => {
 const todasAdocoesdeumResponsavel = async (responsavel_nome) => {
   const resp = await responsavel.findOne({ where: { nome: responsavel_nome }, attributes: ['id'], raw: true });
   if (!resp) return [];
-  return Adocao.findAll({ where: { responsavel_id: resp.id }, raw: true });
+  return Adocao.findAll({ where: { responsavel_id: resp.id }
+  , include: [
+    { model: animal, attributes: ['nome', 'raca'] },
+    { model: responsavel, attributes: ['nome'] }
+  ] });
 };
 
 const atualizarAdocao = async (id, params) => {

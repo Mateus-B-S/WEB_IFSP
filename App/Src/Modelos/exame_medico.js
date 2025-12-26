@@ -70,14 +70,14 @@ const getExamesPorVet = (prontuario_vet) => {
   return Exame.findAll({ where: { prontuario_vet: prontuario_vet }, include: [
     { model: animal, attributes: ['nome', 'raca'] },
     { model: veterinario, attributes: ['nome'] }
-  ], raw: true, nest: true });
+  ], nest: true });
 };
 
 const getExamesPorAnimal = (id_animal) => {
   return Exame.findAll({ where: { id_animal }, include: [
     { model: animal, attributes: ['nome', 'raca'] },
     { model: veterinario, attributes: ['nome'] }
-  ], raw: true, nest: true });
+  ] });
 };
 
 

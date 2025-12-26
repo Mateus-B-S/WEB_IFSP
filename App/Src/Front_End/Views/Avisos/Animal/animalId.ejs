@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Procurado</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-main">
+        <div class="container-fluid">
+            <div class="card" style="max-width: 600px; margin: 40px auto;">
+                <div class="card-body">
+                    <h2 class="card-title mb-4">Detalhes do Animal</h2>
+                    <div class="table-responsive">
+                        <table class="responsive-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Raça</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><%= animal.id %></td>
+                                    <td><%= animal.nome %></td>
+                                    <td><%= animal.raca %></td>
+                                    <td><%= animal.adotado ? '✅ Adotado' : '❌ Disponível' %></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <form action="/admin/" method="POST" class="mt-4">
+                        <input type="hidden" name="senha" value="<%= adminSenha %>">
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Voltar ao Perfil</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

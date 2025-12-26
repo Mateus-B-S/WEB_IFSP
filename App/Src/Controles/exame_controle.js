@@ -18,7 +18,7 @@ const listarExamesPorVet = async (req, res) => {
         Promise.resolve(exameModelo.getExamesPorVet(vet_prontuario)),
         Promise.resolve(vetModelo.getProntuarioVet(vet_prontuario))
     ]); 
-    res.render('Avisos/examesPorVet', { exames: exames, prontuarioVet: vet_prontuario, nomeVet: nomeVet.nome , adminSenha: req.session.user.adminSenha});
+    res.render('Avisos/Exame/examesPorVet', { exames: exames, prontuarioVet: vet_prontuario, nomeVet: nomeVet.nome , adminSenha: req.session.user.adminSenha});
 };
 
 const editarExame = async (req, res) => {
@@ -28,14 +28,14 @@ const editarExame = async (req, res) => {
             res.status(404).json({ mensagem: "Animal não encontrado." });
         }
         else {
-            res.render('Avisos/editarExame', { exame: exameAtualizado, senha: req.session.user.senha, nome: req.session.user.nome, prontuario: req.session.user.prontuario} );
+            res.render('Avisos/Exame/editarExame', { exame: exameAtualizado, senha: req.session.user.senha, nome: req.session.user.nome, prontuario: req.session.user.prontuario} );
         }
 };
 
 const deletarExame = async (req, res) => {
     const { id } = req.body;
     await exameModelo.deleteExame(id);
-    res.render('Avisos/deletarExame', { senha: req.session.user.senha, nome: req.session.user.nome, prontuario: req.session.user.prontuario } );
+    res.render('Avisos/Exame/deletarExame', { senha: req.session.user.senha, nome: req.session.user.nome, prontuario: req.session.user.prontuario } );
 };
 
 module.exports = {

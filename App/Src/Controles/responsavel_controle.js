@@ -30,7 +30,7 @@ const loginResponsavel = (req, res) => {
 const criarResponsavel = async (req, res) => {
     const { nome } = req.body;
     await Promise.resolve(respModelo.criarResponsavel(req.body));
-    return res.render('Avisos/criarResponsavel', { nome: nome });
+    return res.render('Avisos/Responsavel/criarResponsavel', { nome: nome });
 };
 
 
@@ -51,7 +51,7 @@ const getResponsavelPorId = async (req, res) => {
 
     const responsavel = await respModelo.getResponsavelId(parseInt(id_responsavel));
     if (responsavel) {
-        res.render('Avisos/responsavelId', { responsavel: responsavel, adminSenha: req.session.user.adminSenha });
+        res.render('Avisos/Responsavel/responsavelId', { responsavel: responsavel, adminSenha: req.session.user.adminSenha });
     } else {
         res.status(404).json({ mensagem: "Responsável não encontrado." });
     }  

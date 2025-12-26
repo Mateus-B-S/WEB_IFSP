@@ -58,7 +58,7 @@ const criarVet = async (req, res) => {
     //dadosVet.senha = await bcrypt.hash(dadosVet.senha, 10);
 
     const novoVet = await modeloVet.criarVet(dadosVet);
-    res.render('Avisos/veterinarios', { veterinario: novoVet, adminSenha: req.session.user.adminSenha });
+    res.render('Avisos/Veterinario/veterinarios', { veterinario: novoVet, adminSenha: req.session.user.adminSenha });
 };
 
 // Deletar veterinário (admin)
