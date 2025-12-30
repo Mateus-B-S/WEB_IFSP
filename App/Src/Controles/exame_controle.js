@@ -4,7 +4,7 @@ const vetModelo = require('../Modelos/vet_modelo');
 const criarExame = async (req, res) => {
     const novoExame = await Promise.resolve(exameModelo.criarExameMedico(req.body));
     if (novoExame) {
-        res.status(201).render('Avisos/criarExame', { exame: novoExame, senha: req.session.user.senha, nome: req.session.user.nome, prontuario: req.session.user.prontuario } );
+        res.status(201).render('Avisos/Exame/criarExame', { exame: novoExame, senha: req.session.user.senha, nome: req.session.user.nome, prontuario: req.session.user.prontuario } );
     }
     else {
         res.status(400).json({ mensagem: "Erro ao criar exame. Verifique os dados fornecidos." });

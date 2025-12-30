@@ -803,38 +803,44 @@ table.responsive-table tbody tr:nth-child(even) {
 
 /* ANIMACOESSSSSSSSSSSSSS */
 .fly-clone {
-    position: absolute;
-    z-index: 1050;
-    transition: all 0.4s ease;
+    position: fixed;
+    z-index: 10000;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     border-radius: 12px;
-    overflow: hidden;
     background: #fff;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    will-change: top, left, width, height, transform;
 }
 .modal-backdrop {
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     display: none;
     justify-content: center;
     align-items: center;
     background: rgba(10,20,30,0);
-    z-index: 1040;
+    z-index: 9999;
     transition: background 0.4s ease;
 }
 .modal {
     visibility: hidden;
+    opacity: 0;
+    transform: scale(0.95);
     max-width: 860px;
     width: 90%;
-    max-height: 560px;
+    max-height: 80vh;
     background: #fff;
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 4px 25px rgba(0,0,0,0.3);
-    overflow: auto;
-    transition: opacity 0.3s ease;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    transition: all 0.3s ease;
 }
 .modal.open {
     visibility: visible;
     opacity: 1;
+    transform: scale(1);
 }

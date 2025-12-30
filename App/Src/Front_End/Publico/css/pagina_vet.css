@@ -1,0 +1,71 @@
+/* ============================================================================
+   VETERINÁRIO - Layout Grid Customizado
+   Estende: style.css (.app-main, .section, .container-fluid)
+   ============================================================================ */
+
+/* Container principal do veterinário: grid layout */
+.vet-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: var(--gap-lg);
+  padding: var(--gap-lg);
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Seção de exames: ocupa coluna maior em telas grandes */
+.vet-layout .section:nth-child(1) {
+  grid-column: 1 / 2;
+}
+
+/* Seção de criar exame: ao lado dos exames */
+.vet-layout .section:nth-child(2) {
+  grid-column: 2 / 3;
+}
+
+/* Responsivo: Tablet (até 1000px) */
+@media (max-width: 1000px) {
+  .vet-layout {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--gap-md);
+  }
+  
+}
+
+/* Responsivo: Mobile (até 768px) */
+/*
+    Daqui para baixo, os containers se alinham em coluna única
+*/
+
+@media (max-width: 768px) {
+  .vet-layout {
+    grid-template-columns: 1fr;
+    gap: var(--gap-md);
+    padding: var(--gap-md);
+  }
+  .vet-layout > .section,
+  .vet-layout .section:nth-child(1),
+  .vet-layout .section:nth-child(2) {
+    grid-column: 1 / -1;
+    width: 100%;
+  }.vet-layout .section:nth-child(1),
+  .vet-layout .section:nth-child(2) {
+    grid-column: auto;
+  }
+    
+}
+
+/* Responsivo: Muito pequeno (até 480px) */
+@media (max-width: 480px) {
+  .vet-layout {
+    grid-template-columns: 1fr;
+    gap: var(--gap-md);
+    padding: var(--gap-md);
+    grid-auto-rows: auto; /* garante altura automática das linhas */
+    align-items: start;
+  }
+
+
+}

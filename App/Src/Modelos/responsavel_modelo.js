@@ -3,6 +3,7 @@
 
 const { DataTypes } = require('sequelize');
 const sequelize = require('../Banco_dados/connection');
+const cripto = require('bcrypt');
 
 const Responsavel = sequelize.define('responsavel', {
   id: {
@@ -22,7 +23,8 @@ const Responsavel = sequelize.define('responsavel', {
   },
   senha: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    select: false
   }
 }, {
   tableName: 'responsaveis',
@@ -30,15 +32,27 @@ const Responsavel = sequelize.define('responsavel', {
 });
 
 const getTodosResponsaveis = () => Responsavel.findAll({ raw: true });
-const criarResponsavel = (params) => 
-  Responsavel.create( params );
+
+const criarResponsavel =  async (params) => {
+  const senha_cripto = await cripto.hash(params.senha, 8);
+  params.senha = senha_cripto;
+  return Responsavel.create(params);
+};
+
 const getResponsavelId = (id) => Responsavel.findOne({ where: { id: id }, raw: true });
-const editarResponsavel = (id, params) => {
-    return Responsavel.update(params, { where: { id: id }, raw: true });
+
+
+
+const editarResponsavel = async (id, params) => {
+  const senha_cripto = await cripto.hash(params.senha, 8);
+  params.senha = senha_cripto;
+  return Responsavel.update(params, { where: { id: id }, raw: true });
 };
 const deleteResponsavel = (id) => {
     return Responsavel.destroy({ where: { id: id }, raw: true });
 };
+
+
 
 module.exports = {
   Responsavel,
@@ -46,5 +60,5 @@ module.exports = {
   criarResponsavel,
   getResponsavelId,
   editarResponsavel,
-  deleteResponsavel
+  deleteResponsavel,
 };

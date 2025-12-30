@@ -1,6 +1,6 @@
 const modeloVet = require('../Modelos/vet_modelo');
 const exameModelo = require('../Modelos/exame_medico');
-const bcrypt = require('bcrypt');
+const cripto = require('bcrypt');
 
 // Login e perfil do veterinário
 const perfilVet = async (req, res) => {
@@ -12,27 +12,26 @@ const perfilVet = async (req, res) => {
     }
 
     // Buscar veterinário pelo nome e prontuário
-    const vet = await modeloVet.Veterinario.findOne({ where: { nome, prontuario }, raw: true });
+    const vet = await modeloVet.Veterinario.findOne({ where: { nome: nome, prontuario: prontuario }, raw: true });
 
     if (!vet) {
         req.flash('error', 'Prontuário ou senha inválidos. Acesso negado.');
         return loginVet(req, res);
     }
-
+   
     // Verifica a senha com bcrypt
-    //const senhaValida = await bcrypt.compare(senha, vet.senha);
-    //if (!senhaValida) {
-    //    req.flash('error', 'Prontuário ou senha inválidos. Acesso negado.');
-    //    return loginVet(req, res);
-    //}
-
+    const senhaValida = await cripto.compare(senha, vet.senha);
+    if (!senhaValida) {
+        req.flash('error', 'Prontuário ou senha inválidos. Acesso negado.');
+        return loginVet(req, res);
+    }
     // Buscar exames do veterinário
     const examesVet = await exameModelo.getExamesPorVet(prontuario);
 
     // Grava sessão
     req.session.user = { tipo_conta: 'veterinario', id_vet: vet.id, nome: vet.nome, prontuario: vet.prontuario, senha: vet.senha };
 
-    res.render("Perfil/veterinario", { nome: vet.nome, exames: examesVet, prontuario: vet.prontuario, senha: vet.senha });
+    res.render("Perfil/veterinario", { nome: vet.nome, exames: examesVet, prontuario: vet.prontuario, senha: vet.senha, id_vet: vet.id });
 };
 
 // Renderizar tela de login

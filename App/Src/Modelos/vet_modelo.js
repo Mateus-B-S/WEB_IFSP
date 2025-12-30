@@ -1,12 +1,13 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../Banco_dados/connection');
+const cripto = require('bcrypt');
 
 
 
 const Veterinario = sequelize.define('veterinario', {
   id: {
     type: DataTypes.INTEGER,
-    //primaryKey: true,
+    primaryKey: true,
     autoIncrement: true
   },
   nome: {
@@ -21,11 +22,12 @@ const Veterinario = sequelize.define('veterinario', {
   prontuario: {
     type: DataTypes.STRING,
     defaultValue: '',
-    primaryKey: true
+    unique: true
   },
   senha: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    select: false
   }
 }, {
   tableName: 'veterinarios',
@@ -35,9 +37,24 @@ const Veterinario = sequelize.define('veterinario', {
 const getTodosvets = () => Veterinario.findAll({ raw: true });
 const getProntuarioVet = (prontuario) => Veterinario.findAll({ where: { prontuario: prontuario }, raw: true });
 const getVetsId = (id) => Veterinario.findByPk(id , { raw: true });
-const criarVet = (params) => Veterinario.create(params, { raw: true });
-const mudarVet = (id, params) => Veterinario.update(params, {where: {id: id}, raw: true});
+
+const mudarVet = async (id, params) => {
+  const senha_cripto = await cripto.hash(params.senha, 8);
+  params.senha = senha_cripto;
+  return Veterinario.update(params, { where: { id: id }, raw: true });
+};
+
+const criarVet = async (params) => {
+  const senha_cripto = await cripto.hash(params.senha, 8);
+  params.senha = senha_cripto;
+  return Veterinario.create(params, { raw: true });
+};
+
 const deleteVet = (id) =>  Veterinario.destroy({where:{id: id} });
+
+const validacao = (senha, hash) => {
+  return cripto.compare(senha, hash);
+};
 
 module.exports = { 
   Veterinario,
@@ -46,5 +63,6 @@ module.exports = {
   getVetsId,
   criarVet,
   mudarVet,
-  deleteVet
+  deleteVet,
+  validacao
 };

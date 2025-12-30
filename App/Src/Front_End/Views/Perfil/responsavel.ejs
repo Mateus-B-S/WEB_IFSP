@@ -10,6 +10,7 @@
 <body>
     <%- include('../../Publico/partials/header.ejs') %>
     <%- include('../../Publico/partials/navbar.ejs') %>
+    <main class="app-main">
     <div class="container-fluid">
         <h1>Olá, <%= nome %>!</h1>
         <h2>Seus Animais Adotados</h2>
@@ -35,7 +36,7 @@
 
     <h2>Animais para adoção</h2>
     <div class="container-fluid">
-        <div class="cards-grid" >
+        <div class="cards-grid" id="Card-resumido">
             <% (animaisAdocao || [] ).forEach(function(animal) { %>
                 <div class="card" data-id="<%= animal.id %>">
                 <div class="card-header bg-light">
@@ -44,7 +45,6 @@
                         <div>
                             <h5 class="card-title mb-1"><%= animal.nome %></h5>
                             <p class="card-text text-muted mb-0" style="font-size:13px"><strong>Raça:</strong> <%= animal.raca %></p>
-                            <p class="card-text text-muted mb-0" style="font-size:13px"><strong>Tipo:</strong> <%= animal.tipo %></p>
                         </div>
                     </div>
                 </div>
@@ -59,147 +59,20 @@
                     </form>
                 </div>
             </div>
-        </div>
-        <!-- Modal for zoomed card -->
-        <div id="modalBackdrop" class="modal-backdrop" aria-hidden="true">
-            <div id="modal" class="modal" role="dialog" aria-modal="true">
-                <div class="modal-inner">
-                    <div class="modal-avatar" id="modalAvatar">A</div>
-                    <div class="modal-content">
-                        <h3 id="modalName">Nome</h3>
-                        <p id="modalRaca"><strong>Raça:</strong> ...</p>
-                        <p id="modalTipo"><strong>Tipo:</strong> ...</p>
-                        <div class="modal-actions">
-                            <form id="modalAdoptForm" action="/adocao/adotarAnimal" method="POST">
-                                <input type="hidden" name="animal_id" id="modalAnimalId" value="<%= animal.id %>">
-                                <input type="hidden" name="responsavel_nome" value="<%= nome %>">
-                                <button type="submit" class="btn btn-primary btn-sm">Adotar</button>
-                            </form>
-                            <button class="btn btn-secondary btn-sm" id="modalClose">Fechar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <% }); %>
         </div>
     </div>
-    <% }); %>
+    </main>
 
-        <form action="/responsavel/logout" method="POST" style="margin-top:18px">
-            <button type="submit" class="btn btn-danger">Logout</button>
-        </form>
-    
-    
+    <form action="/responsavel/logout" method="POST" style="margin-left: var(--gap-lg); margin-bottom: var(--gap-lg);">
+        <button type="submit" class="btn btn-danger">Logout</button>
+    </form>
 
-    <script>
-        // modal logic: open when clicking a card, populate with card data
-            (function(){
-        const cards = document.querySelectorAll('.card');
-        const backdrop = document.getElementById('modalBackdrop');
-        const modal = document.getElementById('modal');
-        const modalAvatar = document.getElementById('modalAvatar');
-        const modalName = document.getElementById('modalName');
-        const modalRaca = document.getElementById('modalRaca');
-        const modalTipo = document.getElementById('modalTipo');
-        const modalAnimalId = document.getElementById('modalAnimalId');
-        const modalClose = document.getElementById('modalClose');
-        const modalAdoptForm = document.getElementById('modalAdoptForm');
-        let currentCard = null;
+    <%- include('../../Publico/partials/footer.ejs') %>
 
-        function openModal(data, card){
-            currentCard = card;
-
-            // Preenche modal
-            modalAvatar.textContent = data.nome ? data.nome.charAt(0).toUpperCase() : 'A';
-            modalName.textContent = data.nome || '—';
-            modalRaca.innerHTML = `<strong>Raça:</strong> ${data.animal.raca || '—'}`;
-            modalTipo.innerHTML = `<strong>Tipo:</strong> ${data.animal.tipotipo || '—'}`;
-            modalAnimalId.value = data.id || '';
-
-            // Clone do card
-            const cardRect = card.getBoundingClientRect();
-            const clone = card.cloneNode(true);
-            clone.classList.add('fly-clone');
-            clone.style.left = cardRect.left + 'px';
-            clone.style.top = cardRect.top + 'px';
-            clone.style.width = cardRect.width + 'px';
-            clone.style.height = cardRect.height + 'px';
-            document.body.appendChild(clone);
-
-            // Mostra backdrop
-            backdrop.style.display = 'flex';
-            requestAnimationFrame(() => backdrop.style.background = 'rgba(10,20,30,0.55)');
-
-            // Posição final do modal
-            const modalRect = modal.getBoundingClientRect();
-            const targetLeft = window.innerWidth/2 - cardRect.width/2;
-            const targetTop = window.innerHeight/2 - cardRect.height/2;
-
-            requestAnimationFrame(() => {
-                clone.style.left = (window.innerWidth - clone.offsetWidth)/2 + 'px';
-                clone.style.top = (window.innerHeight - clone.offsetHeight)/2 + 'px';
-                clone.style.width = '90%';
-                clone.style.height = 'auto';
-            });
-
-            clone.addEventListener('transitionend', function handler(){
-                clone.removeEventListener('transitionend', handler);
-                modal.classList.add('open');
-                clone.remove();
-            });
-        }
-
-        function closeModal(){
-            if(!currentCard) return;
-
-            const cardRect = currentCard.getBoundingClientRect();
-            const clone = modal.cloneNode(true);
-            clone.classList.add('fly-clone');
-            clone.style.position = 'absolute';
-            clone.style.left = (window.innerWidth - clone.offsetWidth)/2 + 'px';
-            clone.style.top = (window.innerHeight - clone.offsetHeight)/2 + 'px';
-            clone.style.width = modal.offsetWidth + 'px';
-            clone.style.height = modal.offsetHeight + 'px';
-            document.body.appendChild(clone);
-
-            modal.classList.remove('open');
-
-            requestAnimationFrame(() => {
-                clone.style.left = cardRect.left + 'px';
-                clone.style.top = cardRect.top + 'px';
-                clone.style.width = cardRect.width + 'px';
-                clone.style.height = cardRect.height + 'px';
-                backdrop.style.background = 'rgba(10,20,30,0)';
-            });
-
-            clone.addEventListener('transitionend', () => {
-                clone.remove();
-                backdrop.style.display = 'none';
-                currentCard = null;
-            });
-        }
-
-        cards.forEach(card => {
-            card.addEventListener('click', e => {
-                if(e.target.closest('form') || e.target.closest('button')) return;
-                const id = card.dataset.id;
-                const nome = card.querySelector('.card-title')?.textContent || '';
-                const raca = card.querySelectorAll('.card-text')[0]?.textContent.replace('Raça:','').trim() || '';
-                const tipo = card.querySelectorAll('.card-text')[1]?.textContent.replace('Tipo:','').trim() || '';
-                openModal({id,nome,raça:raca,tipo}, card);
-            });
-        });
-
-        modalClose.addEventListener('click', closeModal);
-        backdrop.addEventListener('click', e => { if(e.target === backdrop) closeModal(); });
-        document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
-    })();
-
-    </script>
+    <script src="/Scripts/modalAnimal.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
-    
+
 </body>
-<footer>
-    <%- include('../../Publico/partials/footer.ejs') %>
-</footer>
 </html>

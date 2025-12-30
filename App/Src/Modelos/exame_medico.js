@@ -12,8 +12,8 @@ const Exame = sequelize.define('Exame', {
     autoIncrement: true
   },
 
-  prontuario_vet: {
-    type: DataTypes.STRING(6),
+  id_vet: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
 
@@ -40,15 +40,14 @@ const Exame = sequelize.define('Exame', {
 Exame.belongsTo(animal, { foreignKey: 'id_animal' });
 animal.hasMany(Exame, { foreignKey: 'id_animal' });
 
-Exame.belongsTo(veterinario, { foreignKey: 'prontuario_vet' });
-veterinario.hasMany(Exame, { foreignKey: 'prontuario_vet'});
+Exame.belongsTo(veterinario, { foreignKey: 'id_vet' });
+veterinario.hasMany(Exame, { foreignKey: 'id_vet' });
 
 const getTodosExames = () => Exame.findAll({
   include: [
     { model: animal, attributes: ['nome', 'raca'] },
-    { model: veterinario, attributes: ['nome'] }
+    { model: veterinario, attributes: ['nome', 'prontuario'] }
   ],
-  raw: true,
   nest: true
 });
 
@@ -66,18 +65,22 @@ const deleteExameporAnimal = async (id_animal) => {
   return Exame.destroy({ where: { id_animal: id_animal } });
 };
 
-const getExamesPorVet = (prontuario_vet) => {
-  return Exame.findAll({ where: { prontuario_vet: prontuario_vet }, include: [
+const getExamesPorVet = async (prontuario_vet) => {
+  const vet = await veterinario.findOne({ where: { prontuario: prontuario_vet }, raw: true });
+  if (!vet) return [];
+  return Exame.findAll({ where: { id_vet: vet.id }, include: [
     { model: animal, attributes: ['nome', 'raca'] },
-    { model: veterinario, attributes: ['nome'] }
+    { model: veterinario, attributes: ['nome', 'prontuario'] }
   ], nest: true });
 };
 
-const getExamesPorAnimal = (id_animal) => {
-  return Exame.findAll({ where: { id_animal }, include: [
+const getExamesPorAnimal = async (nome_animal) => {
+  const animal_exames = await animal.findOne({ where: { nome: nome_animal }, raw: true });
+  if (!animal_exames) return [];
+  return Exame.findAll({ where: { id_animal: animal_exames.id }, include: [
     { model: animal, attributes: ['nome', 'raca'] },
-    { model: veterinario, attributes: ['nome'] }
-  ] });
+    { model: veterinario, attributes: ['nome', 'prontuario'] }
+  ], nest: true });
 };
 
 
@@ -88,6 +91,7 @@ module.exports = {
   atualizarExame,
   deleteExame,
   getExamesPorVet,
+  getExamesPorAnimal,
   deleteExameporAnimal
   }; 
 

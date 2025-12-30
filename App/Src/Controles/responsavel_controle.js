@@ -2,25 +2,33 @@
 const respModelo = require('../Modelos/responsavel_modelo');
 const animalModelo = require('../Modelos/animal_modelo');
 const adocaoModelo = require('../Modelos/adocao_modelo');
+const cripto = require('bcrypt');
 const path = require('path');
 
 const perfilResponsavel = async (req, res) => {
     const {nome, email, senha } = req.body;
-    const responsavel = await Promise.resolve(respModelo.Responsavel.findOne({ where: { email: email, senha: senha , nome: nome}, raw: true }));
-    const animaisDisponiveis = await Promise.resolve(animalModelo.animaisdisponiveis()); 
-    if (responsavel) {
-        const adocoesResponsavel = await adocaoModelo.todasAdocoesdeumResponsavel(responsavel.nome);
-        req.session.user = { tipo_conta: 'responsavel', id_responsavel: responsavel.id, nome: nome ,email: email, senha: senha}; // grava sessão
-        res.render('Perfil/responsavel', { nome: req.session.user.nome, 
-            animaisAdocao: animaisDisponiveis,
-            animaisResponsavel: adocoesResponsavel,
-            responsavel_id: req.session.user.id_responsavel
-        }) ;
-        //mandar para ejs do perfil do responsavel
-    } else {
+    const responsavel = await Promise.resolve(respModelo.Responsavel.findOne({ where: { email: email, nome: nome}, raw: true }));
+    
+    if (!responsavel) {
         req.flash('error', 'Email, nome ou senha inválidos. Acesso negado.');
         return loginResponsavel(req, res);
     }
+    
+    const senhaValida = await cripto.compare(senha, responsavel.senha);
+    if (!senhaValida) {
+        req.flash('error', 'senha inválida. Acesso negado.');
+        return loginResponsavel(req, res);
+    }
+    
+    const animaisDisponiveis = await Promise.resolve(animalModelo.animaisdisponiveis()); 
+    const adocoesResponsavel = await adocaoModelo.todasAdocoesdeumResponsavel(responsavel.nome);
+    req.session.user = { tipo_conta: 'responsavel', id_responsavel: responsavel.id, nome: nome ,email: email, senha: senha}; // grava sessão
+    res.render('Perfil/responsavel', { nome: req.session.user.nome, 
+        animaisAdocao: animaisDisponiveis,
+        animaisResponsavel: adocoesResponsavel,
+        responsavel_id: req.session.user.id_responsavel
+    }) ;
+    
 };
 
 const loginResponsavel = (req, res) => {
@@ -64,11 +72,6 @@ const logoutResp = (req, res) => {
     }   );
 };
 
-const deletarResponsavel = async (req, res) => {
-    const { id } = req.body;
-    await Promise.resolve(respModelo.deleteResponsavel(id));
-    res.json({ mensagem: "Responsável deletado com sucesso." });
-};
 
 module.exports = {
     loginResponsavel,
@@ -76,5 +79,5 @@ module.exports = {
     editarResponsavel,
     getResponsavelPorId,
     logoutResp,
-    perfilResponsavel
+    perfilResponsavel,
 }

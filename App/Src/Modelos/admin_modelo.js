@@ -1,6 +1,7 @@
 
 const { DataTypes } = require('sequelize');
 const sequelize = require('../Banco_dados/connection');
+const cripto = require('bcrypt');
 
 const Admin = sequelize.define('admin', {
   id: {
@@ -10,7 +11,8 @@ const Admin = sequelize.define('admin', {
   },
   senha: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    select: false
   }
 
 }, {

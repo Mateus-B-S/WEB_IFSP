@@ -13,11 +13,21 @@ const Animal = sequelize.define('animal', {
     allowNull: false
 
   },
+  tipo: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+
+  descricao: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
 
   raca: {
     type: DataTypes.STRING,
     allowNull: false
   },
+  
   adotado: {
     type: DataTypes.BOOLEAN,
     defaultValue: false

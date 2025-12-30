@@ -12,5 +12,6 @@ router.post('/criar', permitidos('veterinario', 'admin'), animalControle.criarAn
 router.put('/editar', permitidos('veterinario', 'admin'), animalControle.editarAnimal);
 router.delete('/deletar', permitidos('admin'), animalControle.deletarAnimal);
 router.put('/devolver', permitidos('responsavel', 'admin'), animalControle.devolverAnimal);
+router.get('/:id', animalControle.mostrarDetalhesAnimal);
 
 module.exports = router;

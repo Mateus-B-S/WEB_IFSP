@@ -15,7 +15,21 @@ const getAnimalPorId = async (req, res) => {
     }
 };
 
+const mostrarDetalhesAnimal = async (req, res) => {
+    const id = req.params.id;
+    
+    const animal = await Promise.resolve(animalModelo.getAnimalId(parseInt(id)));
 
+    const exames = await exameModelo.getExamesPorAnimal(animal.nome);
+
+    if (animal) {
+        res.render('Avisos/Animal/detalhes', { animal: animal, exames: exames, respSenha: req.session.user.senha, 
+            respNome: req.session.user.nome, respEmail: req.session.user.email, respId: req.session.user.id_responsavel
+        });
+    } else {
+        res.status(404).json({ mensagem: "Animal não encontrado." });
+    }
+};
 
 const criarAnimal = async (req, res) => {
     const novoAnimal = await Promise.resolve(animalModelo.criarAnimal(req.body));
@@ -79,5 +93,6 @@ module.exports = {
     devolverAnimal,
     animaisdisponiveis,
     deletarAnimal,
-    editarAnimal
+    editarAnimal,
+    mostrarDetalhesAnimal
 }
