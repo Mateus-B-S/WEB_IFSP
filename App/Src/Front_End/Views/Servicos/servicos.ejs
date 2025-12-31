@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serviços - DogCat</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css">
+</head>
+<body class="d-flex flex-column">
+  <%- include('../../Publico/partials/header') %>
+
+  <main class="container d-flex flex-column align-items-center" style="min-height: 70vh; padding: 3rem 1rem;">
+    <h1 class="mb-5">Nossos Serviços</h1>
+
+    <div class="row w-100 vh-100" style="max-width: 900px;">
+      <!-- Card 1: Resgate -->
+      <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="bi bi-shield-heart" style="font-size: 48px; color: #2193b0;"></i>
+            <h5 class="card-title mt-3">Resgate de Animais</h5>
+            <p class="card-text text-muted">
+              Atendimento 24/7 para resgate de animais em situação de risco, abandono ou necessidade urgente de cuidados.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Veterinário -->
+      <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="bi bi-heart-pulse" style="font-size: 48px; color: #2193b0;"></i>
+            <h5 class="card-title mt-3">Atendimento Veterinário</h5>
+            <p class="card-text text-muted">
+              Exames, vacinações e atendimento clínico completo realizado por profissionais qualificados.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Adoção -->
+      <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="bi bi-hand-thumbs-up" style="font-size: 48px; color: #2193b0;"></i>
+            <h5 class="card-title mt-3">Programa de Adoção</h5>
+            <p class="card-text text-muted">
+              Facilitamos a adoção responsável, conectando animais necessitados com famílias amorosas.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Acompanhamento -->
+      <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="bi bi-graph-up" style="font-size: 48px; color: #2193b0;"></i>
+            <h5 class="card-title mt-3">Acompanhamento Pós-Adoção</h5>
+            <p class="card-text text-muted">
+              Suporte contínuo e monitoramento da saúde do animal após a adoção para garantir adaptação.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5: Educação -->
+      <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="bi bi-book-half" style="font-size: 48px; color: #2193b0;"></i>
+            <h5 class="card-title mt-3">Educação e Conscientização</h5>
+            <p class="card-text text-muted">
+              Campanhas educativas sobre bem-estar animal, guarda responsável e prevenção de maus-tratos.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6: Voluntariado -->
+      <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="bi bi-people" style="font-size: 48px; color: #2193b0;"></i>
+            <h5 class="card-title mt-3">Voluntariado</h5>
+            <p class="card-text text-muted">
+              Participe do nosso time! Oferecemos oportunidades para voluntários que desejam fazer a diferença.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Seção de Tecnologias (Menos Destacada) -->
+  <section class="bg-light py-4 mt-5" style="border-top: 1px solid #dee2e6;">
+    <div class="container">
+      <div class="text-center mb-4">
+        <h6 class="text-muted" style="font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">Tecnologias Utilizadas</h6>
+      </div>
+      <div class="d-flex flex-wrap justify-content-center gap-2" style="max-width: 800px; margin: 0 auto;">
+        <span class="badge bg-light text-dark border" style="border-color: #dee2e6 !important; font-size: 11px; padding: 6px 10px;">Node.js</span>
+        <span class="badge bg-light text-dark border" style="border-color: #dee2e6 !important; font-size: 11px; padding: 6px 10px;">Express</span>
+        <span class="badge bg-light text-dark border" style="border-color: #dee2e6 !important; font-size: 11px; padding: 6px 10px;">EJS</span>
+        <span class="badge bg-light text-dark border" style="border-color: #dee2e6 !important; font-size: 11px; padding: 6px 10px;">Bootstrap</span>
+        <span class="badge bg-light text-dark border" style="border-color: #dee2e6 !important; font-size: 11px; padding: 6px 10px;">Bootstrap Icons</span>
+        <span class="badge bg-light text-dark border" style="border-color: #dee2e6 !important; font-size: 11px; padding: 6px 10px;">MySQL2</span>
+        <span class="badge bg-light text-dark border" style="border-color: #dee2e6 !important; font-size: 11px; padding: 6px 10px;">Sequelize</span>
+        <span class="badge bg-light text-dark border" style="border-color: #dee2e6 !important; font-size: 11px; padding: 6px 10px;">Bcrypt</span>
+        <span class="badge bg-light text-dark border" style="border-color: #dee2e6 !important; font-size: 11px; padding: 6px 10px;">Express Session</span>
+        <span class="badge bg-light text-dark border" style="border-color: #dee2e6 !important; font-size: 11px; padding: 6px 10px;">Lodash</span>
+      </div>
+      <p class="text-center text-muted mt-3" style="font-size: 12px;">Projeto desenvolvido com tecnologias modernas e de código aberto.</p>
+    </div>
+  </section>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

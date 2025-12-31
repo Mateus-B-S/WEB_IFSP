@@ -1,3 +1,7 @@
+<head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+
 <header class="app-header">
   <div class="header-container">
     <!-- Logo e Nome da Empresa (Esquerda) -->
@@ -13,16 +17,31 @@
       <nav class="header-nav">
         <a href="/" class="header-link">Início</a>
         <form action="/SobreNos" method="GET"><a href="/SobreNos" class="header-link">Sobre</a></form>
-        <a href="/#servicos" class="header-link">Serviços</a>
+        <a href="/Servicos" class="header-link">Serviços</a>
       </nav>
     </div>
 
     <!-- Entre em Contato e Perfil (Direita) -->
     <div class="header-right">
-      <a href="/#contato" class="btn-contact">Entre em Contato</a>
-      <button class="btn-profile" id="profileBtn" title="Perfil do Usuário">
-        <span class="profile-icon">👤</span>
+      <a href="/Contato" class="btn-contact">Entre em Contato</a>
+      
+      <!-- Botão Dark Mode -->
+      <button class="btn-theme" id="themeToggle" type="button" title="Alternar modo noturno">
+        <span class="theme-icon">🌙</span>
       </button>
+      
+      <!-- Dropdown Perfil -->
+      <div class="btn-group dropstart">
+        <button class="btn-profile" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Perfil do Usuário">
+          <span class="profile-icon">👤</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="#">Minha Conta</a></li>
+          <li><a class="dropdown-item" href="#">Editar Perfil</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#">Logout</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 
@@ -33,6 +52,8 @@
     <span></span>
   </button>
 </header>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
 
 <style>
   .app-header {
@@ -164,6 +185,41 @@
     justify-content: center;
   }
 
+  /* Botão Dark Mode */
+  .btn-theme {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    font-size: 18px;
+    padding: 0;
+  }
+
+  .btn-theme:hover {
+    background: rgba(255, 255, 255, 0.35);
+    transform: scale(1.1);
+  }
+
+  .theme-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .profile-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   /* Toggle Mobile */
   .header-toggle {
     display: none;
@@ -254,4 +310,87 @@
       display: none;
     }
   }
+
+  /* Estado do menu mobile quando aberto */
+  .header-container.mobile-open {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .header-container.mobile-open .header-center {
+    display: flex;
+    order: 3;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .header-container.mobile-open .header-nav {
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px 0;
+  }
+
+  .header-container.mobile-open .header-right {
+    order: 4;
+    width: 100%;
+    justify-content: center;
+    padding-bottom: 8px;
+    display: flex;
+  }
+
+  .header-toggle.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .header-toggle.active span:nth-child(2) { opacity: 0; }
+  .header-toggle.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 </style>
+<script>
+  (function(){
+    // ===== DARK MODE =====
+    var themeToggle = document.getElementById('themeToggle');
+    var themeIcon = document.querySelector('.theme-icon');
+    if (themeToggle && themeIcon) {
+      // Carregar preferência do localStorage
+      var isDarkMode = localStorage.getItem('darkMode') === 'true';
+      if (isDarkMode) {
+        document.documentElement.classList.add('dark-mode');
+        themeIcon.textContent = '☀️';
+      }
+
+      // Toggle ao clicar
+      themeToggle.addEventListener('click', function(e){
+        e.preventDefault();
+        document.documentElement.classList.toggle('dark-mode');
+        isDarkMode = document.documentElement.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDarkMode);
+        themeIcon.textContent = isDarkMode ? '☀️' : '🌙';
+      });
+    }
+
+    // ===== MOBILE MENU TOGGLE =====
+    var toggle = document.getElementById('headerToggle');
+    var container = document.querySelector('.header-container');
+    if (!toggle || !container) return;
+    toggle.addEventListener('click', function(e){
+      e.stopPropagation();
+      container.classList.toggle('mobile-open');
+      toggle.classList.toggle('active');
+    });
+
+    // fechar ao clicar em qualquer link do nav
+    var links = container.querySelectorAll('.header-nav a, .header-right a');
+    links.forEach(function(link){
+      link.addEventListener('click', function(){
+        container.classList.remove('mobile-open');
+        toggle.classList.remove('active');
+      });
+    });
+
+    // fecha ao clicar fora
+    document.addEventListener('click', function(e){
+      if (!container.contains(e.target) && !toggle.contains(e.target)){
+        container.classList.remove('mobile-open');
+        toggle.classList.remove('active');
+      }
+    });
+  })();
+</script>

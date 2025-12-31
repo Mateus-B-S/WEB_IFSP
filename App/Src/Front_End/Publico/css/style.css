@@ -86,6 +86,25 @@ body {
 }
 
 /* ============================================================================
+   DARK MODE - Variáveis alternativas
+   ============================================================================ */
+html.dark-mode {
+  --primary: #1a8fa8;
+  --primary-dark: #0d4f63;
+  --primary-gradient: linear-gradient(90deg, #1a8fa8, #0d4f63);
+
+  --bs-primary: #0d6efd;
+  --bs-secondary: #adb5bd;
+  --bs-light: #212529;
+  --bs-light-border: #495057;
+
+  --text-dark: #e0e0e0;
+  --text-light: #b0b0b0;
+  --bg-light: #1e1e1e;
+  --border-light: #404040;
+}
+
+/* ============================================================================
    3. TIPOGRAFIA
    ============================================================================ */
 body {
@@ -93,6 +112,11 @@ body {
   line-height: 1.4;
   color: var(--text-dark);
   background-color: #fff;
+}
+
+html.dark-mode body {
+  background-color: #0f0f0f;
+  color: var(--text-dark);
 }
 
 h1 {
@@ -142,8 +166,6 @@ h6 {
 .app-main {
   margin: 0;
   padding: 0;
-  height: 100%;
-  min-height: 100vh;
   flex: 1 1 auto;                  /* cresce para ocupar tudo */
   display: flex;
   flex-direction: column;
@@ -164,6 +186,7 @@ h6 {
 
 /* Seção de autenticação: 100% do app-main */
 .auth-section {
+  height: 100%;
   flex: 1 1 auto;                  /* ocupa todo espaço disponível */
   display: flex;
   align-items: center;
@@ -176,6 +199,7 @@ h6 {
 
 /* Card: largura máxima percentual, sem altura fixa */
 .auth-card {
+  height: 100%;
   width: 100%;
   max-width: 540px;
   display: flex;
@@ -843,4 +867,90 @@ table.responsive-table tbody tr:nth-child(even) {
     visibility: visible;
     opacity: 1;
     transform: scale(1);
+}
+
+/* ============================================================================
+   DARK MODE - Estilos específicos
+   ============================================================================ */
+
+html.dark-mode .card {
+  background-color: #1a1a1a;
+  border-color: var(--border-light);
+  color: var(--text-dark);
+}
+
+html.dark-mode .modal {
+  background-color: #1a1a1a;
+  color: var(--text-dark);
+}
+
+html.dark-mode .auth-card {
+  background-color: #1a1a1a;
+  border-color: var(--border-light);
+}
+
+html.dark-mode .form-group input,
+html.dark-mode .form-group textarea,
+html.dark-mode .form-group select {
+  background-color: #2a2a2a;
+  color: var(--text-dark);
+  border-color: var(--border-light);
+}
+
+html.dark-mode .form-group input:focus,
+html.dark-mode .form-group textarea:focus,
+html.dark-mode .form-group select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(26, 143, 168, 0.1);
+}
+
+html.dark-mode .table-responsive,
+html.dark-mode table.responsive-table {
+  background-color: #1a1a1a;
+  color: var(--text-dark);
+}
+
+html.dark-mode table.responsive-table th,
+html.dark-mode table.responsive-table td {
+  border-color: var(--border-light);
+  background-color: #1a1a1a;
+  color: var(--text-dark);
+}
+
+html.dark-mode table.responsive-table thead th {
+  background: linear-gradient(180deg, #2a2a2a, #1a1a1a);
+}
+
+html.dark-mode table.responsive-table tbody tr:nth-child(even) {
+  background-color: #151515;
+}
+
+html.dark-mode .section {
+  background-color: #1a1a1a;
+  border-color: var(--border-light);
+  color: var(--text-dark);
+}
+
+html.dark-mode .accordion {
+  background-color: #2a2a2a;
+  color: var(--text-dark);
+}
+
+html.dark-mode .accordion:hover,
+html.dark-mode .accordion.active {
+  background-color: #353535;
+}
+
+html.dark-mode .bg-light {
+  background-color: #1a1a1a !important;
+}
+
+html.dark-mode .btn-contact {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+html.dark-mode .btn-contact:hover {
+  background: rgba(255, 255, 255, 0.25);
 }
