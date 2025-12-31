@@ -18,7 +18,7 @@
                         <p><strong>Veterinário:</strong> <%= nome %></p>
                         <p><strong>Prontuário:</strong> <%= prontuario %></p>
                         <p><strong>Observações:</strong></p>
-                        <p class="text-muted"><%= exame.observações %></p>
+                        <p class="text-muted"><%= exame.observacao %></p>
                     </div>
                     <form action="/veterinario/" method="post" class="mt-4">
                         <input type="hidden" name="nome" value="<%= nome %>">

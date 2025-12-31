@@ -32,8 +32,26 @@ const mostrarDetalhesAnimal = async (req, res) => {
 };
 
 const criarAnimal = async (req, res) => {
+    if (req.file) {
+       req.body.imagem = '/img/animais/' + req.file.filename; //faz a img que o adm colocar ficar salva na pasta de animais, pra incluir o autor é mto trampo
+    } 
+
+       if (!req.body.descricao) {
+           delete req.body.descricao;//remove o campo vazio pra aparecer "sem descrição" no sequelize
+       }
+
+       if (!req.body.imagem) {
+           delete req.body.imagem;//remove o campo vazio pra aparecer "sem imagem" no sequelize
+       } 
     const novoAnimal = await Promise.resolve(animalModelo.criarAnimal(req.body));
-    res.render('Avisos/Animal/criarAnimal', { animal: novoAnimal, adminSenha: req.session.user.adminSenha } );
+       if (novoAnimal) {
+           res.render('Avisos/Animal/criarAnimal', { animal: novoAnimal, adminSenha: req.session.user.adminSenha } );
+       } else {
+           req.flash('error','erro ao adicionar animal');
+           return res.redirect('Perfil/admin', { messages: req.flash() });
+       }
+   
+    
 
 };
 

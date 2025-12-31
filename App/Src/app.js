@@ -11,11 +11,13 @@ const flash = require('connect-flash');
 const path = require('path');
 app.use(express.static(path.join(__dirname, 'Front_End/Publico')));
 
+const upload = require('./Banco_dados/imagens'); //multer
+
 app.use(session({
  secret: 'chave-secreta-bem-dificil', // usada para assinar o ID da sessão
  resave: false,
  saveUninitialized: true,
- cookie: { maxAge: 60000 } // duração da sessão (1 min)
+ cookie: { maxAge: 3600000 } // duração da sessão (1 hora)
 }));
 
 app.use(flash());

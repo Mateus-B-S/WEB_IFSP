@@ -331,6 +331,10 @@ h6 {
   color: var(--text-light);
 }
 
+html.dark-mode .card-text {
+  color: #c0c0c0;
+}
+
 /* ============================================================================
    6. MODALS & OVERLAYS
    ============================================================================ */
@@ -433,7 +437,7 @@ h6 {
    7. ANIMAÇÕES
    ============================================================================ */
 
-/* Clone flutuante para animação de zoom */
+/* Clone flutuante para animação de zoom
 .fly-clone {
   position: fixed;
   z-index: 10000;
@@ -452,7 +456,7 @@ h6 {
 .fly-clone.from-modal {
   box-shadow: var(--shadow-md);
 }
-
+ */
 /* ============================================================================
    8. RESPONSIVIDADE
    ============================================================================ */
@@ -691,8 +695,22 @@ table.responsive-table tbody tr:nth-child(even) {
   color: var(--text-light) !important;
 }
 
+html.dark-mode .text-muted {
+  color: #d0d0d0 !important;
+}
+
 .text-center {
   text-align: center;
+}
+
+.badge {
+  color: #212529;
+}
+
+html.dark-mode .badge {
+  background-color: #2a2a2a !important;
+  color: #e0e0e0 !important;
+  border-color: #404040 !important;
 }
 
 .text-left {
@@ -893,7 +911,7 @@ html.dark-mode .form-group input,
 html.dark-mode .form-group textarea,
 html.dark-mode .form-group select {
   background-color: #2a2a2a;
-  color: var(--text-dark);
+  color: var(--text-light);
   border-color: var(--border-light);
 }
 
@@ -931,14 +949,24 @@ html.dark-mode .section {
   color: var(--text-dark);
 }
 
-html.dark-mode .accordion {
-  background-color: #2a2a2a;
-  color: var(--text-dark);
+
+
+
+html.dark-mode .close-btn { background: #2a2a2a; border-color: #404040;  color: #e0e0e0;}
+html.dark-mode .close-btn:hover {  background-color: #353535;}
+
+html.dark-mode .panel {
+  border-color: #404040;
+  color: #e0e0e0;
 }
 
-html.dark-mode .accordion:hover,
-html.dark-mode .accordion.active {
-  background-color: #353535;
+html.dark-mode .form-card {
+  background-color: #1a1a1a;
+  border-color: var(--border-light);
+}
+
+html .dark-mode form label {
+  color: var(--text-light);
 }
 
 html.dark-mode .bg-light {

@@ -79,7 +79,7 @@
             </div>
 
             <div class="form-card">
-            <form action="/animal/criar" method="POST">
+            <form action="/animal/criar" method="POST" enctype="multipart/form-data">
                 <label>Nome</label>
                 <input type="text" name="nome" class="form-control">
                 <label>Raça</label>
@@ -87,7 +87,9 @@
                 <label>Tipo</label>
                 <input type="text" name="tipo" class="form-control">
                 <label>Descrição</label>
-                <textarea name="descricao" class="form-control" rows="4" required></textarea>
+                <textarea name="descricao" class="form-control" rows="4"></textarea>
+                <label>Imagem</label>
+                <input type="file" name="imagem" id="img" accept="image/*" class="form-control">
                 <div class="text-end"><button type="submit" class="btn btn-success">Cadastrar novo</button></div>
             </form>
             </div>

@@ -11,15 +11,16 @@
 <body class="d-flex flex-column">
   <%- include('../../Publico/partials/header') %>
 
-  <main class="container d-flex flex-column align-items-center" style="min-height: 70vh; padding: 3rem 1rem;">
+  <div class="w-100">
+  <main class="container d-flex flex-column align-items-center flex-grow-1 w-100" style="min-height: 70vh;">
     <h1 class="mb-5">Nossos Serviços</h1>
 
-    <div class="row w-100 vh-100" style="max-width: 900px;">
+    <div class="row w-80" style="max-width: 900px;">
       <!-- Card 1: Resgate -->
       <div class="col-md-6 mb-4">
         <div class="card h-100 shadow-sm">
           <div class="card-body text-center">
-            <i class="bi bi-shield-heart" style="font-size: 48px; color: #2193b0;"></i>
+            <i class="bi bi-heart" style="font-size: 48px; color: #2193b0;"></i>
             <h5 class="card-title mt-3">Resgate de Animais</h5>
             <p class="card-text text-muted">
               Atendimento 24/7 para resgate de animais em situação de risco, abandono ou necessidade urgente de cuidados.
@@ -94,10 +95,11 @@
       </div>
     </div>
 
+  
   </main>
-
   <!-- Seção de Tecnologias (Menos Destacada) -->
-  <section class="bg-light py-4 mt-5" style="border-top: 1px solid #dee2e6;">
+
+    <section class="bg-light py-4 mt-5 w-100" style="border-top: 1px solid #dee2e6;">
     <div class="container">
       <div class="text-center mb-4">
         <h6 class="text-muted" style="font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">Tecnologias Utilizadas</h6>
@@ -117,6 +119,7 @@
       <p class="text-center text-muted mt-3" style="font-size: 12px;">Projeto desenvolvido com tecnologias modernas e de código aberto.</p>
     </div>
   </section>
+  </div>
 
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 </body>

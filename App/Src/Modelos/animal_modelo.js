@@ -19,8 +19,15 @@ const Animal = sequelize.define('animal', {
   },
 
   descricao: {
-    type: DataTypes.TEXT,
-    allowNull: true
+      type: DataTypes.TEXT,
+      allowNull: true,
+      defaultValue: 'SEM DESCRIÇÃO'
+  },
+
+  imagem: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: 'sem_imagem.png'
   },
 
   raca: {
