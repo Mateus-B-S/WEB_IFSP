@@ -103,7 +103,6 @@ const deletarAnimal = async (req, res) => {
         res.status(500).render('Avisos/deletarAnimal', { adminSenha: req.session.user.adminSenha, erro: mensagem });
     }
 };
-,,,,9699
 
 module.exports = { 
     getAnimalPorId,
